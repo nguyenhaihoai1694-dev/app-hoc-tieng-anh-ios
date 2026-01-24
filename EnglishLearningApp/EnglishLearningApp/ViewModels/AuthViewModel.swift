@@ -60,12 +60,17 @@ class AuthViewModel: ObservableObject {
     }
 
     private func loadUser() {
-        guard let data = userDefaults.data(forKey: userKey),
-              let user = try? JSONDecoder().decode(User.self, from: data) else {
-            return
+        if let data = userDefaults.data(forKey: userKey),
+           let user = try? JSONDecoder().decode(User.self, from: data) {
+            currentUser = user
+            isAuthenticated = true
+        } else {
+            // Auto-create demo user (skip login)
+            let demoUser = User(email: "demo@example.com", name: "Học viên")
+            currentUser = demoUser
+            isAuthenticated = true
+            saveUser()
         }
-        currentUser = user
-        isAuthenticated = true
     }
 
     private func extractName(from email: String) -> String {
