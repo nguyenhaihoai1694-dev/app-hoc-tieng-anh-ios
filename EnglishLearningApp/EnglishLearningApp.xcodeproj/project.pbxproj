@@ -30,6 +30,8 @@
 		A1B2C3D4E5F678901234568B /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678B4 /* FirestoreService.swift */; };
 		A1B2C3D4E5F678901234568C /* FirebaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678B5 /* FirebaseAuthService.swift */; };
 		A1B2C3D4E5F678901234568D /* TextToSpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678B6 /* TextToSpeechService.swift */; };
+		A1B2C3D4E5F678901234568E /* SoundEffectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678B7 /* SoundEffectService.swift */; };
+		A1B2C3D4E5F678901234568F /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678B8 /* ConfettiView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		B2C3D4E5F6789012345678B4 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678B5 /* FirebaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthService.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678B6 /* TextToSpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeechService.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6789012345678B7 /* SoundEffectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEffectService.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6789012345678B8 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		C1D2E3F4A5B6789012345678 /* EnglishLearningApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnglishLearningApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1E2F3A4B5C6789012345678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +131,7 @@
 				B2C3D4E5F6789012345678B0 /* PaywallView.swift */,
 				B2C3D4E5F6789012345678B1 /* ProfileView.swift */,
 				B2C3D4E5F6789012345678B2 /* LeaderboardView.swift */,
+				B2C3D4E5F6789012345678B8 /* ConfettiView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,6 +163,7 @@
 				B2C3D4E5F6789012345678B4 /* FirestoreService.swift */,
 				B2C3D4E5F6789012345678B5 /* FirebaseAuthService.swift */,
 				B2C3D4E5F6789012345678B6 /* TextToSpeechService.swift */,
+				B2C3D4E5F6789012345678B7 /* SoundEffectService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -309,6 +315,8 @@
 				A1B2C3D4E5F678901234568B /* FirestoreService.swift in Sources */,
 				A1B2C3D4E5F678901234568C /* FirebaseAuthService.swift in Sources */,
 				A1B2C3D4E5F678901234568D /* TextToSpeechService.swift in Sources */,
+				A1B2C3D4E5F678901234568E /* SoundEffectService.swift in Sources */,
+				A1B2C3D4E5F678901234568F /* ConfettiView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

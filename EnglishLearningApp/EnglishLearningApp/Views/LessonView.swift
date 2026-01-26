@@ -5,6 +5,7 @@ struct LessonView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var progressManager: UserProgressManager
     @StateObject private var ttsService = TextToSpeechService.shared
+    private let soundService = SoundEffectService.shared
 
     let lesson: Lesson
 
@@ -15,6 +16,7 @@ struct LessonView: View {
     @State private var isCorrect = false
     @State private var correctAnswers = 0
     @State private var showCompletion = false
+    @State private var showConfetti = false
 
     var body: some View {
         NavigationView {
@@ -142,6 +144,7 @@ struct LessonView: View {
             .navigationBarItems(trailing: Button("Đóng") {
                 presentationMode.wrappedValue.dismiss()
             })
+            .confetti(isActive: $showConfetti)
             .sheet(isPresented: $showCompletion) {
                 CompletionView(
                     score: score,
@@ -190,7 +193,13 @@ struct LessonView: View {
             if currentQuestionIndex < lesson.questions.count - 1 {
                 currentQuestionIndex += 1
                 resetQuestion()
+                soundService.playTapSound()
             } else {
+                // Celebrate if high score
+                if score >= 80 {
+                    soundService.playCelebrationSound()
+                    showConfetti = true
+                }
                 showCompletion = true
             }
         } else {
@@ -208,6 +217,9 @@ struct LessonView: View {
 
         if isCorrect {
             correctAnswers += 1
+            soundService.playCorrectSound()
+        } else {
+            soundService.playWrongSound()
         }
 
         showResult = true
@@ -297,24 +309,45 @@ struct CompletionView: View {
     let lessonTitle: String
     let onDismiss: () -> Void
 
+    @State private var animateIcon = false
+    @State private var animateScore = false
+    @State private var showConfetti = false
+
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
 
-            // Trophy Icon
+            // Trophy Icon with Animation
             Image(systemName: score >= 80 ? "trophy.fill" : "star.fill")
                 .resizable()
                 .frame(width: 100, height: 100)
                 .foregroundColor(score >= 80 ? .yellow : .orange)
+                .scaleEffect(animateIcon ? 1.0 : 0.5)
+                .rotationEffect(.degrees(animateIcon ? 0 : -45))
+                .animation(.spring(response: 0.6, dampingFraction: 0.6), value: animateIcon)
+                .onAppear {
+                    animateIcon = true
+                    if score >= 80 {
+                        showConfetti = true
+                    }
+                }
 
             // Title
             Text(score >= 80 ? "Xuất sắc!" : "Hoàn thành!")
                 .font(.system(size: 36, weight: .bold))
+                .opacity(animateScore ? 1 : 0)
+                .offset(y: animateScore ? 0 : 20)
+                .animation(.easeOut(duration: 0.6).delay(0.3), value: animateScore)
 
             // Score
             Text("Điểm số: \(score)%")
                 .font(.title)
                 .foregroundColor(.primary)
+                .opacity(animateScore ? 1 : 0)
+                .animation(.easeOut(duration: 0.6).delay(0.5), value: animateScore)
+                .onAppear {
+                    animateScore = true
+                }
 
             // XP Earned
             HStack {
@@ -344,6 +377,7 @@ struct CompletionView: View {
             .padding(.bottom, 40)
         }
         .background(Color(.systemGroupedBackground))
+        .confetti(isActive: $showConfetti)
     }
 }
 
