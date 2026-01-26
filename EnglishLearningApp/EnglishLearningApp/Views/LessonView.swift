@@ -4,6 +4,7 @@ struct LessonView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var progressManager: UserProgressManager
+    @StateObject private var ttsService = TextToSpeechService.shared
 
     let lesson: Lesson
 
@@ -34,12 +35,32 @@ struct LessonView: View {
                         if currentQuestionIndex < lesson.questions.count {
                             let question = lesson.questions[currentQuestionIndex]
 
-                            // Question
-                            Text(question.prompt)
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                                .multilineTextAlignment(.center)
-                                .padding()
+                            // Question with Speaker Button
+                            VStack(spacing: 15) {
+                                Text(question.prompt)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.horizontal)
+
+                                // Speaker Button
+                                Button(action: {
+                                    ttsService.speak(question.prompt)
+                                }) {
+                                    HStack {
+                                        Image(systemName: ttsService.isSpeaking ? "speaker.wave.3.fill" : "speaker.wave.2.fill")
+                                            .font(.title3)
+                                        Text("Nghe câu hỏi")
+                                            .font(.subheadline)
+                                    }
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 10)
+                                    .background(Color.blue)
+                                    .cornerRadius(20)
+                                }
+                            }
+                            .padding(.bottom)
 
                             // Answer Options
                             if question.type == .multipleChoice {
@@ -65,14 +86,34 @@ struct LessonView: View {
 
                             // Result Message
                             if showResult {
-                                HStack {
-                                    Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                        .foregroundColor(isCorrect ? .green : .red)
-                                        .font(.title)
+                                VStack(spacing: 10) {
+                                    HStack {
+                                        Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                            .foregroundColor(isCorrect ? .green : .red)
+                                            .font(.title)
 
-                                    Text(isCorrect ? "Chính xác!" : "Chưa đúng. Đáp án: \(question.correctAnswer)")
-                                        .font(.headline)
-                                        .foregroundColor(isCorrect ? .green : .red)
+                                        Text(isCorrect ? "Chính xác!" : "Chưa đúng. Đáp án: \(question.correctAnswer)")
+                                            .font(.headline)
+                                            .foregroundColor(isCorrect ? .green : .red)
+                                    }
+
+                                    // Speak correct answer button (if wrong)
+                                    if !isCorrect {
+                                        Button(action: {
+                                            ttsService.speak(question.correctAnswer)
+                                        }) {
+                                            HStack {
+                                                Image(systemName: "speaker.wave.2.fill")
+                                                Text("Nghe đáp án đúng")
+                                            }
+                                            .font(.caption)
+                                            .foregroundColor(.blue)
+                                            .padding(.horizontal, 15)
+                                            .padding(.vertical, 8)
+                                            .background(Color.blue.opacity(0.1))
+                                            .cornerRadius(15)
+                                        }
+                                    }
                                 }
                                 .padding()
                                 .background(isCorrect ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
