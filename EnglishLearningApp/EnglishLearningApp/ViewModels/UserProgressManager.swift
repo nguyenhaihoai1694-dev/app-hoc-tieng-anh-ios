@@ -130,11 +130,13 @@ class UserProgressManager: ObservableObject {
         }
 
         // Update streak in Firebase
+        let userId = user.id.uuidString
+        let currentStreak = user.currentStreak
         Task {
             do {
                 try await firestoreService.updateUserStreak(
-                    userId: user.id.uuidString,
-                    streak: user.currentStreak
+                    userId: userId,
+                    streak: currentStreak
                 )
             } catch {
                 print("Error updating streak: \(error.localizedDescription)")
