@@ -8,6 +8,7 @@ struct PaywallView: View {
     @State private var selectedPlan: SubscriptionPlan = .yearly
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @State private var showParentGate = false
 
     var body: some View {
         NavigationView {
@@ -70,7 +71,9 @@ struct PaywallView: View {
                         .padding(.horizontal)
 
                         // Subscribe Button
-                        Button(action: subscribe) {
+                        Button(action: {
+                            showParentGate = true
+                        }) {
                             if subscriptionManager.isPurchasing {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
@@ -113,6 +116,12 @@ struct PaywallView: View {
                     message: Text(alertMessage),
                     dismissButton: .default(Text("OK"))
                 )
+            }
+            .fullScreenCover(isPresented: $showParentGate) {
+                ParentGateView {
+                    // Parent gate passed - proceed with purchase
+                    subscribe()
+                }
             }
         }
     }
