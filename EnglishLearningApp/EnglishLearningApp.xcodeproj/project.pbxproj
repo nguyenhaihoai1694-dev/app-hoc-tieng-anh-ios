@@ -35,6 +35,8 @@
 		A1B2C3D4E5F6789012345690 /* ParentGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678B9 /* ParentGateView.swift */; };
 		A1B2C3D4E5F6789012345691 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678BA /* PrivacyPolicyView.swift */; };
 		A1B2C3D4E5F6789012345692 /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678BB /* TermsOfServiceView.swift */; };
+		A1B2C3D4E5F6789012345693 /* Mascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678BC /* Mascot.swift */; };
+		A1B2C3D4E5F6789012345694 /* MascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678BD /* MascotView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,8 @@
 		B2C3D4E5F6789012345678B9 /* ParentGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentGateView.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678BA /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678BB /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6789012345678BC /* Mascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mascot.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6789012345678BD /* MascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotView.swift; sourceTree = "<group>"; };
 		C1D2E3F4A5B6789012345678 /* EnglishLearningApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnglishLearningApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1E2F3A4B5C6789012345678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,6 +125,7 @@
 				B2C3D4E5F6789012345678A4 /* Lesson.swift */,
 				B2C3D4E5F6789012345678A5 /* Subscription.swift */,
 				B2C3D4E5F6789012345678B3 /* LeaderboardUser.swift */,
+				B2C3D4E5F6789012345678BC /* Mascot.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -141,6 +146,7 @@
 				B2C3D4E5F6789012345678B9 /* ParentGateView.swift */,
 				B2C3D4E5F6789012345678BA /* PrivacyPolicyView.swift */,
 				B2C3D4E5F6789012345678BB /* TermsOfServiceView.swift */,
+				B2C3D4E5F6789012345678BD /* MascotView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -329,6 +335,8 @@
 				A1B2C3D4E5F6789012345690 /* ParentGateView.swift in Sources */,
 				A1B2C3D4E5F6789012345691 /* PrivacyPolicyView.swift in Sources */,
 				A1B2C3D4E5F6789012345692 /* TermsOfServiceView.swift in Sources */,
+				A1B2C3D4E5F6789012345693 /* Mascot.swift in Sources */,
+				A1B2C3D4E5F6789012345694 /* MascotView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

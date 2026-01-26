@@ -15,6 +15,10 @@ struct HomeView: View {
                     // Header with streak
                     HeaderView()
 
+                    // Mascot Welcome
+                    MascotView(state: .waving, size: 60)
+                        .padding(.vertical, 10)
+
                     // Stats Card
                     StatsCard()
 

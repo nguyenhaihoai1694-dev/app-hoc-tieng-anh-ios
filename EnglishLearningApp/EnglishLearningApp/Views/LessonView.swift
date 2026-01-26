@@ -17,6 +17,7 @@ struct LessonView: View {
     @State private var correctAnswers = 0
     @State private var showCompletion = false
     @State private var showConfetti = false
+    @State private var mascotState: MascotState = .thinking
 
     var body: some View {
         NavigationView {
@@ -30,7 +31,11 @@ struct LessonView: View {
                 Text("Câu \(currentQuestionIndex + 1) / \(lesson.questions.count)")
                     .font(.caption)
                     .foregroundColor(.secondary)
-                    .padding(.bottom)
+                    .padding(.bottom, 5)
+
+                // Mascot for encouragement
+                CompactMascotView(state: mascotState, size: 50)
+                    .padding(.bottom, 10)
 
                 ScrollView {
                     VStack(spacing: 30) {
@@ -218,8 +223,10 @@ struct LessonView: View {
         if isCorrect {
             correctAnswers += 1
             soundService.playCorrectSound()
+            mascotState = .happy
         } else {
             soundService.playWrongSound()
+            mascotState = .encouraging
         }
 
         showResult = true
@@ -230,6 +237,7 @@ struct LessonView: View {
         userAnswer = ""
         showResult = false
         isCorrect = false
+        mascotState = .thinking
     }
 }
 
@@ -317,10 +325,15 @@ struct CompletionView: View {
         VStack(spacing: 30) {
             Spacer()
 
+            // Mascot celebration
+            CompactMascotView(state: Mascot.stateFor(score: score), size: 70)
+                .scaleEffect(animateIcon ? 1.0 : 0.5)
+                .animation(.spring(response: 0.6, dampingFraction: 0.6), value: animateIcon)
+
             // Trophy Icon with Animation
             Image(systemName: score >= 80 ? "trophy.fill" : "star.fill")
                 .resizable()
-                .frame(width: 100, height: 100)
+                .frame(width: 80, height: 80)
                 .foregroundColor(score >= 80 ? .yellow : .orange)
                 .scaleEffect(animateIcon ? 1.0 : 0.5)
                 .rotationEffect(.degrees(animateIcon ? 0 : -45))
