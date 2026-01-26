@@ -6,6 +6,8 @@ struct ProfileView: View {
 
     @State private var showPaywall = false
     @State private var showSettings = false
+    @State private var showPrivacyPolicy = false
+    @State private var showTermsOfService = false
 
     var body: some View {
         NavigationView {
@@ -129,6 +131,20 @@ struct ProfileView: View {
                         Divider()
                             .padding(.leading, 50)
 
+                        SettingsRow(icon: "doc.text", title: "Chính Sách Bảo Mật", color: .blue) {
+                            showPrivacyPolicy = true
+                        }
+
+                        Divider()
+                            .padding(.leading, 50)
+
+                        SettingsRow(icon: "doc.plaintext", title: "Điều Khoản Dịch Vụ", color: .blue) {
+                            showTermsOfService = true
+                        }
+
+                        Divider()
+                            .padding(.leading, 50)
+
                         SettingsRow(icon: "arrow.right.square", title: "Đăng xuất", color: .red) {
                             authViewModel.logout()
                         }
@@ -144,6 +160,12 @@ struct ProfileView: View {
             .navigationTitle("Hồ sơ")
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
+            }
+            .sheet(isPresented: $showPrivacyPolicy) {
+                PrivacyPolicyView()
+            }
+            .sheet(isPresented: $showTermsOfService) {
+                TermsOfServiceView()
             }
         }
     }
