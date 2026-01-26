@@ -25,9 +25,15 @@
 
 ### 📊 Theo dõi tiến độ
 - **XP System**: Tích lũy điểm kinh nghiệm
-- **Leaderboard**: Cạnh tranh với bạn bè
+- **Leaderboard Realtime**: Cạnh tranh với bạn bè (powered by Firebase)
 - **Statistics**: Theo dõi quá trình học tập
 - **Achievements**: Huy hiệu và thành tích
+
+### 🔥 Firebase Backend
+- **Firebase Authentication**: Đăng ký/Đăng nhập an toàn
+- **Cloud Firestore**: Database realtime, sync across devices
+- **Realtime Sync**: Dữ liệu tự động đồng bộ
+- **Leaderboard Realtime**: Xếp hạng cập nhật tức thì
 
 ## Cấu trúc dự án
 
@@ -48,11 +54,14 @@ EnglishLearningApp/
 │   ├── ProfileView.swift       # Hồ sơ người dùng
 │   └── LeaderboardView.swift   # Bảng xếp hạng
 ├── ViewModels/
-│   ├── AuthViewModel.swift     # Quản lý authentication
-│   └── UserProgressManager.swift # Quản lý tiến độ học tập
+│   ├── AuthViewModel.swift     # Quản lý authentication với Firebase
+│   └── UserProgressManager.swift # Quản lý tiến độ học tập + Firestore sync
 ├── Services/
+│   ├── FirebaseAuthService.swift # Firebase Authentication service
+│   ├── FirestoreService.swift    # Cloud Firestore database operations
 │   ├── SubscriptionManager.swift # Quản lý thanh toán StoreKit
 │   └── LessonDataService.swift   # Dữ liệu bài học
+├── GoogleService-Info.plist      # Firebase configuration
 └── Info.plist
 ```
 
@@ -69,13 +78,18 @@ EnglishLearningApp/
 git clone https://github.com/nguyenhaihoai1694-dev/app-hoc-tieng-anh-ios.git
 ```
 
-2. Mở project trong Xcode:
-```bash
-cd app-hoc-tieng-anh-ios/EnglishLearningApp
-open EnglishLearningApp.xcodeproj
-```
+2. Cài đặt Firebase SDK (Swift Package Manager):
+   - Mở project trong Xcode
+   - File → Add Package Dependencies
+   - URL: `https://github.com/firebase/firebase-ios-sdk`
+   - Chọn: FirebaseAuth, FirebaseFirestore
 
-3. Chạy trên simulator hoặc device
+3. Cấu hình Firebase:
+   - Xem hướng dẫn chi tiết trong [FIREBASE_SETUP.md](FIREBASE_SETUP.md)
+   - File `GoogleService-Info.plist` đã có sẵn
+   - Enable Authentication và Firestore trong Firebase Console
+
+4. Chạy trên simulator hoặc device
 
 ## Cấu hình In-App Purchase
 

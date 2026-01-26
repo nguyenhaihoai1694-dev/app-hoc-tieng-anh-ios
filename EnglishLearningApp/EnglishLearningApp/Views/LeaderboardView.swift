@@ -1,9 +1,15 @@
 import SwiftUI
+import FirebaseFirestore
 
 struct LeaderboardView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
 
-    @State private var leaderboardData: [LeaderboardEntry] = []
+    @State private var leaderboardData: [LeaderboardUser] = []
+    @State private var userRank: Int?
+    @State private var isLoading = true
+
+    private let firestoreService = FirestoreService.shared
+    private var leaderboardListener: ListenerRegistration?
 
     var body: some View {
         NavigationView {
@@ -11,7 +17,13 @@ struct LeaderboardView: View {
                 VStack(spacing: 20) {
                     // Current User Rank
                     if let currentUser = authViewModel.currentUser {
-                        CurrentUserRankCard(user: currentUser)
+                        CurrentUserRankCard(user: currentUser, rank: userRank)
+                    }
+
+                    // Loading Indicator
+                    if isLoading {
+                        ProgressView("Đang tải...")
+                            .padding()
                     }
 
                     // Leaderboard List
@@ -35,28 +47,42 @@ struct LeaderboardView: View {
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Bảng xếp hạng")
             .onAppear {
-                loadLeaderboard()
+                setupRealtimeLeaderboard()
+                loadUserRank()
             }
         }
     }
 
-    private func loadLeaderboard() {
-        // Sample data - In production, fetch from server
-        leaderboardData = [
-            LeaderboardEntry(name: "Nguyễn Văn A", xp: 2500, level: 15),
-            LeaderboardEntry(name: "Trần Thị B", xp: 2100, level: 13),
-            LeaderboardEntry(name: "Lê Văn C", xp: 1800, level: 12),
-            LeaderboardEntry(name: "Phạm Thị D", xp: 1500, level: 10),
-            LeaderboardEntry(name: "Hoàng Văn E", xp: 1200, level: 9),
-            LeaderboardEntry(name: "Vũ Thị F", xp: 1000, level: 8),
-            LeaderboardEntry(name: "Đặng Văn G", xp: 800, level: 7),
-            LeaderboardEntry(name: "Bùi Thị H", xp: 600, level: 6),
-        ]
+    // MARK: - Realtime Leaderboard
+    private func setupRealtimeLeaderboard() {
+        _ = firestoreService.listenToLeaderboard(limit: 50) { users in
+            DispatchQueue.main.async {
+                self.leaderboardData = users
+                self.isLoading = false
+            }
+        }
+    }
+
+    // MARK: - Load User Rank
+    private func loadUserRank() {
+        guard let userId = authViewModel.currentUser?.id.uuidString else { return }
+
+        Task {
+            do {
+                let rank = try await firestoreService.getUserRank(userId: userId)
+                await MainActor.run {
+                    self.userRank = rank
+                }
+            } catch {
+                print("Error loading user rank: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
 struct CurrentUserRankCard: View {
     let user: User
+    let rank: Int?
 
     var body: some View {
         VStack(spacing: 15) {
@@ -105,7 +131,7 @@ struct CurrentUserRankCard: View {
                     Text("#")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    Text("?")
+                    Text(rank.map { "\($0)" } ?? "...")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.blue)
@@ -122,7 +148,7 @@ struct CurrentUserRankCard: View {
 
 struct LeaderboardRow: View {
     let rank: Int
-    let entry: LeaderboardEntry
+    let entry: LeaderboardUser
 
     var body: some View {
         HStack(spacing: 15) {
@@ -150,7 +176,7 @@ struct LeaderboardRow: View {
                     .fontWeight(.semibold)
 
                 HStack {
-                    Label("\(entry.xp) XP", systemImage: "star.fill")
+                    Label("\(entry.totalXP) XP", systemImage: "star.fill")
                         .font(.caption)
                         .foregroundColor(.orange)
 
@@ -184,13 +210,6 @@ struct LeaderboardRow: View {
         default: return .blue
         }
     }
-}
-
-struct LeaderboardEntry: Identifiable {
-    let id = UUID()
-    let name: String
-    let xp: Int
-    let level: Int
 }
 
 struct LeaderboardView_Previews: PreviewProvider {
