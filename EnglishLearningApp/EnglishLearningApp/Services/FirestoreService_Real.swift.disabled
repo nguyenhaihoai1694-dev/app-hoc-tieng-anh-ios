@@ -221,10 +221,4 @@ class FirestoreService {
 }
 
 // MARK: - LeaderboardUser Model
-
-struct LeaderboardUser: Identifiable {
-    let id: String
-    let name: String
-    let totalXP: Int
-    let level: Int
-}
+// Moved to Models/LeaderboardUser.swift

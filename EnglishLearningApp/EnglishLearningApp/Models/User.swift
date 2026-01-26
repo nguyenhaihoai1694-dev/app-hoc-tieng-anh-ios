@@ -1,7 +1,7 @@
 import Foundation
 
 struct User: Codable, Identifiable {
-    let id: UUID
+    var id: UUID
     var email: String
     var name: String
     var currentStreak: Int
@@ -9,6 +9,9 @@ struct User: Codable, Identifiable {
     var totalXP: Int
     var level: Int
     var lastPracticeDate: Date?
+    var lastActiveDate: Date
+    var joinedDate: Date
+    var completedLessons: [String]
     var isPremium: Bool
     var subscriptionExpiryDate: Date?
 
@@ -21,6 +24,9 @@ struct User: Codable, Identifiable {
         self.totalXP = 0
         self.level = 1
         self.lastPracticeDate = nil
+        self.lastActiveDate = Date()
+        self.joinedDate = Date()
+        self.completedLessons = []
         self.isPremium = false
         self.subscriptionExpiryDate = nil
     }

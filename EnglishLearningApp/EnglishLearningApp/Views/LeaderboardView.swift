@@ -1,5 +1,5 @@
 import SwiftUI
-import FirebaseFirestore
+// import FirebaseFirestore
 
 struct LeaderboardView: View {
     @EnvironmentObject var authViewModel: AuthViewModel

@@ -1,7 +1,7 @@
 import Foundation
 import Combine
-import FirebaseAuth
-import FirebaseFirestore
+// import FirebaseAuth
+// import FirebaseFirestore
 
 class AuthViewModel: ObservableObject {
     @Published var isAuthenticated = false
@@ -195,24 +195,17 @@ class AuthViewModel: ObservableObject {
 
     // MARK: - Error Handling
     private func handleAuthError(_ error: Error) -> String {
-        if let authError = error as? AuthErrorCode {
-            switch authError.code {
-            case .emailAlreadyInUse:
-                return "Email đã được sử dụng"
-            case .invalidEmail:
-                return "Email không hợp lệ"
-            case .weakPassword:
-                return "Mật khẩu quá yếu"
-            case .userNotFound:
-                return "Không tìm thấy tài khoản"
-            case .wrongPassword:
-                return "Mật khẩu không đúng"
-            case .networkError:
-                return "Lỗi kết nối mạng"
-            default:
-                return "Lỗi: \(error.localizedDescription)"
-            }
+        // Simplified error handling for mock services
+        let errorMessage = error.localizedDescription
+
+        if errorMessage.contains("email") {
+            return "Email đã được sử dụng hoặc không hợp lệ"
+        } else if errorMessage.contains("password") {
+            return "Mật khẩu không đúng hoặc quá yếu"
+        } else if errorMessage.contains("network") {
+            return "Lỗi kết nối mạng"
         }
-        return "Lỗi: \(error.localizedDescription)"
+
+        return "Lỗi: \(errorMessage)"
     }
 }

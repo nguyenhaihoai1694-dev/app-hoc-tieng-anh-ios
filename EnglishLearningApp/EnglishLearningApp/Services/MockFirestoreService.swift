@@ -7,14 +7,6 @@ class ListenerRegistration {
     }
 }
 
-// Mock LeaderboardUser (if not already defined)
-struct LeaderboardUser: Identifiable {
-    let id: String
-    let name: String
-    let totalXP: Int
-    let level: Int
-}
-
 // Mock Firestore Service (Use only if Firebase SDK not installed)
 class FirestoreService {
     static let shared = FirestoreService()
