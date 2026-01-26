@@ -5,17 +5,19 @@ class UserProgressManager: ObservableObject {
     @Published var completedLessons: Set<UUID> = []
     @Published var lessonScores: [UUID: Int] = [:]
 
-    private let firestoreService = FirestoreService.shared
+    private let userDefaults = UserDefaults.standard
+    private let completedKey = "completedLessons"
+    private let scoresKey = "lessonScores"
 
     init() {
-        // Progress is loaded from Firestore via AuthViewModel
+        loadProgress()
     }
 
-    // MARK: - Complete Lesson with Firebase Sync
+    // MARK: - Complete Lesson
     func completeLesson(_ lessonId: UUID, score: Int, xpReward: Int, authViewModel: AuthViewModel) {
         completedLessons.insert(lessonId)
 
-        // Update best score locally
+        // Update best score
         if let currentBest = lessonScores[lessonId] {
             if score > currentBest {
                 lessonScores[lessonId] = score
@@ -28,7 +30,6 @@ class UserProgressManager: ObservableObject {
         guard var user = authViewModel.currentUser else { return }
 
         user.totalXP += xpReward
-        user.completedLessons.append(lessonId.uuidString)
 
         // Level up logic
         while user.totalXP >= user.nextLevelXP {
@@ -38,56 +39,8 @@ class UserProgressManager: ObservableObject {
         // Update streak
         updateStreak(for: &user)
 
-        // Save to Firebase
-        Task {
-            do {
-                // Save lesson progress
-                try await firestoreService.saveLessonProgress(
-                    userId: user.id.uuidString,
-                    lessonId: lessonId.uuidString,
-                    score: score,
-                    xpEarned: xpReward
-                )
-
-                // Update user in Firestore
-                try await firestoreService.updateUser(user)
-
-                // Update local state
-                await MainActor.run {
-                    authViewModel.currentUser = user
-                }
-            } catch {
-                print("Error saving progress: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    // MARK: - Load Progress from Firebase
-    func loadProgress(for userId: String) {
-        Task {
-            do {
-                let progressData = try await firestoreService.getUserProgress(userId: userId)
-
-                await MainActor.run {
-                    var completed: Set<UUID> = []
-                    var scores: [UUID: Int] = [:]
-
-                    for progress in progressData {
-                        if let lessonIdString = progress["lessonId"] as? String,
-                           let lessonId = UUID(uuidString: lessonIdString),
-                           let score = progress["score"] as? Int {
-                            completed.insert(lessonId)
-                            scores[lessonId] = score
-                        }
-                    }
-
-                    self.completedLessons = completed
-                    self.lessonScores = scores
-                }
-            } catch {
-                print("Error loading progress: \(error.localizedDescription)")
-            }
-        }
+        authViewModel.updateUser(user)
+        saveProgress()
     }
 
     // MARK: - Check Lesson Status
@@ -104,9 +57,9 @@ class UserProgressManager: ObservableObject {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
 
-        if let lastActive = user.lastActiveDate as? Date {
-            let lastActiveDay = calendar.startOfDay(for: lastActive)
-            let daysDifference = calendar.dateComponents([.day], from: lastActiveDay, to: today).day ?? 0
+        if let lastPractice = user.lastPracticeDate {
+            let lastPracticeDay = calendar.startOfDay(for: lastPractice)
+            let daysDifference = calendar.dateComponents([.day], from: lastPracticeDay, to: today).day ?? 0
 
             if daysDifference == 0 {
                 // Same day, no change
@@ -123,22 +76,36 @@ class UserProgressManager: ObservableObject {
             user.currentStreak = 1
         }
 
-        user.lastActiveDate = Date()
+        user.lastPracticeDate = Date()
 
         if user.currentStreak > user.longestStreak {
             user.longestStreak = user.currentStreak
         }
+    }
 
-        // Update streak in Firebase
-        Task {
-            do {
-                try await firestoreService.updateUserStreak(
-                    userId: user.id.uuidString,
-                    streak: user.currentStreak
-                )
-            } catch {
-                print("Error updating streak: \(error.localizedDescription)")
-            }
+    // MARK: - Save/Load Progress
+    private func saveProgress() {
+        // Save completed lessons
+        let completedArray = Array(completedLessons).map { $0.uuidString }
+        userDefaults.set(completedArray, forKey: completedKey)
+
+        // Save scores
+        let scoresDict = lessonScores.mapKeys { $0.uuidString }
+        if let encoded = try? JSONEncoder().encode(scoresDict) {
+            userDefaults.set(encoded, forKey: scoresKey)
+        }
+    }
+
+    private func loadProgress() {
+        // Load completed lessons
+        if let completedArray = userDefaults.array(forKey: completedKey) as? [String] {
+            completedLessons = Set(completedArray.compactMap { UUID(uuidString: $0) })
+        }
+
+        // Load scores
+        if let data = userDefaults.data(forKey: scoresKey),
+           let scoresDict = try? JSONDecoder().decode([String: Int].self, from: data) {
+            lessonScores = scoresDict.compactMapKeys { UUID(uuidString: $0) }
         }
     }
 }

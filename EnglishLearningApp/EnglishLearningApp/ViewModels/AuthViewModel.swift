@@ -1,7 +1,5 @@
 import Foundation
 import Combine
-// import FirebaseAuth
-// import FirebaseFirestore
 
 class AuthViewModel: ObservableObject {
     @Published var isAuthenticated = false
@@ -9,85 +7,25 @@ class AuthViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isLoading = false
 
-    private let firebaseAuthService = FirebaseAuthService()
-    private let firestoreService = FirestoreService.shared
-    private var cancellables = Set<AnyCancellable>()
-    private var userListener: ListenerRegistration?
+    private let userDefaults = UserDefaults.standard
+    private let userKey = "currentUser"
 
     init() {
-        observeAuthState()
-        loadUserAutomatically()
+        loadUser()
     }
 
-    deinit {
-        userListener?.remove()
-    }
-
-    // MARK: - Observe Auth State
-    private func observeAuthState() {
-        firebaseAuthService.$isAuthenticated
-            .sink { [weak self] isAuth in
-                self?.isAuthenticated = isAuth
-                if isAuth {
-                    self?.loadCurrentUser()
-                } else {
-                    self?.currentUser = nil
-                    self?.userListener?.remove()
-                }
-            }
-            .store(in: &cancellables)
-    }
-
-    // MARK: - Auto Load User (for demo mode)
-    private func loadUserAutomatically() {
-        Task {
-            do {
-                // Try to sign in anonymously for demo
-                _ = try await firebaseAuthService.signInAnonymously()
-            } catch {
-                print("Auto sign-in failed: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    // MARK: - Load Current User from Firestore
-    private func loadCurrentUser() {
-        guard let firebaseUser = firebaseAuthService.currentUser else { return }
-
-        Task { @MainActor in
-            do {
-                // Try to get user from Firestore
-                if let user = try await firestoreService.getUser(userId: firebaseUser.uid) {
-                    self.currentUser = user
-                    setupRealtimeListener(userId: firebaseUser.uid)
-                } else {
-                    // Create new user in Firestore
-                    let newUser = User(
-                        email: firebaseUser.email ?? "demo@example.com",
-                        name: firebaseUser.displayName ?? "Học viên"
-                    )
-                    var userToSave = newUser
-                    userToSave.id = UUID(uuidString: firebaseUser.uid) ?? newUser.id
-
-                    try await firestoreService.createUser(userToSave)
-                    self.currentUser = userToSave
-                    setupRealtimeListener(userId: firebaseUser.uid)
-                }
-            } catch {
-                self.errorMessage = "Lỗi tải dữ liệu: \(error.localizedDescription)"
-            }
-        }
-    }
-
-    // MARK: - Realtime User Listener
-    private func setupRealtimeListener(userId: String) {
-        userListener?.remove()
-        userListener = firestoreService.listenToUser(userId: userId) { [weak self] user in
-            if let user = user {
-                DispatchQueue.main.async {
-                    self?.currentUser = user
-                }
-            }
+    // MARK: - Load User
+    private func loadUser() {
+        if let data = userDefaults.data(forKey: userKey),
+           let user = try? JSONDecoder().decode(User.self, from: data) {
+            currentUser = user
+            isAuthenticated = true
+        } else {
+            // Auto-create demo user (skip login)
+            let demoUser = User(email: "demo@example.com", name: "Học viên")
+            currentUser = demoUser
+            isAuthenticated = true
+            saveUser()
         }
     }
 
@@ -101,14 +39,13 @@ class AuthViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        Task { @MainActor in
-            do {
-                _ = try await firebaseAuthService.signIn(email: email, password: password)
-                isLoading = false
-            } catch {
-                errorMessage = handleAuthError(error)
-                isLoading = false
-            }
+        // Simulate login delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let user = User(email: email, name: self.extractName(from: email))
+            self.currentUser = user
+            self.isAuthenticated = true
+            self.saveUser()
+            self.isLoading = false
         }
     }
 
@@ -127,48 +64,27 @@ class AuthViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        Task { @MainActor in
-            do {
-                let firebaseUser = try await firebaseAuthService.signUp(
-                    email: email,
-                    password: password,
-                    name: name
-                )
-
-                // Create user in Firestore
-                var newUser = User(email: email, name: name)
-                newUser.id = UUID(uuidString: firebaseUser.uid) ?? newUser.id
-                try await firestoreService.createUser(newUser)
-
-                isLoading = false
-            } catch {
-                errorMessage = handleAuthError(error)
-                isLoading = false
-            }
+        // Simulate register delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let user = User(email: email, name: name)
+            self.currentUser = user
+            self.isAuthenticated = true
+            self.saveUser()
+            self.isLoading = false
         }
     }
 
     // MARK: - Logout
     func logout() {
-        do {
-            try firebaseAuthService.signOut()
-            currentUser = nil
-            userListener?.remove()
-        } catch {
-            errorMessage = "Lỗi đăng xuất: \(error.localizedDescription)"
-        }
+        currentUser = nil
+        isAuthenticated = false
+        userDefaults.removeObject(forKey: userKey)
     }
 
     // MARK: - Update User
     func updateUser(_ user: User) {
-        Task { @MainActor in
-            do {
-                try await firestoreService.updateUser(user)
-                currentUser = user
-            } catch {
-                errorMessage = "Lỗi cập nhật: \(error.localizedDescription)"
-            }
-        }
+        currentUser = user
+        saveUser()
     }
 
     // MARK: - Password Reset
@@ -180,32 +96,22 @@ class AuthViewModel: ObservableObject {
 
         isLoading = true
 
-        Task { @MainActor in
-            do {
-                try await firebaseAuthService.resetPassword(email: email)
-                errorMessage = nil
-                // Show success message
-                isLoading = false
-            } catch {
-                errorMessage = handleAuthError(error)
-                isLoading = false
-            }
+        // Simulate password reset delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.errorMessage = nil
+            self.isLoading = false
         }
     }
 
-    // MARK: - Error Handling
-    private func handleAuthError(_ error: Error) -> String {
-        // Simplified error handling for mock services
-        let errorMessage = error.localizedDescription
-
-        if errorMessage.contains("email") {
-            return "Email đã được sử dụng hoặc không hợp lệ"
-        } else if errorMessage.contains("password") {
-            return "Mật khẩu không đúng hoặc quá yếu"
-        } else if errorMessage.contains("network") {
-            return "Lỗi kết nối mạng"
+    // MARK: - Helpers
+    private func saveUser() {
+        guard let user = currentUser else { return }
+        if let encoded = try? JSONEncoder().encode(user) {
+            userDefaults.set(encoded, forKey: userKey)
         }
+    }
 
-        return "Lỗi: \(errorMessage)"
+    private func extractName(from email: String) -> String {
+        return email.components(separatedBy: "@").first?.capitalized ?? "User"
     }
 }
