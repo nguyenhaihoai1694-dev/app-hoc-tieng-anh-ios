@@ -6,21 +6,37 @@ struct Lesson: Codable, Identifiable {
     let description: String
     let level: Int
     let xpReward: Int
+    let vocabularyItems: [VocabularyItem]
     let questions: [Question]
     let isPremium: Bool
     var isCompleted: Bool
     var bestScore: Int?
 
-    init(id: UUID = UUID(), title: String, description: String, level: Int, xpReward: Int, questions: [Question], isPremium: Bool = false) {
+    init(id: UUID = UUID(), title: String, description: String, level: Int, xpReward: Int, vocabularyItems: [VocabularyItem] = [], questions: [Question], isPremium: Bool = false) {
         self.id = id
         self.title = title
         self.description = description
         self.level = level
         self.xpReward = xpReward
+        self.vocabularyItems = vocabularyItems
         self.questions = questions
         self.isPremium = isPremium
         self.isCompleted = false
         self.bestScore = nil
+    }
+}
+
+struct VocabularyItem: Codable, Identifiable {
+    let id: UUID
+    let english: String
+    let vietnamese: String
+    let example: String
+
+    init(id: UUID = UUID(), english: String, vietnamese: String, example: String) {
+        self.id = id
+        self.english = english
+        self.vietnamese = vietnamese
+        self.example = example
     }
 }
 

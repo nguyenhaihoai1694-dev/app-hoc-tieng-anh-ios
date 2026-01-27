@@ -21,6 +21,8 @@ struct LessonView: View {
     @State private var showConfetti = false
     @State private var mascotState: MascotState = .thinking
     @State private var showOutOfHearts = false
+    @State private var quizLives = 3  // 3 lives per quiz attempt
+    @State private var showQuizFailed = false
 
     var body: some View {
         NavigationView {
@@ -30,11 +32,25 @@ struct LessonView: View {
                     .tint(.green)
                     .padding()
 
-                // Question Counter
-                Text("Câu \(currentQuestionIndex + 1) / \(lesson.questions.count)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .padding(.bottom, 5)
+                // Question Counter and Lives
+                HStack {
+                    Text("Câu \(currentQuestionIndex + 1) / \(lesson.questions.count)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+
+                    Spacer()
+
+                    // Quiz Lives (3 hearts per quiz)
+                    HStack(spacing: 4) {
+                        ForEach(0..<3, id: \.self) { index in
+                            Image(systemName: index < quizLives ? "heart.fill" : "heart")
+                                .foregroundColor(index < quizLives ? .red : .gray.opacity(0.3))
+                                .font(.caption)
+                        }
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 5)
 
                 // Mascot for encouragement
                 CompactMascotView(state: mascotState, size: 50)
@@ -181,6 +197,22 @@ struct LessonView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+            .fullScreenCover(isPresented: $showQuizFailed) {
+                QuizFailedView(
+                    heartsRemaining: heartManager.currentHearts,
+                    isPremium: subscriptionManager.hasActiveSubscription()
+                ) {
+                    // Retry quiz - reset lives
+                    quizLives = 3
+                    currentQuestionIndex = 0
+                    correctAnswers = 0
+                    resetQuestion()
+                    showQuizFailed = false
+                } onExit: {
+                    showQuizFailed = false
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
         }
     }
 
@@ -244,15 +276,31 @@ struct LessonView: View {
             soundService.playWrongSound()
             mascotState = .encouraging
 
-            // Lose hearts (only for non-Premium users)
-            if !subscriptionManager.hasActiveSubscription() {
-                heartManager.loseHearts()
+            // Lose 1 quiz life (not daily hearts yet)
+            quizLives -= 1
 
-                // Check if out of hearts
-                if !heartManager.hasHearts() {
-                    // Show out of hearts screen after a delay
+            // Only deduct 10 daily hearts when all 3 lives are lost
+            if quizLives <= 0 {
+                // Lost all 3 lives - deduct 10 hearts from daily energy
+                if !subscriptionManager.hasActiveSubscription() {
+                    heartManager.loseHearts()
+
+                    // Check if out of daily hearts
+                    if !heartManager.hasHearts() {
+                        // Show out of hearts screen after a delay
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            showOutOfHearts = true
+                        }
+                    } else {
+                        // Still have daily hearts, show quiz failed (can retry)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            showQuizFailed = true
+                        }
+                    }
+                } else {
+                    // Premium users - just show quiz failed (no heart cost)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        showOutOfHearts = true
+                        showQuizFailed = true
                     }
                 }
             }
@@ -423,6 +471,110 @@ struct CompletionView: View {
     }
 }
 
+struct QuizFailedView: View {
+    @StateObject private var localizationManager = LocalizationManager.shared
+    let heartsRemaining: Int
+    let isPremium: Bool
+    let onRetry: () -> Void
+    let onExit: () -> Void
+
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: [Color.red.opacity(0.3), Color.orange.opacity(0.2)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 30) {
+                Spacer()
+
+                // Sad mascot
+                CompactMascotView(state: .sad, size: 80)
+
+                // Failed emoji
+                Text("😢")
+                    .font(.system(size: 60))
+
+                // Title
+                Text(localizationManager.currentLanguage == .vietnamese ?
+                     "Hết mạng rồi!" : "Out of Lives!")
+                    .font(.system(size: 32, weight: .bold))
+
+                // Message
+                VStack(spacing: 10) {
+                    Text(localizationManager.currentLanguage == .vietnamese ?
+                         "Bạn đã trả lời sai 3 lần" : "You answered wrong 3 times")
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+
+                    if !isPremium {
+                        HStack(spacing: 8) {
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.red)
+                            Text(localizationManager.currentLanguage == .vietnamese ?
+                                 "Đã trừ 10 điểm energy" : "Deducted 10 hearts")
+                                .font(.headline)
+                                .foregroundColor(.red)
+                        }
+                        .padding()
+                        .background(Color.red.opacity(0.1))
+                        .cornerRadius(15)
+
+                        HStack(spacing: 5) {
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.orange)
+                            Text("\(heartsRemaining) " + (localizationManager.currentLanguage == .vietnamese ?
+                                 "trái tim còn lại" : "hearts remaining"))
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+
+                Spacer()
+
+                // Buttons
+                VStack(spacing: 15) {
+                    // Retry button
+                    Button(action: onRetry) {
+                        HStack {
+                            Image(systemName: "arrow.clockwise")
+                            Text(localizationManager.currentLanguage == .vietnamese ?
+                                 "Thử lại (Trừ 10 hearts nếu sai tiếp)" : "Retry (Costs 10 hearts if fail again)")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(15)
+                    }
+
+                    // Exit button
+                    Button(action: onExit) {
+                        Text(localizationManager.currentLanguage == .vietnamese ?
+                             "Quay lại" : "Go Back")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(15)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color.blue, lineWidth: 2)
+                            )
+                    }
+                }
+                .padding(.horizontal, 40)
+                .padding(.bottom, 40)
+            }
+        }
+    }
+}
+
 struct LessonView_Previews: PreviewProvider {
     static var previews: some View {
         let sampleLesson = Lesson(
@@ -443,5 +595,6 @@ struct LessonView_Previews: PreviewProvider {
         return LessonView(lesson: sampleLesson)
             .environmentObject(AuthViewModel())
             .environmentObject(UserProgressManager())
+            .environmentObject(SubscriptionManager())
     }
 }

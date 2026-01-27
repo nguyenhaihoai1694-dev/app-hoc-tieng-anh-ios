@@ -182,7 +182,8 @@ struct LessonCard: View {
     @EnvironmentObject var subscriptionManager: SubscriptionManager
     @EnvironmentObject var progressManager: UserProgressManager
     @StateObject private var heartManager = HeartManager.shared
-    @State private var showLesson = false
+    @State private var showStudy = false
+    @State private var showQuiz = false
     @State private var showPaywall = false
     @State private var showOutOfHearts = false
 
@@ -251,7 +252,14 @@ struct LessonCard: View {
             .shadow(radius: 2)
         }
         .padding(.horizontal)
-        .sheet(isPresented: $showLesson) {
+        .sheet(isPresented: $showStudy) {
+            LearningContentView(lesson: lesson) {
+                // Start quiz after studying
+                showStudy = false
+                showQuiz = true
+            }
+        }
+        .sheet(isPresented: $showQuiz) {
             LessonView(lesson: lesson)
         }
         .sheet(isPresented: $showPaywall) {
@@ -296,7 +304,8 @@ struct LessonCard: View {
             return
         }
 
-        showLesson = true
+        // Show study phase first
+        showStudy = true
     }
 }
 

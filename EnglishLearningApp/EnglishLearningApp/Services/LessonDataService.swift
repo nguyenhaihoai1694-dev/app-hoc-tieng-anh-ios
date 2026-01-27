@@ -13,6 +13,33 @@ class LessonDataService {
                 description: "Học cách chào hỏi trong tiếng Anh",
                 level: 1,
                 xpReward: 10,
+                vocabularyItems: [
+                    VocabularyItem(
+                        english: "Hello",
+                        vietnamese: "Xin chào",
+                        example: "Hello! How are you?"
+                    ),
+                    VocabularyItem(
+                        english: "Good morning",
+                        vietnamese: "Chào buổi sáng",
+                        example: "Good morning, teacher!"
+                    ),
+                    VocabularyItem(
+                        english: "Good evening",
+                        vietnamese: "Chào buổi tối",
+                        example: "Good evening, everyone!"
+                    ),
+                    VocabularyItem(
+                        english: "Nice to meet you",
+                        vietnamese: "Rất vui được gặp bạn",
+                        example: "Nice to meet you, I'm Tom."
+                    ),
+                    VocabularyItem(
+                        english: "How are you?",
+                        vietnamese: "Bạn khỏe không?",
+                        example: "How are you today?"
+                    )
+                ],
                 questions: [
                     Question(
                         type: .multipleChoice,
@@ -51,6 +78,28 @@ class LessonDataService {
                 description: "Học cách tự giới thiệu",
                 level: 1,
                 xpReward: 15,
+                vocabularyItems: [
+                    VocabularyItem(
+                        english: "My name is...",
+                        vietnamese: "Tên tôi là...",
+                        example: "My name is Anna."
+                    ),
+                    VocabularyItem(
+                        english: "I am from...",
+                        vietnamese: "Tôi đến từ...",
+                        example: "I am from Vietnam."
+                    ),
+                    VocabularyItem(
+                        english: "I am a student",
+                        vietnamese: "Tôi là học sinh",
+                        example: "I am a student at ABC school."
+                    ),
+                    VocabularyItem(
+                        english: "What is your name?",
+                        vietnamese: "Bạn tên là gì?",
+                        example: "What is your name?"
+                    )
+                ],
                 questions: [
                     Question(
                         type: .multipleChoice,
@@ -89,6 +138,33 @@ class LessonDataService {
                 description: "Học đếm số từ 1 đến 20",
                 level: 1,
                 xpReward: 10,
+                vocabularyItems: [
+                    VocabularyItem(
+                        english: "One, Two, Three",
+                        vietnamese: "Một, Hai, Ba",
+                        example: "I have three apples."
+                    ),
+                    VocabularyItem(
+                        english: "Five",
+                        vietnamese: "Năm",
+                        example: "Five plus five equals ten."
+                    ),
+                    VocabularyItem(
+                        english: "Ten",
+                        vietnamese: "Mười",
+                        example: "I am ten years old."
+                    ),
+                    VocabularyItem(
+                        english: "Fifteen",
+                        vietnamese: "Mười lăm",
+                        example: "The book costs fifteen dollars."
+                    ),
+                    VocabularyItem(
+                        english: "Twenty",
+                        vietnamese: "Hai mươi",
+                        example: "I have twenty candies."
+                    )
+                ],
                 questions: [
                     Question(
                         type: .multipleChoice,
