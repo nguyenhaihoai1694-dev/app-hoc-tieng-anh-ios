@@ -3,6 +3,7 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var subscriptionManager: SubscriptionManager
+    @StateObject private var localizationManager = LocalizationManager.shared
 
     @State private var showPaywall = false
     @State private var showSettings = false
@@ -157,7 +158,7 @@ struct ProfileView: View {
                 }
             }
             .background(Color(.systemGroupedBackground))
-            .navigationTitle("Hồ sơ")
+            .navigationTitle(localizationManager.localized(.profile))
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
             }
@@ -166,6 +167,9 @@ struct ProfileView: View {
             }
             .sheet(isPresented: $showTermsOfService) {
                 TermsOfServiceView()
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
             }
         }
     }

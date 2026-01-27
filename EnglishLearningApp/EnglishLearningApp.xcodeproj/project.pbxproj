@@ -40,6 +40,8 @@
 		A1B2C3D4E5F6789012345695 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678BE /* OnboardingView.swift */; };
 		A1B2C3D4E5F6789012345696 /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678BF /* Achievement.swift */; };
 		A1B2C3D4E5F6789012345697 /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678C0 /* AchievementsView.swift */; };
+		A1B2C3D4E5F6789012345698 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678C1 /* LocalizationManager.swift */; };
+		A1B2C3D4E5F6789012345699 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678C2 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,8 @@
 		B2C3D4E5F6789012345678BE /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678BF /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678C0 /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6789012345678C1 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6789012345678C2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C1D2E3F4A5B6789012345678 /* EnglishLearningApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnglishLearningApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1E2F3A4B5C6789012345678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,6 +160,7 @@
 				B2C3D4E5F6789012345678BD /* MascotView.swift */,
 				B2C3D4E5F6789012345678BE /* OnboardingView.swift */,
 				B2C3D4E5F6789012345678C0 /* AchievementsView.swift */,
+				B2C3D4E5F6789012345678C2 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 				B2C3D4E5F6789012345678B5 /* FirebaseAuthService.swift */,
 				B2C3D4E5F6789012345678B6 /* TextToSpeechService.swift */,
 				B2C3D4E5F6789012345678B7 /* SoundEffectService.swift */,
+				B2C3D4E5F6789012345678C1 /* LocalizationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -349,6 +355,8 @@
 				A1B2C3D4E5F6789012345695 /* OnboardingView.swift in Sources */,
 				A1B2C3D4E5F6789012345696 /* Achievement.swift in Sources */,
 				A1B2C3D4E5F6789012345697 /* AchievementsView.swift in Sources */,
+				A1B2C3D4E5F6789012345698 /* LocalizationManager.swift in Sources */,
+				A1B2C3D4E5F6789012345699 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

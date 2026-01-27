@@ -1,31 +1,32 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @StateObject private var localizationManager = LocalizationManager.shared
     @State private var selectedTab = 0
 
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView()
                 .tabItem {
-                    Label("Học", systemImage: "book.fill")
+                    Label(localizationManager.localized(.tabLearn), systemImage: "book.fill")
                 }
                 .tag(0)
 
             LeaderboardView()
                 .tabItem {
-                    Label("Xếp hạng", systemImage: "chart.bar.fill")
+                    Label(localizationManager.localized(.tabLeaderboard), systemImage: "chart.bar.fill")
                 }
                 .tag(1)
 
             AchievementsView()
                 .tabItem {
-                    Label("Thành tích", systemImage: "trophy.fill")
+                    Label(localizationManager.localized(.tabAchievements), systemImage: "trophy.fill")
                 }
                 .tag(2)
 
             ProfileView()
                 .tabItem {
-                    Label("Hồ sơ", systemImage: "person.fill")
+                    Label(localizationManager.localized(.tabProfile), systemImage: "person.fill")
                 }
                 .tag(3)
         }
