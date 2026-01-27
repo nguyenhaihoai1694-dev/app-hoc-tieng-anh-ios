@@ -1,11 +1,14 @@
 import SwiftUI
+import StoreKit
 
 struct PaywallView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var subscriptionManager: SubscriptionManager
     @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject private var iapManager = IAPManager.shared
+    @StateObject private var localizationManager = LocalizationManager.shared
 
-    @State private var selectedPlan: SubscriptionPlan = .yearly
+    @State private var selectedProduct: Product?
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var showParentGate = false
@@ -21,7 +24,7 @@ struct PaywallView: View {
                 .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: 30) {
+                    VStack(spacing: 25) {
                         // Header
                         VStack(spacing: 15) {
                             Image(systemName: "crown.fill")
@@ -29,11 +32,14 @@ struct PaywallView: View {
                                 .frame(width: 80, height: 60)
                                 .foregroundColor(.yellow)
 
-                            Text("Nâng cấp Premium")
+                            Text(localizationManager.currentLanguage == .vietnamese ?
+                                 "Nâng cấp Premium" : "Upgrade to Premium")
                                 .font(.system(size: 32, weight: .bold))
                                 .foregroundColor(.white)
 
-                            Text("Học không giới hạn với tất cả tính năng cao cấp")
+                            Text(localizationManager.currentLanguage == .vietnamese ?
+                                 "Học không giới hạn với tất cả tính năng cao cấp" :
+                                 "Unlimited learning with all premium features")
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.white.opacity(0.9))
                                 .padding(.horizontal)
@@ -42,45 +48,63 @@ struct PaywallView: View {
 
                         // Features
                         VStack(spacing: 15) {
-                            FeatureRow(icon: "infinity", title: "Không giới hạn bài học")
-                            FeatureRow(icon: "speaker.wave.2.fill", title: "Luyện phát âm với AI")
-                            FeatureRow(icon: "chart.line.uptrend.xyaxis", title: "Theo dõi tiến độ chi tiết")
-                            FeatureRow(icon: "arrow.down.circle.fill", title: "Tải bài học offline")
-                            FeatureRow(icon: "xmark.circle.fill", title: "Không quảng cáo")
-                            FeatureRow(icon: "checkmark.seal.fill", title: "Chứng chỉ hoàn thành")
+                            FeatureRow(icon: "heart.fill", title: localizationManager.currentLanguage == .vietnamese ?
+                                      "❤️ Trái tim không giới hạn" : "❤️ Unlimited Hearts")
+                            FeatureRow(icon: "book.fill", title: localizationManager.currentLanguage == .vietnamese ?
+                                      "📚 Tất cả 40 bài học Premium" : "📚 All 40 Premium Lessons")
+                            FeatureRow(icon: "speaker.wave.2.fill", title: localizationManager.currentLanguage == .vietnamese ?
+                                      "🔊 Luyện phát âm với TTS" : "🔊 Pronunciation Practice")
+                            FeatureRow(icon: "chart.bar.fill", title: localizationManager.currentLanguage == .vietnamese ?
+                                      "📊 Theo dõi tiến độ chi tiết" : "📊 Detailed Progress Tracking")
+                            FeatureRow(icon: "xmark.circle.fill", title: localizationManager.currentLanguage == .vietnamese ?
+                                      "🚫 Không quảng cáo" : "🚫 No Ads")
+                            FeatureRow(icon: "trophy.fill", title: localizationManager.currentLanguage == .vietnamese ?
+                                      "🏆 Achievements đặc biệt" : "🏆 Special Achievements")
                         }
                         .padding(.horizontal)
 
                         // Pricing Cards
-                        VStack(spacing: 15) {
-                            PricingCard(
-                                plan: .yearly,
-                                isSelected: selectedPlan == .yearly,
-                                badge: "Tiết kiệm 33%"
-                            ) {
-                                selectedPlan = .yearly
+                        if iapManager.products.isEmpty {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .padding()
+                        } else {
+                            VStack(spacing: 15) {
+                                ForEach(iapManager.products, id: \.id) { product in
+                                    ProductCard(
+                                        product: product,
+                                        isSelected: selectedProduct?.id == product.id,
+                                        badge: badgeForProduct(product)
+                                    ) {
+                                        selectedProduct = product
+                                    }
+                                }
                             }
-
-                            PricingCard(
-                                plan: .monthly,
-                                isSelected: selectedPlan == .monthly
-                            ) {
-                                selectedPlan = .monthly
-                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
 
                         // Subscribe Button
                         Button(action: {
-                            showParentGate = true
+                            if selectedProduct != nil {
+                                showParentGate = true
+                            }
                         }) {
                             if subscriptionManager.isPurchasing {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                             } else {
-                                Text("Bắt đầu dùng thử miễn phí 7 ngày")
-                                    .font(.headline)
-                                    .foregroundColor(.blue)
+                                HStack {
+                                    Image(systemName: "crown.fill")
+                                    Text(selectedProduct?.subscription != nil ?
+                                         (localizationManager.currentLanguage == .vietnamese ?
+                                          "Bắt đầu dùng thử 7 ngày miễn phí" :
+                                          "Start 7-Day Free Trial") :
+                                         (localizationManager.currentLanguage == .vietnamese ?
+                                          "Mua Lifetime Premium" :
+                                          "Purchase Lifetime Premium"))
+                                        .font(.headline)
+                                }
+                                .foregroundColor(.blue)
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -88,17 +112,21 @@ struct PaywallView: View {
                         .background(Color.white)
                         .cornerRadius(15)
                         .padding(.horizontal)
-                        .disabled(subscriptionManager.isPurchasing)
+                        .disabled(subscriptionManager.isPurchasing || selectedProduct == nil)
+                        .opacity(selectedProduct == nil ? 0.6 : 1.0)
 
                         // Restore Button
                         Button(action: restorePurchases) {
-                            Text("Khôi phục gói đã mua")
+                            Text(localizationManager.currentLanguage == .vietnamese ?
+                                 "Khôi phục gói đã mua" : "Restore Purchases")
                                 .font(.subheadline)
                                 .foregroundColor(.white)
                         }
 
                         // Terms
-                        Text("Tự động gia hạn. Hủy bất kỳ lúc nào.")
+                        Text(localizationManager.currentLanguage == .vietnamese ?
+                             "Tự động gia hạn. Hủy bất kỳ lúc nào." :
+                             "Auto-renewable. Cancel anytime.")
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.7))
                             .multilineTextAlignment(.center)
@@ -107,12 +135,14 @@ struct PaywallView: View {
                     }
                 }
             }
-            .navigationBarItems(trailing: Button("Đóng") {
+            .navigationBarItems(trailing: Button(localizationManager.currentLanguage == .vietnamese ?
+                                                 "Đóng" : "Close") {
                 presentationMode.wrappedValue.dismiss()
             })
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text("Thông báo"),
+                    title: Text(localizationManager.currentLanguage == .vietnamese ?
+                               "Thông báo" : "Notice"),
                     message: Text(alertMessage),
                     dismissButton: .default(Text("OK"))
                 )
@@ -123,35 +153,67 @@ struct PaywallView: View {
                     subscribe()
                 }
             }
+            .onAppear {
+                // Pre-select the yearly plan (most popular)
+                if selectedProduct == nil {
+                    selectedProduct = iapManager.product(for: .yearly) ?? iapManager.products.first
+                }
+            }
+        }
+    }
+
+    private func badgeForProduct(_ product: Product) -> String? {
+        switch product.id {
+        case IAPManager.ProductID.yearly.rawValue:
+            return localizationManager.currentLanguage == .vietnamese ?
+                   "Phổ biến nhất ⭐" : "Most Popular ⭐"
+        case IAPManager.ProductID.lifetime.rawValue:
+            return localizationManager.currentLanguage == .vietnamese ?
+                   "Giá trị tốt nhất 👑" : "Best Value 👑"
+        case IAPManager.ProductID.family.rawValue:
+            return localizationManager.currentLanguage == .vietnamese ?
+                   "Chia sẻ 6 người" : "Share with 6"
+        default:
+            return nil
         }
     }
 
     private func subscribe() {
-        subscriptionManager.purchase(selectedPlan) { success, error in
+        guard let product = selectedProduct else { return }
+
+        Task {
+            let success = await subscriptionManager.purchase(product)
+
             if success {
                 if var user = authViewModel.currentUser {
                     user.isPremium = true
                     user.subscriptionExpiryDate = subscriptionManager.subscriptionStatus.expiryDate
                     authViewModel.updateUser(user)
                 }
-                alertMessage = "Đăng ký thành công! Chào mừng bạn đến với Premium!"
+                alertMessage = localizationManager.currentLanguage == .vietnamese ?
+                               "Đăng ký thành công! Chào mừng bạn đến với Premium!" :
+                               "Successfully subscribed! Welcome to Premium!"
                 showAlert = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     presentationMode.wrappedValue.dismiss()
                 }
-            } else if let error = error {
-                alertMessage = error.localizedDescription
+            } else if let error = subscriptionManager.purchaseError {
+                alertMessage = error
                 showAlert = true
             }
         }
     }
 
     private func restorePurchases() {
-        subscriptionManager.restorePurchases { success, error in
-            if success {
-                alertMessage = "Khôi phục thành công!"
+        Task {
+            await subscriptionManager.restorePurchases()
+
+            if subscriptionManager.hasActiveSubscription() {
+                alertMessage = localizationManager.currentLanguage == .vietnamese ?
+                               "Khôi phục thành công!" : "Successfully restored!"
             } else {
-                alertMessage = error?.localizedDescription ?? "Không tìm thấy gói đăng ký nào"
+                alertMessage = localizationManager.currentLanguage == .vietnamese ?
+                               "Không tìm thấy gói đăng ký nào" : "No purchases found"
             }
             showAlert = true
         }
@@ -178,50 +240,68 @@ struct FeatureRow: View {
     }
 }
 
-struct PricingCard: View {
-    let plan: SubscriptionPlan
+struct ProductCard: View {
+    let product: Product
     let isSelected: Bool
     var badge: String? = nil
     let action: () -> Void
 
+    @StateObject private var localizationManager = LocalizationManager.shared
+
     var body: some View {
         Button(action: action) {
             VStack(alignment: .leading, spacing: 10) {
-                HStack {
+                HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 5) {
-                        Text(plan.displayName)
+                        Text(product.displayName)
                             .font(.headline)
                             .foregroundColor(isSelected ? .white : .primary)
 
-                        Text(plan.price)
+                        Text(product.displayPrice)
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(isSelected ? .white : .primary)
 
-                        if plan == .yearly {
-                            Text("$6.67/tháng")
+                        if let subscription = product.subscription {
+                            Text("/ \(subscription.subscriptionPeriod.unit == .year ? (localizationManager.currentLanguage == .vietnamese ? "năm" : "year") : subscription.subscriptionPeriod.unit == .month ? (localizationManager.currentLanguage == .vietnamese ? "tháng" : "month") : (localizationManager.currentLanguage == .vietnamese ? "tuần" : "week"))")
                                 .font(.caption)
                                 .foregroundColor(isSelected ? .white.opacity(0.8) : .secondary)
+                        } else {
+                            Text(localizationManager.currentLanguage == .vietnamese ?
+                                 "Mua 1 lần" : "One-time purchase")
+                                .font(.caption)
+                                .foregroundColor(isSelected ? .white.opacity(0.8) : .secondary)
+                        }
+
+                        // Show savings for yearly
+                        if product.id == IAPManager.ProductID.yearly.rawValue {
+                            Text(localizationManager.currentLanguage == .vietnamese ?
+                                 "Tiết kiệm 58% 🔥" : "Save 58% 🔥")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(isSelected ? .yellow : .orange)
                         }
                     }
 
                     Spacer()
 
-                    if let badge = badge {
-                        Text(badge)
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.green)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 5)
-                            .background(Color.green.opacity(0.2))
-                            .cornerRadius(10)
-                    }
+                    VStack(spacing: 8) {
+                        if let badge = badge {
+                            Text(badge)
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 5)
+                                .background(Color.green.opacity(0.8))
+                                .cornerRadius(10)
+                        }
 
-                    if isSelected {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.white)
-                            .font(.title2)
+                        if isSelected {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.white)
+                                .font(.title2)
+                        }
                     }
                 }
             }

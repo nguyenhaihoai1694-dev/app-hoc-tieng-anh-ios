@@ -2,80 +2,130 @@ import Foundation
 import StoreKit
 import Combine
 
-class SubscriptionManager: NSObject, ObservableObject {
+@MainActor
+class SubscriptionManager: ObservableObject {
     @Published var subscriptionStatus = SubscriptionStatus()
-    @Published var availableProducts: [SKProduct] = []
     @Published var isPurchasing = false
     @Published var purchaseError: String?
 
-    private var productsRequest: SKProductsRequest?
-    private var purchaseCompletion: ((Bool, Error?) -> Void)?
+    private let iapManager = IAPManager.shared
+    private var cancellables = Set<AnyCancellable>()
 
-    override init() {
-        super.init()
-        SKPaymentQueue.default().add(self)
+    init() {
         loadSubscriptionStatus()
-        fetchProducts()
-    }
 
-    deinit {
-        SKPaymentQueue.default().remove(self)
-    }
-
-    // MARK: - Fetch Products
-    func fetchProducts() {
-        let productIdentifiers: Set<String> = [
-            SubscriptionPlan.monthly.rawValue,
-            SubscriptionPlan.yearly.rawValue
-        ]
-
-        productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
-        productsRequest?.delegate = self
-        productsRequest?.start()
+        // Listen to IAP updates
+        iapManager.$purchasedSubscriptions
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.updateSubscriptionFromIAP()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - Purchase
-    func purchase(_ plan: SubscriptionPlan, completion: @escaping (Bool, Error?) -> Void) {
-        guard plan != .free else {
-            completion(false, NSError(domain: "SubscriptionManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "Cannot purchase free plan"]))
-            return
-        }
 
-        guard let product = availableProducts.first(where: { $0.productIdentifier == plan.rawValue }) else {
-            completion(false, NSError(domain: "SubscriptionManager", code: -2, userInfo: [NSLocalizedDescriptionKey: "Product not found"]))
-            return
-        }
-
+    func purchase(_ product: StoreKit.Product) async -> Bool {
         isPurchasing = true
-        purchaseCompletion = completion
+        purchaseError = nil
 
-        let payment = SKPayment(product: product)
-        SKPaymentQueue.default().add(payment)
+        do {
+            let transaction = try await iapManager.purchase(product)
+
+            if transaction != nil {
+                updateSubscriptionFromIAP()
+                isPurchasing = false
+                return true
+            } else {
+                isPurchasing = false
+                return false
+            }
+        } catch {
+            isPurchasing = false
+            purchaseError = error.localizedDescription
+            return false
+        }
     }
 
     // MARK: - Restore Purchases
-    func restorePurchases(completion: @escaping (Bool, Error?) -> Void) {
-        purchaseCompletion = completion
-        SKPaymentQueue.default().restoreCompletedTransactions()
+
+    func restorePurchases() async {
+        isPurchasing = true
+        await iapManager.restorePurchases()
+        updateSubscriptionFromIAP()
+        isPurchasing = false
     }
 
     // MARK: - Subscription Status
+
     func hasActiveSubscription() -> Bool {
-        guard let expiryDate = subscriptionStatus.expiryDate else {
-            return subscriptionStatus.currentPlan != .free
-        }
-        return Date() < expiryDate
+        return iapManager.hasActiveSubscription()
     }
 
-    func updateSubscriptionStatus(plan: SubscriptionPlan, expiryDate: Date? = nil) {
-        subscriptionStatus.currentPlan = plan
-        subscriptionStatus.isActive = plan != .free
-        subscriptionStatus.expiryDate = expiryDate
-        subscriptionStatus.autoRenew = true
-        saveSubscriptionStatus()
+    private func updateSubscriptionFromIAP() {
+        // Update based on purchased subscriptions
+        if let subscription = iapManager.purchasedSubscriptions.first {
+            let plan = planFromProductID(subscription.id)
+            let expiryDate = calculateExpiryDate(for: subscription)
+
+            subscriptionStatus.currentPlan = plan
+            subscriptionStatus.isActive = true
+            subscriptionStatus.expiryDate = expiryDate
+            subscriptionStatus.autoRenew = subscription.type == .autoRenewable
+            saveSubscriptionStatus()
+        } else {
+            subscriptionStatus.currentPlan = .free
+            subscriptionStatus.isActive = false
+            subscriptionStatus.expiryDate = nil
+            subscriptionStatus.autoRenew = false
+            saveSubscriptionStatus()
+        }
+    }
+
+    private func planFromProductID(_ productID: String) -> SubscriptionPlan {
+        switch productID {
+        case IAPManager.ProductID.weekly.rawValue:
+            return .weekly
+        case IAPManager.ProductID.monthly.rawValue:
+            return .monthly
+        case IAPManager.ProductID.yearly.rawValue:
+            return .yearly
+        case IAPManager.ProductID.family.rawValue:
+            return .family
+        case IAPManager.ProductID.lifetime.rawValue:
+            return .lifetime
+        default:
+            return .free
+        }
+    }
+
+    private func calculateExpiryDate(for product: StoreKit.Product) -> Date? {
+        guard let subscription = product.subscription else {
+            // Lifetime - no expiry
+            return nil
+        }
+
+        let period = subscription.subscriptionPeriod
+        let calendar = Calendar.current
+        let now = Date()
+
+        switch period.unit {
+        case .day:
+            return calendar.date(byAdding: .day, value: period.value, to: now)
+        case .week:
+            return calendar.date(byAdding: .weekOfYear, value: period.value, to: now)
+        case .month:
+            return calendar.date(byAdding: .month, value: period.value, to: now)
+        case .year:
+            return calendar.date(byAdding: .year, value: period.value, to: now)
+        @unknown default:
+            return nil
+        }
     }
 
     // MARK: - Persistence
+
     private func saveSubscriptionStatus() {
         if let encoded = try? JSONEncoder().encode(subscriptionStatus) {
             UserDefaults.standard.set(encoded, forKey: "subscriptionStatus")
@@ -88,78 +138,5 @@ class SubscriptionManager: NSObject, ObservableObject {
             return
         }
         subscriptionStatus = status
-    }
-}
-
-// MARK: - SKProductsRequestDelegate
-extension SubscriptionManager: SKProductsRequestDelegate {
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        DispatchQueue.main.async {
-            self.availableProducts = response.products.sorted { $0.price.decimalValue < $1.price.decimalValue }
-        }
-    }
-
-    func request(_ request: SKRequest, didFailWithError error: Error) {
-        DispatchQueue.main.async {
-            self.purchaseError = error.localizedDescription
-        }
-    }
-}
-
-// MARK: - SKPaymentTransactionObserver
-extension SubscriptionManager: SKPaymentTransactionObserver {
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .purchased:
-                handlePurchased(transaction)
-            case .restored:
-                handleRestored(transaction)
-            case .failed:
-                handleFailed(transaction)
-            case .deferred, .purchasing:
-                break
-            @unknown default:
-                break
-            }
-        }
-    }
-
-    private func handlePurchased(_ transaction: SKPaymentTransaction) {
-        let productId = transaction.payment.productIdentifier
-
-        // Grant subscription
-        if let plan = SubscriptionPlan(rawValue: productId) {
-            let expiryDate: Date?
-            if plan == .monthly {
-                expiryDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())
-            } else {
-                expiryDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())
-            }
-            updateSubscriptionStatus(plan: plan, expiryDate: expiryDate)
-        }
-
-        SKPaymentQueue.default().finishTransaction(transaction)
-
-        DispatchQueue.main.async {
-            self.isPurchasing = false
-            self.purchaseCompletion?(true, nil)
-            self.purchaseCompletion = nil
-        }
-    }
-
-    private func handleRestored(_ transaction: SKPaymentTransaction) {
-        handlePurchased(transaction)
-    }
-
-    private func handleFailed(_ transaction: SKPaymentTransaction) {
-        SKPaymentQueue.default().finishTransaction(transaction)
-
-        DispatchQueue.main.async {
-            self.isPurchasing = false
-            self.purchaseError = transaction.error?.localizedDescription
-            self.purchaseCompletion?(false, transaction.error)
-            self.purchaseCompletion = nil
-        }
     }
 }
