@@ -4,6 +4,8 @@ struct HomeView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var subscriptionManager: SubscriptionManager
     @EnvironmentObject var progressManager: UserProgressManager
+    @StateObject private var heartManager = HeartManager.shared
+    @StateObject private var localizationManager = LocalizationManager.shared
 
     @State private var lessons: [Lesson] = []
     @State private var showPaywall = false
@@ -24,7 +26,7 @@ struct HomeView: View {
 
                     // Lessons Section
                     VStack(alignment: .leading, spacing: 15) {
-                        Text("Bài học của bạn")
+                        Text(localizationManager.localized(.yourLessons))
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding(.horizontal)
@@ -38,8 +40,16 @@ struct HomeView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Học tiếng Anh")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if !subscriptionManager.hasActiveSubscription() {
+                        HeartDisplay()
+                    }
+                }
+            }
             .onAppear {
                 loadLessons()
+                heartManager.checkDailyRefill()
             }
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
@@ -171,8 +181,10 @@ struct StatItem: View {
 struct LessonCard: View {
     @EnvironmentObject var subscriptionManager: SubscriptionManager
     @EnvironmentObject var progressManager: UserProgressManager
+    @StateObject private var heartManager = HeartManager.shared
     @State private var showLesson = false
     @State private var showPaywall = false
+    @State private var showOutOfHearts = false
 
     let lesson: Lesson
 
@@ -245,6 +257,12 @@ struct LessonCard: View {
         .sheet(isPresented: $showPaywall) {
             PaywallView()
         }
+        .fullScreenCover(isPresented: $showOutOfHearts) {
+            OutOfHeartsView {
+                showOutOfHearts = false
+                showPaywall = true
+            }
+        }
     }
 
     private var iconBackgroundColor: Color {
@@ -266,11 +284,19 @@ struct LessonCard: View {
     }
 
     private func onTap() {
+        // Check Premium first
         if lesson.isPremium && !subscriptionManager.hasActiveSubscription() {
             showPaywall = true
-        } else {
-            showLesson = true
+            return
         }
+
+        // Check hearts (only for non-Premium users)
+        if !subscriptionManager.hasActiveSubscription() && !heartManager.hasHearts() {
+            showOutOfHearts = true
+            return
+        }
+
+        showLesson = true
     }
 }
 

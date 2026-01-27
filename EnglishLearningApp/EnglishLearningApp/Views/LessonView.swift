@@ -4,7 +4,9 @@ struct LessonView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var progressManager: UserProgressManager
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
     @StateObject private var ttsService = TextToSpeechService.shared
+    @StateObject private var heartManager = HeartManager.shared
     private let soundService = SoundEffectService.shared
 
     let lesson: Lesson
@@ -18,6 +20,7 @@ struct LessonView: View {
     @State private var showCompletion = false
     @State private var showConfetti = false
     @State private var mascotState: MascotState = .thinking
+    @State private var showOutOfHearts = false
 
     var body: some View {
         NavigationView {
@@ -146,9 +149,16 @@ struct LessonView: View {
             }
             .navigationTitle(lesson.title)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Đóng") {
-                presentationMode.wrappedValue.dismiss()
-            })
+            .navigationBarItems(
+                leading: HStack {
+                    if !subscriptionManager.hasActiveSubscription() {
+                        CompactHeartDisplay()
+                    }
+                },
+                trailing: Button("Đóng") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            )
             .confetti(isActive: $showConfetti)
             .sheet(isPresented: $showCompletion) {
                 CompletionView(
@@ -162,6 +172,12 @@ struct LessonView: View {
                         xpReward: lesson.xpReward,
                         authViewModel: authViewModel
                     )
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+            .fullScreenCover(isPresented: $showOutOfHearts) {
+                OutOfHeartsView {
+                    showOutOfHearts = false
                     presentationMode.wrappedValue.dismiss()
                 }
             }
@@ -227,6 +243,19 @@ struct LessonView: View {
         } else {
             soundService.playWrongSound()
             mascotState = .encouraging
+
+            // Lose hearts (only for non-Premium users)
+            if !subscriptionManager.hasActiveSubscription() {
+                heartManager.loseHearts()
+
+                // Check if out of hearts
+                if !heartManager.hasHearts() {
+                    // Show out of hearts screen after a delay
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        showOutOfHearts = true
+                    }
+                }
+            }
         }
 
         showResult = true
