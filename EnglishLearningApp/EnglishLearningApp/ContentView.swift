@@ -2,10 +2,22 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @State private var showOnboarding = false
 
     var body: some View {
-        // Skip login - go directly to main app
-        MainTabView()
+        Group {
+            if hasCompletedOnboarding {
+                MainTabView()
+            } else {
+                OnboardingView {
+                    hasCompletedOnboarding = true
+                }
+            }
+        }
+        .onAppear {
+            showOnboarding = !hasCompletedOnboarding
+        }
     }
 }
 

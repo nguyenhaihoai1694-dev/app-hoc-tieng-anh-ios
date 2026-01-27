@@ -38,6 +38,15 @@ class UserProgressManager: ObservableObject {
         // Update streak
         updateStreak(for: &user)
 
+        // Check achievements
+        let perfectScores = lessonScores.values.filter { $0 == 100 }.count
+        AchievementManager.shared.checkAchievements(
+            lessonsCompleted: user.completedLessons.count,
+            currentStreak: user.currentStreak,
+            totalXP: user.totalXP,
+            perfectScores: perfectScores
+        )
+
         // Save to Firebase
         Task {
             do {

@@ -17,11 +17,17 @@ struct MainTabView: View {
                 }
                 .tag(1)
 
+            AchievementsView()
+                .tabItem {
+                    Label("Thành tích", systemImage: "trophy.fill")
+                }
+                .tag(2)
+
             ProfileView()
                 .tabItem {
                     Label("Hồ sơ", systemImage: "person.fill")
                 }
-                .tag(2)
+                .tag(3)
         }
         .accentColor(.blue)
     }
