@@ -21,15 +21,18 @@ struct WelcomeView: View {
                         .resizable()
                         .frame(width: 120, height: 120)
                         .foregroundColor(.white)
+                        .accessibilityLabel("Biểu tượng ứng dụng học tiếng Anh")
 
                     // Title
                     Text("English Learning")
-                        .font(.system(size: 42, weight: .bold))
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
+                        .accessibilityAddTraits(.isHeader)
 
                     Text("Học tiếng Anh mỗi ngày")
                         .font(.title3)
-                        .foregroundColor(.white.opacity(0.9))
+                        .foregroundColor(.white)
 
                     Spacer()
 
@@ -37,23 +40,27 @@ struct WelcomeView: View {
                     VStack(spacing: 15) {
                         NavigationLink(destination: RegisterView()) {
                             Text("Bắt đầu học")
-                                .font(.headline)
+                                .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(.blue)
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(Color.white)
                                 .cornerRadius(15)
                         }
+                        .accessibilityLabel("Bắt đầu học")
+                        .accessibilityHint("Nhấn đúp để tạo tài khoản mới và bắt đầu học")
 
                         NavigationLink(destination: LoginView()) {
                             Text("Đã có tài khoản")
-                                .font(.headline)
+                                .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(Color.white.opacity(0.2))
                                 .cornerRadius(15)
                         }
+                        .accessibilityLabel("Đã có tài khoản")
+                        .accessibilityHint("Nhấn đúp để đăng nhập bằng tài khoản đã có")
                     }
                     .padding(.horizontal, 40)
                     .padding(.bottom, 50)

@@ -20,6 +20,8 @@ struct HomeView: View {
                     // Mascot Welcome
                     MascotView(state: .waving, size: 60)
                         .padding(.vertical, 10)
+                        .accessibilityLabel("Linh vật chào đón")
+                        .accessibilityValue("Đang vẫy tay chào bạn")
 
                     // Stats Card
                     StatsCard()
@@ -27,9 +29,9 @@ struct HomeView: View {
                     // Lessons Section
                     VStack(alignment: .leading, spacing: 15) {
                         Text(localizationManager.localized(.yourLessons))
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.system(size: 26, weight: .bold))
                             .padding(.horizontal)
+                            .accessibilityAddTraits(.isHeader)
 
                         ForEach(lessons) { lesson in
                             LessonCard(lesson: lesson)
@@ -69,10 +71,11 @@ struct HeaderView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text("Xin chào, \(authViewModel.currentUser?.name ?? "")!")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.system(size: 24, weight: .bold))
+                    .accessibilityLabel("Xin chào, \(authViewModel.currentUser?.name ?? "")!")
 
                 Text("Tiếp tục học nào!")
+                    .font(.system(size: 18))
                     .foregroundColor(.secondary)
             }
 
@@ -82,14 +85,17 @@ struct HeaderView: View {
             HStack(spacing: 5) {
                 Image(systemName: "flame.fill")
                     .foregroundColor(.orange)
+                    .font(.title3)
                 Text("\(authViewModel.currentUser?.currentStreak ?? 0)")
-                    .font(.headline)
-                    .fontWeight(.bold)
+                    .font(.system(size: 20, weight: .bold))
             }
             .padding(.horizontal, 15)
             .padding(.vertical, 8)
             .background(Color.orange.opacity(0.1))
             .cornerRadius(20)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Chuỗi ngày học liên tiếp")
+            .accessibilityValue("\(authViewModel.currentUser?.currentStreak ?? 0) ngày")
         }
         .padding()
         .background(Color.white)
@@ -133,14 +139,16 @@ struct StatsCard: View {
             if let user = authViewModel.currentUser {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Tiến độ lên cấp \(user.level + 1)")
-                        .font(.caption)
+                        .font(.system(size: 14))
                         .foregroundColor(.secondary)
 
                     ProgressView(value: user.progressToNextLevel)
                         .tint(.blue)
+                        .accessibilityLabel("Tiến độ lên cấp \(user.level + 1)")
+                        .accessibilityValue("\(Int(user.progressToNextLevel * 100)) phần trăm")
 
                     Text("\(user.totalXP) / \(user.nextLevelXP) XP")
-                        .font(.caption)
+                        .font(.system(size: 14))
                         .foregroundColor(.secondary)
                 }
                 .padding(.horizontal)
@@ -167,15 +175,15 @@ struct StatItem: View {
                 .foregroundColor(color)
 
             Text(value)
-                .font(.title3)
-                .fontWeight(.bold)
+                .font(.system(size: 22, weight: .bold))
 
             Text(label)
-                .font(.caption)
+                .font(.system(size: 14))
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
-    }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(label): \(value)")
 }
 
 struct LessonCard: View {
@@ -206,30 +214,30 @@ struct LessonCard: View {
                 VStack(alignment: .leading, spacing: 5) {
                     HStack {
                         Text(lesson.title)
-                            .font(.headline)
+                            .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.primary)
 
                         if lesson.isPremium {
                             Image(systemName: "crown.fill")
                                 .foregroundColor(.yellow)
-                                .font(.caption)
+                                .font(.system(size: 14))
                         }
                     }
 
                     Text(lesson.description)
-                        .font(.subheadline)
+                        .font(.system(size: 16))
                         .foregroundColor(.secondary)
                         .lineLimit(2)
 
                     HStack {
                         Label("\(lesson.xpReward) XP", systemImage: "star.fill")
-                            .font(.caption)
+                            .font(.system(size: 14))
                             .foregroundColor(.orange)
 
                         if let score = progressManager.getScore(for: lesson.id) {
                             Spacer()
                             Text("Điểm cao nhất: \(score)%")
-                                .font(.caption)
+                                .font(.system(size: 14))
                                 .foregroundColor(.green)
                         }
                     }
@@ -252,6 +260,10 @@ struct LessonCard: View {
             .shadow(radius: 2)
         }
         .padding(.horizontal)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(buildAccessibilityLabel())
+        .accessibilityHint("Nhấn đúp để bắt đầu bài học")
+        .accessibilityAddTraits(.isButton)
         .sheet(isPresented: $showStudy) {
             LearningContentView(lesson: lesson) {
                 // Start quiz after studying
@@ -289,6 +301,26 @@ struct LessonCard: View {
         } else {
             return "book.fill"
         }
+    }
+
+    private func buildAccessibilityLabel() -> String {
+        var label = "Bài học: \(lesson.title). "
+        label += "\(lesson.description). "
+        label += "Phần thưởng: \(lesson.xpReward) XP. "
+
+        if lesson.isPremium {
+            label += "Bài học Premium. "
+        }
+
+        if let score = progressManager.getScore(for: lesson.id) {
+            label += "Điểm cao nhất: \(score) phần trăm. "
+        }
+
+        if progressManager.isLessonCompleted(lesson.id) {
+            label += "Đã hoàn thành."
+        }
+
+        return label
     }
 
     private func onTap() {

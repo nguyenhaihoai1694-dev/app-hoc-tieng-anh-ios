@@ -62,6 +62,8 @@ struct OnboardingView: View {
                                 .foregroundColor(.secondary)
                                 .padding()
                         }
+                        .accessibilityLabel("Bỏ qua giới thiệu")
+                        .accessibilityHint("Nhấn đúp để bỏ qua các trang giới thiệu")
                     }
                 }
 
@@ -87,6 +89,9 @@ struct OnboardingView: View {
                     }
                 }
                 .padding()
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Chỉ báo trang")
+                .accessibilityValue("Trang \(currentPage + 1) trong \(pages.count)")
 
                 Spacer()
 
@@ -101,7 +106,7 @@ struct OnboardingView: View {
                     }
                 }) {
                     Text(currentPage < pages.count - 1 ? "Tiếp tục" : "Bắt đầu học")
-                        .font(.headline)
+                        .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -110,6 +115,8 @@ struct OnboardingView: View {
                 }
                 .padding(.horizontal, 40)
                 .padding(.bottom, 40)
+                .accessibilityLabel(currentPage < pages.count - 1 ? "Tiếp tục" : "Bắt đầu học")
+                .accessibilityHint(currentPage < pages.count - 1 ? "Nhấn đúp để chuyển sang trang tiếp theo" : "Nhấn đúp để bắt đầu học")
             }
         }
     }
@@ -135,7 +142,8 @@ struct OnboardingPageView: View {
         VStack(spacing: 30) {
             // Emoji with animation
             Text(page.emoji)
-                .font(.system(size: 120))
+                .font(.system(size: 100))
+                .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                 .scaleEffect(isAnimating ? 1.0 : 0.8)
                 .rotationEffect(.degrees(isAnimating ? 0 : -10))
                 .animation(
@@ -146,13 +154,16 @@ struct OnboardingPageView: View {
                 .onAppear {
                     isAnimating = true
                 }
+                .accessibilityLabel("Emoji minh họa: \(page.emoji)")
 
             VStack(spacing: 15) {
                 Text(page.title)
-                    .font(.system(size: 28, weight: .bold))
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.primary)
                     .padding(.horizontal)
+                    .accessibilityAddTraits(.isHeader)
 
                 Text(page.description)
                     .font(.body)
@@ -183,10 +194,14 @@ struct AgeSelectionView: View {
             Spacer()
 
             CompactMascotView(state: .waving, size: 70)
+                .accessibilityLabel("Linh vật chào đón")
+                .accessibilityValue("Đang vẫy tay chào bạn")
 
             VStack(spacing: 10) {
                 Text("Bạn bao nhiêu tuổi?")
-                    .font(.system(size: 32, weight: .bold))
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .accessibilityAddTraits(.isHeader)
 
                 Text("Giúp chúng tôi tùy chỉnh nội dung phù hợp")
                     .font(.subheadline)
@@ -210,8 +225,7 @@ struct AgeSelectionView: View {
                                 .font(.system(size: 40))
 
                             Text("\(group.range) tuổi")
-                                .font(.title3)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 22, weight: .semibold))
                                 .foregroundColor(.primary)
 
                             Spacer()
@@ -232,6 +246,9 @@ struct AgeSelectionView: View {
                                 .stroke(selectedAge == index ? group.color : Color.gray.opacity(0.2), lineWidth: 2)
                         )
                     }
+                    .accessibilityLabel("Độ tuổi \(group.range)")
+                    .accessibilityHint(selectedAge == index ? "Đã chọn" : "Nhấn đúp để chọn độ tuổi này")
+                    .accessibilityAddTraits(selectedAge == index ? .isSelected : [])
                 }
             }
             .padding(.horizontal, 30)

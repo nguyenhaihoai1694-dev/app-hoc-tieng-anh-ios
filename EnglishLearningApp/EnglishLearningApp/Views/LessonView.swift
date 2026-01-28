@@ -31,11 +31,13 @@ struct LessonView: View {
                 ProgressView(value: Double(currentQuestionIndex), total: Double(lesson.questions.count))
                     .tint(.green)
                     .padding()
+                    .accessibilityLabel("Tiến độ bài học")
+                    .accessibilityValue("Đang ở câu \(currentQuestionIndex + 1) trong tổng số \(lesson.questions.count) câu")
 
                 // Question Counter and Lives
                 HStack {
                     Text("Câu \(currentQuestionIndex + 1) / \(lesson.questions.count)")
-                        .font(.caption)
+                        .font(.system(size: 16))
                         .foregroundColor(.secondary)
 
                     Spacer()
@@ -45,16 +47,21 @@ struct LessonView: View {
                         ForEach(0..<3, id: \.self) { index in
                             Image(systemName: index < quizLives ? "heart.fill" : "heart")
                                 .foregroundColor(index < quizLives ? .red : .gray.opacity(0.3))
-                                .font(.caption)
+                                .font(.system(size: 16))
                         }
                     }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Số mạng còn lại")
+                    .accessibilityValue("\(quizLives) trên 3 mạng")
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 5)
 
                 // Mascot for encouragement
-                CompactMascotView(state: mascotState, size: 50)
+                CompactMascotView(state: mascotState, size: 70)
                     .padding(.bottom, 10)
+                    .accessibilityLabel("Linh vật hướng dẫn")
+                    .accessibilityValue(mascotState == .happy ? "Vui vẻ - Bạn làm rất tốt!" : mascotState == .encouraging ? "Động viên - Cố gắng lên!" : "Đang suy nghĩ")
 
                 ScrollView {
                     VStack(spacing: 30) {
@@ -64,10 +71,11 @@ struct LessonView: View {
                             // Question with Speaker Button
                             VStack(spacing: 15) {
                                 Text(question.prompt)
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
+                                    .font(.system(size: 28, weight: .semibold))
                                     .multilineTextAlignment(.center)
                                     .padding(.horizontal)
+                                    .accessibilityLabel("Câu hỏi")
+                                    .accessibilityValue(question.prompt)
 
                                 // Speaker Button
                                 Button(action: {
@@ -77,7 +85,7 @@ struct LessonView: View {
                                         Image(systemName: ttsService.isSpeaking ? "speaker.wave.3.fill" : "speaker.wave.2.fill")
                                             .font(.title3)
                                         Text("Nghe câu hỏi")
-                                            .font(.subheadline)
+                                            .font(.system(size: 18))
                                     }
                                     .foregroundColor(.white)
                                     .padding(.horizontal, 20)
@@ -85,6 +93,8 @@ struct LessonView: View {
                                     .background(Color.blue)
                                     .cornerRadius(20)
                                 }
+                                .accessibilityLabel("Nghe câu hỏi")
+                                .accessibilityHint("Nhấn đúp để nghe câu hỏi được đọc to")
                             }
                             .padding(.bottom)
 
@@ -106,8 +116,11 @@ struct LessonView: View {
                                 // Text Input for other types
                                 TextField("Nhập câu trả lời...", text: $userAnswer)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .font(.system(size: 20))
                                     .padding()
                                     .disabled(showResult)
+                                    .accessibilityLabel("Ô nhập câu trả lời")
+                                    .accessibilityHint("Gõ câu trả lời của bạn vào đây")
                             }
 
                             // Result Message
@@ -119,9 +132,11 @@ struct LessonView: View {
                                             .font(.title)
 
                                         Text(isCorrect ? "Chính xác!" : "Chưa đúng. Đáp án: \(question.correctAnswer)")
-                                            .font(.headline)
+                                            .font(.system(size: 22, weight: .semibold))
                                             .foregroundColor(isCorrect ? .green : .red)
                                     }
+                                    .accessibilityElement(children: .combine)
+                                    .accessibilityLabel(isCorrect ? "Chính xác! Bạn đã trả lời đúng" : "Chưa đúng. Đáp án đúng là \(question.correctAnswer)")
 
                                     // Speak correct answer button (if wrong)
                                     if !isCorrect {
@@ -132,13 +147,15 @@ struct LessonView: View {
                                                 Image(systemName: "speaker.wave.2.fill")
                                                 Text("Nghe đáp án đúng")
                                             }
-                                            .font(.caption)
+                                            .font(.system(size: 16))
                                             .foregroundColor(.blue)
                                             .padding(.horizontal, 15)
                                             .padding(.vertical, 8)
                                             .background(Color.blue.opacity(0.1))
                                             .cornerRadius(15)
                                         }
+                                        .accessibilityLabel("Nghe đáp án đúng")
+                                        .accessibilityHint("Nhấn đúp để nghe đáp án đúng được đọc to")
                                     }
                                 }
                                 .padding()
@@ -153,7 +170,7 @@ struct LessonView: View {
                 // Action Button
                 Button(action: handleAction) {
                     Text(buttonTitle)
-                        .font(.headline)
+                        .font(.system(size: 22, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -162,6 +179,8 @@ struct LessonView: View {
                 }
                 .padding()
                 .disabled(!canProceed)
+                .accessibilityLabel(buttonTitle)
+                .accessibilityHint(showResult ? "Nhấn đúp để tiếp tục" : "Nhấn đúp để kiểm tra câu trả lời")
             }
             .navigationTitle(lesson.title)
             .navigationBarTitleDisplayMode(.inline)
@@ -329,6 +348,7 @@ struct OptionButton: View {
         Button(action: action) {
             HStack {
                 Text(text)
+                    .font(.system(size: 22))
                     .foregroundColor(textColor)
                     .multilineTextAlignment(.leading)
 
@@ -337,9 +357,11 @@ struct OptionButton: View {
                 if isCorrect {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
+                        .font(.title2)
                 } else if isWrong {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.red)
+                        .font(.title2)
                 }
             }
             .padding()
@@ -351,6 +373,9 @@ struct OptionButton: View {
             )
         }
         .padding(.horizontal)
+        .accessibilityLabel("Đáp án: \(text)")
+        .accessibilityHint(isCorrect ? "Đúng" : isWrong ? "Sai" : isSelected ? "Đã chọn, nhấn đúp để bỏ chọn" : "Nhấn đúp để chọn đáp án này")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
     private var backgroundColor: Color {
@@ -406,6 +431,8 @@ struct CompletionView: View {
             CompactMascotView(state: Mascot.stateFor(score: score), size: 70)
                 .scaleEffect(animateIcon ? 1.0 : 0.5)
                 .animation(.spring(response: 0.6, dampingFraction: 0.6), value: animateIcon)
+                .accessibilityLabel("Linh vật ăn mừng")
+                .accessibilityValue(score >= 80 ? "Rất vui - Bạn làm xuất sắc!" : "Vui vẻ - Bạn đã hoàn thành!")
 
             // Trophy Icon with Animation
             Image(systemName: score >= 80 ? "trophy.fill" : "star.fill")
@@ -421,6 +448,7 @@ struct CompletionView: View {
                         showConfetti = true
                     }
                 }
+                .accessibilityLabel(score >= 80 ? "Cúp vô địch" : "Ngôi sao")
 
             // Title
             Text(score >= 80 ? "Xuất sắc!" : "Hoàn thành!")
@@ -428,35 +456,39 @@ struct CompletionView: View {
                 .opacity(animateScore ? 1 : 0)
                 .offset(y: animateScore ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.3), value: animateScore)
+                .accessibilityLabel(score >= 80 ? "Xuất sắc! Bạn làm rất tốt!" : "Hoàn thành bài học!")
 
             // Score
             Text("Điểm số: \(score)%")
-                .font(.title)
+                .font(.system(size: 30, weight: .semibold))
                 .foregroundColor(.primary)
                 .opacity(animateScore ? 1 : 0)
                 .animation(.easeOut(duration: 0.6).delay(0.5), value: animateScore)
                 .onAppear {
                     animateScore = true
                 }
+                .accessibilityLabel("Điểm số của bạn là \(score) phần trăm")
 
             // XP Earned
             HStack {
                 Image(systemName: "star.fill")
                     .foregroundColor(.orange)
-                Text("+\(xpEarned) XP")
                     .font(.title2)
-                    .fontWeight(.semibold)
+                Text("+\(xpEarned) XP")
+                    .font(.system(size: 24, weight: .semibold))
             }
             .padding()
             .background(Color.orange.opacity(0.1))
             .cornerRadius(15)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Bạn nhận được \(xpEarned) điểm kinh nghiệm")
 
             Spacer()
 
             // Continue Button
             Button(action: onDismiss) {
                 Text("Tiếp tục")
-                    .font(.headline)
+                    .font(.system(size: 22, weight: .semibold))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -465,6 +497,8 @@ struct CompletionView: View {
             }
             .padding(.horizontal, 40)
             .padding(.bottom, 40)
+            .accessibilityLabel("Tiếp tục")
+            .accessibilityHint("Nhấn đúp để quay lại màn hình chính")
         }
         .background(Color(.systemGroupedBackground))
         .confetti(isActive: $showConfetti)
@@ -492,44 +526,56 @@ struct QuizFailedView: View {
 
                 // Sad mascot
                 CompactMascotView(state: .sad, size: 80)
+                    .accessibilityLabel("Linh vật buồn")
+                    .accessibilityValue("Động viên bạn thử lại")
 
                 // Failed emoji
                 Text("😢")
                     .font(.system(size: 60))
+                    .accessibilityLabel("Emoji buồn")
 
                 // Title
                 Text(localizationManager.currentLanguage == .vietnamese ?
                      "Hết mạng rồi!" : "Out of Lives!")
                     .font(.system(size: 32, weight: .bold))
+                    .accessibilityLabel(localizationManager.currentLanguage == .vietnamese ?
+                     "Hết mạng rồi! Bạn đã trả lời sai 3 lần" : "Out of Lives! You answered wrong 3 times")
 
                 // Message
                 VStack(spacing: 10) {
                     Text(localizationManager.currentLanguage == .vietnamese ?
                          "Bạn đã trả lời sai 3 lần" : "You answered wrong 3 times")
-                        .font(.title3)
+                        .font(.system(size: 22))
                         .foregroundColor(.secondary)
 
                     if !isPremium {
                         HStack(spacing: 8) {
                             Image(systemName: "heart.fill")
                                 .foregroundColor(.red)
+                                .font(.title3)
                             Text(localizationManager.currentLanguage == .vietnamese ?
                                  "Đã trừ 10 điểm energy" : "Deducted 10 hearts")
-                                .font(.headline)
+                                .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(.red)
                         }
                         .padding()
                         .background(Color.red.opacity(0.1))
                         .cornerRadius(15)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel(localizationManager.currentLanguage == .vietnamese ?
+                                 "Đã trừ 10 điểm energy từ tài khoản của bạn" : "Deducted 10 hearts from your account")
 
                         HStack(spacing: 5) {
                             Image(systemName: "heart.fill")
                                 .foregroundColor(.orange)
                             Text("\(heartsRemaining) " + (localizationManager.currentLanguage == .vietnamese ?
                                  "trái tim còn lại" : "hearts remaining"))
-                                .font(.subheadline)
+                                .font(.system(size: 18))
                                 .foregroundColor(.secondary)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("\(heartsRemaining) " + (localizationManager.currentLanguage == .vietnamese ?
+                                 "trái tim còn lại trong tài khoản" : "hearts remaining in your account"))
                     }
                 }
 
@@ -541,22 +587,27 @@ struct QuizFailedView: View {
                     Button(action: onRetry) {
                         HStack {
                             Image(systemName: "arrow.clockwise")
+                                .font(.title3)
                             Text(localizationManager.currentLanguage == .vietnamese ?
                                  "Thử lại (Trừ 10 hearts nếu sai tiếp)" : "Retry (Costs 10 hearts if fail again)")
                         }
-                        .font(.headline)
+                        .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.blue)
                         .cornerRadius(15)
                     }
+                    .accessibilityLabel(localizationManager.currentLanguage == .vietnamese ?
+                         "Thử lại bài quiz" : "Retry quiz")
+                    .accessibilityHint(localizationManager.currentLanguage == .vietnamese ?
+                         "Nhấn đúp để thử lại. Sẽ trừ 10 hearts nếu bạn sai lại 3 lần" : "Double tap to retry. Costs 10 hearts if you fail again")
 
                     // Exit button
                     Button(action: onExit) {
                         Text(localizationManager.currentLanguage == .vietnamese ?
                              "Quay lại" : "Go Back")
-                            .font(.headline)
+                            .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.blue)
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -567,6 +618,10 @@ struct QuizFailedView: View {
                                     .stroke(Color.blue, lineWidth: 2)
                             )
                     }
+                    .accessibilityLabel(localizationManager.currentLanguage == .vietnamese ?
+                         "Quay lại màn hình chính" : "Go back to home screen")
+                    .accessibilityHint(localizationManager.currentLanguage == .vietnamese ?
+                         "Nhấn đúp để quay lại" : "Double tap to go back")
                 }
                 .padding(.horizontal, 40)
                 .padding(.bottom, 40)

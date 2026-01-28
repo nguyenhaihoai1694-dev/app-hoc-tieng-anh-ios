@@ -64,14 +64,15 @@ struct AchievementHeaderView: View {
                 Text("🏆")
                     .font(.system(size: 50))
             }
+            .accessibilityLabel("Biểu tượng cúp vô địch")
 
             VStack(spacing: 5) {
                 Text("\(unlockedCount)/\(totalCount)")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.system(size: 32, weight: .bold))
+                    .accessibilityLabel("\(unlockedCount) trong tổng số \(totalCount) thành tích")
 
                 Text("Thành tích đã mở khóa")
-                    .font(.subheadline)
+                    .font(.system(size: 18))
                     .foregroundColor(.secondary)
             }
 
@@ -79,18 +80,19 @@ struct AchievementHeaderView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Text("Tiến độ")
-                        .font(.caption)
+                        .font(.system(size: 14))
                         .foregroundColor(.secondary)
                     Spacer()
                     Text("\(Int(percentage * 100))%")
-                        .font(.caption)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.blue)
                 }
 
                 ProgressView(value: percentage)
                     .tint(.blue)
                     .scaleEffect(x: 1, y: 2, anchor: .center)
+                    .accessibilityLabel("Tiến độ hoàn thành thành tích")
+                    .accessibilityValue("\(Int(percentage * 100)) phần trăm")
             }
             .padding(.horizontal, 40)
         }
@@ -147,10 +149,9 @@ struct CategoryButton: View {
         Button(action: action) {
             HStack(spacing: 6) {
                 Image(systemName: icon)
-                    .font(.caption)
+                    .font(.system(size: 14))
                 Text(title)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
+                    .font(.system(size: 16, weight: .medium))
             }
             .foregroundColor(isSelected ? .white : color)
             .padding(.horizontal, 16)
@@ -158,6 +159,9 @@ struct CategoryButton: View {
             .background(isSelected ? color : color.opacity(0.15))
             .cornerRadius(20)
         }
+        .accessibilityLabel("Danh mục \(title)")
+        .accessibilityHint(isSelected ? "Đã chọn" : "Nhấn đúp để lọc theo danh mục này")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 
@@ -180,17 +184,18 @@ struct AchievementCard: View {
                 }
             }
             .frame(height: 60)
+            .accessibilityLabel(achievement.isUnlocked ? "Đã mở khóa: \(achievement.emoji)" : "Chưa mở khóa")
 
             VStack(spacing: 5) {
                 Text(achievement.title)
-                    .font(.headline)
+                    .font(.system(size: 18, weight: .semibold))
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .minimumScaleFactor(0.8)
 
                 Text(achievement.description)
-                    .font(.caption)
+                    .font(.system(size: 14))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
@@ -202,8 +207,9 @@ struct AchievementCard: View {
             if achievement.isUnlocked {
                 if let date = achievement.unlockedDate {
                     Text(formatDate(date))
-                        .font(.caption2)
+                        .font(.system(size: 12))
                         .foregroundColor(.green)
+                        .accessibilityLabel("Mở khóa ngày \(formatDate(date))")
                 }
             } else {
                 // Progress bar for locked achievements
@@ -213,9 +219,12 @@ struct AchievementCard: View {
                         .scaleEffect(x: 1, y: 1.5, anchor: .center)
 
                     Text("\(achievement.progress)/\(achievement.requirement)")
-                        .font(.caption2)
+                        .font(.system(size: 12))
                         .foregroundColor(.secondary)
                 }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Tiến độ")
+                .accessibilityValue("\(achievement.progress) trên \(achievement.requirement), \(Int(achievement.progressPercentage * 100)) phần trăm")
             }
         }
         .padding()
@@ -227,6 +236,23 @@ struct AchievementCard: View {
             RoundedRectangle(cornerRadius: 15)
                 .stroke(achievement.isUnlocked ? achievement.category.color : Color.clear, lineWidth: 2)
         )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(buildAccessibilityLabel())
+
+    private func buildAccessibilityLabel() -> String {
+        var label = "Thành tích: \(achievement.title). \(achievement.description). "
+
+        if achievement.isUnlocked {
+            label += "Đã mở khóa"
+            if let date = achievement.unlockedDate {
+                label += " ngày \(formatDate(date))"
+            }
+        } else {
+            label += "Chưa mở khóa. Tiến độ: \(achievement.progress) trên \(achievement.requirement)"
+        }
+
+        return label
+    }
     }
 
     private func formatDate(_ date: Date) -> String {
@@ -260,22 +286,23 @@ struct AchievementUnlockView: View {
                     .scaleEffect(isAnimating ? 1.0 : 0.5)
                     .rotationEffect(.degrees(isAnimating ? 360 : 0))
                     .animation(.spring(response: 0.8, dampingFraction: 0.6), value: isAnimating)
+                    .accessibilityLabel("Emoji ăn mừng")
 
                 Text("Thành tích mới!")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.system(size: 32, weight: .bold))
+                    .accessibilityAddTraits(.isHeader)
 
                 // Achievement details
                 VStack(spacing: 10) {
                     Text(achievement.emoji)
                         .font(.system(size: 60))
+                        .accessibilityLabel("Biểu tượng thành tích: \(achievement.emoji)")
 
                     Text(achievement.title)
-                        .font(.title2)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 24, weight: .semibold))
 
                     Text(achievement.description)
-                        .font(.body)
+                        .font(.system(size: 18))
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
@@ -285,13 +312,15 @@ struct AchievementUnlockView: View {
 
                 Button(action: onDismiss) {
                     Text("Tuyệt vời!")
-                        .font(.headline)
+                        .font(.system(size: 22, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(achievement.category.color)
                         .cornerRadius(15)
                 }
+                .accessibilityLabel("Tuyệt vời")
+                .accessibilityHint("Nhấn đúp để đóng thông báo")
             }
             .padding(40)
             .background(Color.white)

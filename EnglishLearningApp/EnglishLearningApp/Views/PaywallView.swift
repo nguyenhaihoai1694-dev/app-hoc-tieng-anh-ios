@@ -31,17 +31,20 @@ struct PaywallView: View {
                                 .resizable()
                                 .frame(width: 80, height: 60)
                                 .foregroundColor(.yellow)
+                                .accessibilityLabel("Biểu tượng vương miện Premium")
 
                             Text(localizationManager.currentLanguage == .vietnamese ?
                                  "Nâng cấp Premium" : "Upgrade to Premium")
                                 .font(.system(size: 32, weight: .bold))
                                 .foregroundColor(.white)
+                                .accessibilityAddTraits(.isHeader)
 
                             Text(localizationManager.currentLanguage == .vietnamese ?
                                  "Học không giới hạn với tất cả tính năng cao cấp" :
                                  "Unlimited learning with all premium features")
+                                .font(.system(size: 18))
                                 .multilineTextAlignment(.center)
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(.white)
                                 .padding(.horizontal)
                         }
                         .padding(.top, 40)
@@ -68,6 +71,8 @@ struct PaywallView: View {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 .padding()
+                                .accessibilityLabel(localizationManager.currentLanguage == .vietnamese ?
+                                     "Đang tải các gói Premium" : "Loading Premium packages")
                         } else {
                             VStack(spacing: 15) {
                                 ForEach(iapManager.products, id: \.id) { product in
@@ -95,6 +100,7 @@ struct PaywallView: View {
                             } else {
                                 HStack {
                                     Image(systemName: "crown.fill")
+                                        .font(.title3)
                                     Text(selectedProduct?.subscription != nil ?
                                          (localizationManager.currentLanguage == .vietnamese ?
                                           "Đăng ký Premium" :
@@ -102,7 +108,7 @@ struct PaywallView: View {
                                          (localizationManager.currentLanguage == .vietnamese ?
                                           "Mua Lifetime Premium" :
                                           "Purchase Lifetime Premium"))
-                                        .font(.headline)
+                                        .font(.system(size: 20, weight: .semibold))
                                 }
                                 .foregroundColor(.blue)
                             }
@@ -114,14 +120,29 @@ struct PaywallView: View {
                         .padding(.horizontal)
                         .disabled(subscriptionManager.isPurchasing || selectedProduct == nil)
                         .opacity(selectedProduct == nil ? 0.6 : 1.0)
+                        .accessibilityLabel(selectedProduct?.subscription != nil ?
+                             (localizationManager.currentLanguage == .vietnamese ?
+                              "Đăng ký Premium" :
+                              "Subscribe to Premium") :
+                             (localizationManager.currentLanguage == .vietnamese ?
+                              "Mua Lifetime Premium" :
+                              "Purchase Lifetime Premium"))
+                        .accessibilityHint(localizationManager.currentLanguage == .vietnamese ?
+                             "Nhấn đúp để tiếp tục thanh toán" :
+                             "Double tap to continue with payment")
 
                         // Restore Button
                         Button(action: restorePurchases) {
                             Text(localizationManager.currentLanguage == .vietnamese ?
                                  "Khôi phục gói đã mua" : "Restore Purchases")
-                                .font(.subheadline)
+                                .font(.system(size: 16))
                                 .foregroundColor(.white)
                         }
+                        .accessibilityLabel(localizationManager.currentLanguage == .vietnamese ?
+                             "Khôi phục gói đã mua" : "Restore Purchases")
+                        .accessibilityHint(localizationManager.currentLanguage == .vietnamese ?
+                             "Nhấn đúp để khôi phục các gói đã mua trước đó" :
+                             "Double tap to restore previously purchased subscriptions")
 
                         // Terms
                         Text(localizationManager.currentLanguage == .vietnamese ?
@@ -233,10 +254,12 @@ struct FeatureRow: View {
 
             Text(title)
                 .foregroundColor(.white)
-                .font(.body)
+                .font(.system(size: 18))
 
             Spacer()
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Tính năng: \(title)")
     }
 }
 
@@ -254,31 +277,29 @@ struct ProductCard: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 5) {
                         Text(product.displayName)
-                            .font(.headline)
+                            .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(isSelected ? .white : .primary)
 
                         Text(product.displayPrice)
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.system(size: 28, weight: .bold))
                             .foregroundColor(isSelected ? .white : .primary)
 
                         if let subscription = product.subscription {
                             Text("/ \(subscription.subscriptionPeriod.unit == .year ? (localizationManager.currentLanguage == .vietnamese ? "năm" : "year") : subscription.subscriptionPeriod.unit == .month ? (localizationManager.currentLanguage == .vietnamese ? "tháng" : "month") : (localizationManager.currentLanguage == .vietnamese ? "tuần" : "week"))")
-                                .font(.caption)
-                                .foregroundColor(isSelected ? .white.opacity(0.8) : .secondary)
+                                .font(.system(size: 14))
+                                .foregroundColor(isSelected ? .white : .secondary)
                         } else {
                             Text(localizationManager.currentLanguage == .vietnamese ?
                                  "Mua 1 lần" : "One-time purchase")
-                                .font(.caption)
-                                .foregroundColor(isSelected ? .white.opacity(0.8) : .secondary)
+                                .font(.system(size: 14))
+                                .foregroundColor(isSelected ? .white : .secondary)
                         }
 
                         // Show savings for year1 ($50)
                         if product.id == IAPManager.ProductID.year1.rawValue {
                             Text(localizationManager.currentLanguage == .vietnamese ?
                                  "Tiết kiệm 58% 🔥" : "Save 58% 🔥")
-                                .font(.caption)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(isSelected ? .yellow : .orange)
                         }
                     }
@@ -288,8 +309,7 @@ struct ProductCard: View {
                     VStack(spacing: 8) {
                         if let badge = badge {
                             Text(badge)
-                                .font(.caption)
-                                .fontWeight(.semibold)
+                                .font(.system(size: 12, weight: .semibold))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 5)
@@ -313,6 +333,31 @@ struct ProductCard: View {
                     .stroke(isSelected ? Color.white : Color.gray.opacity(0.3), lineWidth: 2)
             )
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(buildAccessibilityLabel())
+        .accessibilityHint(isSelected ? "Đã chọn" : "Nhấn đúp để chọn gói này")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+
+    private func buildAccessibilityLabel() -> String {
+        var label = "Gói \(product.displayName), giá \(product.displayPrice)"
+
+        if let subscription = product.subscription {
+            let period = subscription.subscriptionPeriod.unit == .year ? (localizationManager.currentLanguage == .vietnamese ? "năm" : "year") : subscription.subscriptionPeriod.unit == .month ? (localizationManager.currentLanguage == .vietnamese ? "tháng" : "month") : (localizationManager.currentLanguage == .vietnamese ? "tuần" : "week")
+            label += " mỗi \(period)"
+        } else {
+            label += ", mua 1 lần"
+        }
+
+        if let badge = badge {
+            label += ". \(badge)"
+        }
+
+        if product.id == IAPManager.ProductID.year1.rawValue {
+            label += ". Tiết kiệm 58 phần trăm"
+        }
+
+        return label
     }
 }
 

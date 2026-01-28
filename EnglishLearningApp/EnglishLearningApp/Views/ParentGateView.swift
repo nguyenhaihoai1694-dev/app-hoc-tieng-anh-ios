@@ -10,12 +10,22 @@ struct ParentGateView: View {
     @State private var showError = false
     @State private var attempts = 0
 
-    // Generate a simple math problem for parents
-    private let number1 = Int.random(in: 5...15)
-    private let number2 = Int.random(in: 5...15)
+    // Generate a math problem for parents (harder to prevent kids from solving)
+    private let number1 = Int.random(in: 15...50)
+    private let number2 = Int.random(in: 15...50)
+    private let useMultiplication = Bool.random()
 
     private var correctAnswer: Int {
-        number1 + number2
+        useMultiplication ? number1 * Int.random(in: 2...5) : number1 + number2
+    }
+
+    private var mathProblem: String {
+        if useMultiplication {
+            let multiplier = correctAnswer / number1
+            return "\(number1) × \(multiplier) = ?"
+        } else {
+            return "\(number1) + \(number2) = ?"
+        }
     }
 
     var body: some View {
@@ -40,6 +50,8 @@ struct ParentGateView: View {
                             .foregroundColor(.gray)
                     }
                     .padding()
+                    .accessibilityLabel("Đóng")
+                    .accessibilityHint("Nhấn đúp để đóng cổng phụ huynh")
                 }
 
                 Spacer()
@@ -49,11 +61,13 @@ struct ParentGateView: View {
                     .font(.system(size: 70))
                     .foregroundColor(.blue)
                     .padding(.bottom, 20)
+                    .accessibilityLabel("Biểu tượng xác minh phụ huynh")
 
                 // Title
                 Text("Cổng Dành Cho Phụ Huynh")
                     .font(.system(size: 28, weight: .bold))
                     .multilineTextAlignment(.center)
+                    .accessibilityAddTraits(.isHeader)
 
                 // Instructions
                 Text("Để bảo vệ trẻ em, vui lòng giải bài toán sau:")
@@ -64,9 +78,10 @@ struct ParentGateView: View {
 
                 // Math problem
                 VStack(spacing: 20) {
-                    Text("\(number1) + \(number2) = ?")
+                    Text(mathProblem)
                         .font(.system(size: 48, weight: .bold))
                         .foregroundColor(.primary)
+                        .accessibilityLabel("Bài toán: \(mathProblem)")
 
                     // Answer input
                     TextField("Nhập đáp án", text: $userAnswer)
@@ -78,6 +93,8 @@ struct ParentGateView: View {
                         .cornerRadius(15)
                         .shadow(radius: 5)
                         .frame(maxWidth: 200)
+                        .accessibilityLabel("Ô nhập đáp án")
+                        .accessibilityHint("Nhập kết quả của phép tính")
                 }
                 .padding()
                 .background(Color.white.opacity(0.7))
@@ -90,6 +107,7 @@ struct ParentGateView: View {
                         .foregroundColor(.red)
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
+                        .accessibilityLabel(attempts >= 3 ? "Thông báo lỗi: Quá nhiều lần thử. Vui lòng thử lại sau." : "Thông báo lỗi: Đáp án không đúng. Vui lòng thử lại.")
                 }
 
                 // Submit button
@@ -111,6 +129,8 @@ struct ParentGateView: View {
                 }
                 .disabled(attempts >= 3)
                 .opacity(attempts >= 3 ? 0.5 : 1.0)
+                .accessibilityLabel("Xác nhận đáp án")
+                .accessibilityHint(attempts >= 3 ? "Đã hết lượt thử" : "Nhấn đúp để kiểm tra đáp án")
 
                 Spacer()
 
