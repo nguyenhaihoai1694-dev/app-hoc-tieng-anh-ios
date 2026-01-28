@@ -273,8 +273,8 @@ struct ProductCard: View {
                                 .foregroundColor(isSelected ? .white.opacity(0.8) : .secondary)
                         }
 
-                        // Show savings for yearly
-                        if product.id == IAPManager.ProductID.yearly.rawValue {
+                        // Show savings for year1 ($50)
+                        if product.id == IAPManager.ProductID.year1.rawValue {
                             Text(localizationManager.currentLanguage == .vietnamese ?
                                  "Tiết kiệm 58% 🔥" : "Save 58% 🔥")
                                 .font(.caption)
