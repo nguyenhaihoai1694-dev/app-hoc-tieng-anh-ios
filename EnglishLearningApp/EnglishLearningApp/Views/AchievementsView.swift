@@ -254,7 +254,6 @@ struct AchievementCard: View {
 
         return label
     }
-    }
 
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
