@@ -85,14 +85,20 @@ class SubscriptionManager: ObservableObject {
 
     private func planFromProductID(_ productID: String) -> SubscriptionPlan {
         switch productID {
-        case IAPManager.ProductID.weekly.rawValue:
-            return .weekly
-        case IAPManager.ProductID.monthly.rawValue:
-            return .monthly
-        case IAPManager.ProductID.yearly.rawValue:
-            return .yearly
-        case IAPManager.ProductID.family.rawValue:
-            return .family
+        case IAPManager.ProductID.week1.rawValue:
+            return .week1
+        case IAPManager.ProductID.month1.rawValue:
+            return .month1
+        case IAPManager.ProductID.month2.rawValue:
+            return .month2
+        case IAPManager.ProductID.month3.rawValue:
+            return .month3
+        case IAPManager.ProductID.month6.rawValue:
+            return .month6
+        case IAPManager.ProductID.year1.rawValue:
+            return .year1
+        case IAPManager.ProductID.year2.rawValue:
+            return .year2
         case IAPManager.ProductID.lifetime.rawValue:
             return .lifetime
         default:

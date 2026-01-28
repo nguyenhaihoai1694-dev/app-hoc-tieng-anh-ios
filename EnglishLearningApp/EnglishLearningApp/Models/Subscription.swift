@@ -2,19 +2,25 @@ import Foundation
 
 enum SubscriptionPlan: String, CaseIterable, Codable {
     case free = "free"
-    case weekly = "com.englishlearning.app.weekly"
-    case monthly = "com.englishlearning.app.monthly"
-    case yearly = "com.englishlearning.app.yearly"
-    case family = "com.englishlearning.app.family"
-    case lifetime = "com.englishlearning.app.lifetime"
+    case week1 = "com.englishlearning.app.week1"       // $1
+    case month1 = "com.englishlearning.app.month1"     // $3
+    case month2 = "com.englishlearning.app.month2"     // $5
+    case month3 = "com.englishlearning.app.month3"     // $10
+    case month6 = "com.englishlearning.app.month6"     // $20
+    case year1 = "com.englishlearning.app.year1"       // $50
+    case year2 = "com.englishlearning.app.year2"       // $100
+    case lifetime = "com.englishlearning.app.lifetime" // $150
 
     var displayName: String {
         switch self {
         case .free: return "Miễn phí"
-        case .weekly: return "Premium - Tuần"
-        case .monthly: return "Premium - Tháng"
-        case .yearly: return "Premium - Năm"
-        case .family: return "Gói Gia Đình"
+        case .week1: return "Premium 1 Tuần"
+        case .month1: return "Premium 1 Tháng"
+        case .month2: return "Premium 2 Tháng"
+        case .month3: return "Premium 3 Tháng"
+        case .month6: return "Premium 6 Tháng"
+        case .year1: return "Premium 1 Năm"
+        case .year2: return "Premium 2 Năm"
         case .lifetime: return "Premium Trọn Đời"
         }
     }
@@ -22,28 +28,35 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
     var price: String {
         switch self {
         case .free: return "$0"
-        case .weekly: return "$0.99"
-        case .monthly: return "$1.99"
-        case .yearly: return "$9.99"
-        case .family: return "$12.99"
-        case .lifetime: return "$22.99"
+        case .week1: return "$1"
+        case .month1: return "$3"
+        case .month2: return "$5"
+        case .month3: return "$10"
+        case .month6: return "$20"
+        case .year1: return "$50"
+        case .year2: return "$100"
+        case .lifetime: return "$150"
         }
     }
 
     var description: String {
         switch self {
         case .free: return "Học cơ bản miễn phí"
-        case .weekly: return "Dùng thử 1 tuần - Hoàn hảo để bắt đầu"
-        case .monthly: return "Truy cập không giới hạn tất cả bài học"
-        case .yearly: return "Tiết kiệm 58% - Giá trị tốt nhất!"
-        case .family: return "Chia sẻ với tối đa 6 thành viên gia đình"
-        case .lifetime: return "Trả 1 lần, dùng suốt đời - Không cần đăng ký!"
+        case .week1: return "Dùng thử Premium 1 tuần"
+        case .month1: return "Premium trong 1 tháng"
+        case .month2: return "Premium trong 2 tháng - Tiết kiệm 17%"
+        case .month3: return "Premium trong 3 tháng - Tiết kiệm 33%"
+        case .month6: return "Premium trong 6 tháng - Tiết kiệm 44%"
+        case .year1: return "Premium trong 1 năm - Tiết kiệm 58%"
+        case .year2: return "Premium trong 2 năm - Tiết kiệm 72%"
+        case .lifetime: return "Trả 1 lần, dùng suốt đời - Giá trị tuyệt vời!"
         }
     }
 
     var badge: String? {
         switch self {
-        case .yearly: return "Phổ biến nhất"
+        case .month1: return "Phổ biến nhất"
+        case .year1: return "Tiết kiệm nhất"
         case .lifetime: return "Giá trị tốt nhất"
         default: return nil
         }
@@ -57,7 +70,7 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
                 "70 trái tim/ngày",
                 "Có quảng cáo"
             ]
-        case .weekly, .monthly, .yearly:
+        case .week1, .month1, .month2, .month3, .month6, .year1, .year2:
             return [
                 "❤️ Trái tim không giới hạn",
                 "🎓 Tất cả 40 bài học Premium",
@@ -65,15 +78,6 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
                 "📊 Theo dõi tiến độ chi tiết",
                 "🏆 Achievements đặc biệt",
                 "🎯 Luyện phát âm với TTS"
-            ]
-        case .family:
-            return [
-                "👨‍👩‍👧‍👦 Chia sẻ với 6 người",
-                "❤️ Trái tim không giới hạn",
-                "🎓 Tất cả 40 bài học Premium",
-                "🚫 Không quảng cáo",
-                "📊 Theo dõi tiến độ từng người",
-                "💰 Tiết kiệm tới 50%"
             ]
         case .lifetime:
             return [

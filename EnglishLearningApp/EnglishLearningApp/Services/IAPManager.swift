@@ -13,11 +13,14 @@ class IAPManager: ObservableObject {
 
     // Product IDs
     enum ProductID: String, CaseIterable {
-        case weekly = "com.englishlearning.app.weekly"
-        case monthly = "com.englishlearning.app.monthly"
-        case yearly = "com.englishlearning.app.yearly"
-        case family = "com.englishlearning.app.family"
-        case lifetime = "com.englishlearning.app.lifetime"
+        case week1 = "com.englishlearning.app.week1"       // $1
+        case month1 = "com.englishlearning.app.month1"     // $3
+        case month2 = "com.englishlearning.app.month2"     // $5
+        case month3 = "com.englishlearning.app.month3"     // $10
+        case month6 = "com.englishlearning.app.month6"     // $20
+        case year1 = "com.englishlearning.app.year1"       // $50
+        case year2 = "com.englishlearning.app.year2"       // $100
+        case lifetime = "com.englishlearning.app.lifetime" // $150
     }
 
     enum RenewalState {

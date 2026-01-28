@@ -2,7 +2,7 @@
   "identifier" : "B8F3E0D2",
   "nonRenewingSubscriptions" : [
     {
-      "displayPrice" : "22.99",
+      "displayPrice" : "150.00",
       "familyShareable" : false,
       "internalID" : "6736825469",
       "localizations" : [
@@ -105,27 +105,22 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "6736825001",
-          "introductoryOffer" : {
-            "internalID" : "A7B8C9D0",
-            "numberOfPeriods" : 1,
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1W"
-          },
+          "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Unlimited hearts, all premium lessons, no ads. Billed weekly.",
-              "displayName" : "Weekly Premium",
+              "description" : "Try Premium for 1 week. Unlimited hearts, all premium lessons, no ads.",
+              "displayName" : "1 Week Premium",
               "locale" : "en_US"
             },
             {
-              "description" : "Trái tim không giới hạn, tất cả bài học Premium, không quảng cáo. Tính phí hàng tuần.",
-              "displayName" : "Premium Tuần",
+              "description" : "Dùng thử Premium 1 tuần. Trái tim không giới hạn, tất cả bài học Premium, không quảng cáo.",
+              "displayName" : "Premium 1 Tuần",
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.weekly",
+          "productID" : "com.englishlearning.app.week1",
           "recurringSubscriptionPeriod" : "P1W",
-          "referenceName" : "Weekly Premium",
+          "referenceName" : "1 Week Premium",
           "subscriptionGroupID" : "21512345",
           "type" : "RecurringSubscription"
         },
@@ -136,31 +131,56 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "1.99",
+          "displayPrice" : "2.99",
           "familyShareable" : false,
           "groupNumber" : 2,
           "internalID" : "6736825002",
-          "introductoryOffer" : {
-            "internalID" : "B8C9D0E1",
-            "numberOfPeriods" : 1,
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1W"
-          },
+          "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Unlimited hearts, all premium lessons, no ads. Best value for consistent learners!",
-              "displayName" : "Monthly Premium",
+              "description" : "1 month of Premium access. Perfect for consistent learners!",
+              "displayName" : "1 Month Premium",
               "locale" : "en_US"
             },
             {
-              "description" : "Trái tim không giới hạn, tất cả bài học Premium, không quảng cáo. Giá trị tốt nhất!",
-              "displayName" : "Premium Tháng",
+              "description" : "Premium trong 1 tháng. Hoàn hảo cho người học đều đặn!",
+              "displayName" : "Premium 1 Tháng",
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.monthly",
+          "productID" : "com.englishlearning.app.month1",
           "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "Monthly Premium",
+          "referenceName" : "1 Month Premium",
+          "subscriptionGroupID" : "21512345",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 3,
+          "internalID" : "6736825003",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "2 months of Premium access. Great value for dedicated learners!",
+              "displayName" : "2 Months Premium",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "Premium trong 2 tháng. Giá trị tốt cho người học nghiêm túc!",
+              "displayName" : "Premium 2 Tháng",
+              "locale" : "vi"
+            }
+          ],
+          "productID" : "com.englishlearning.app.month2",
+          "recurringSubscriptionPeriod" : "P2M",
+          "referenceName" : "2 Months Premium",
           "subscriptionGroupID" : "21512345",
           "type" : "RecurringSubscription"
         },
@@ -173,29 +193,24 @@
           ],
           "displayPrice" : "9.99",
           "familyShareable" : false,
-          "groupNumber" : 3,
-          "internalID" : "6736825003",
-          "introductoryOffer" : {
-            "internalID" : "C9D0E1F2",
-            "numberOfPeriods" : 1,
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1W"
-          },
+          "groupNumber" : 4,
+          "internalID" : "6736825004",
+          "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Save 58%! Unlimited hearts, all premium lessons, no ads. Perfect for serious learners!",
-              "displayName" : "Yearly Premium",
+              "description" : "3 months of Premium access. Save more with longer commitment!",
+              "displayName" : "3 Months Premium",
               "locale" : "en_US"
             },
             {
-              "description" : "Tiết kiệm 58%! Trái tim không giới hạn, tất cả bài học Premium, không quảng cáo. Hoàn hảo cho người học nghiêm túc!",
-              "displayName" : "Premium Năm",
+              "description" : "Premium trong 3 tháng. Tiết kiệm hơn khi cam kết lâu dài!",
+              "displayName" : "Premium 3 Tháng",
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.yearly",
-          "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "Yearly Premium",
+          "productID" : "com.englishlearning.app.month3",
+          "recurringSubscriptionPeriod" : "P3M",
+          "referenceName" : "3 Months Premium",
           "subscriptionGroupID" : "21512345",
           "type" : "RecurringSubscription"
         },
@@ -206,31 +221,86 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "12.99",
-          "familyShareable" : true,
-          "groupNumber" : 4,
-          "internalID" : "6736825004",
-          "introductoryOffer" : {
-            "internalID" : "D0E1F2G3",
-            "numberOfPeriods" : 1,
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1W"
-          },
+          "displayPrice" : "19.99",
+          "familyShareable" : false,
+          "groupNumber" : 5,
+          "internalID" : "6736825005",
+          "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Share with up to 6 family members! Unlimited hearts for everyone, all premium lessons, no ads.",
-              "displayName" : "Family Plan",
+              "description" : "6 months of Premium access. Excellent value for serious learners!",
+              "displayName" : "6 Months Premium",
               "locale" : "en_US"
             },
             {
-              "description" : "Chia sẻ với tối đa 6 thành viên gia đình! Trái tim không giới hạn cho mọi người, tất cả bài học Premium.",
-              "displayName" : "Gói Gia Đình",
+              "description" : "Premium trong 6 tháng. Giá trị tuyệt vời cho người học nghiêm túc!",
+              "displayName" : "Premium 6 Tháng",
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.family",
+          "productID" : "com.englishlearning.app.month6",
+          "recurringSubscriptionPeriod" : "P6M",
+          "referenceName" : "6 Months Premium",
+          "subscriptionGroupID" : "21512345",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "49.99",
+          "familyShareable" : false,
+          "groupNumber" : 6,
+          "internalID" : "6736825006",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "1 year of Premium access. Best value! Save big with annual plan.",
+              "displayName" : "1 Year Premium",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "Premium trong 1 năm. Giá trị tốt nhất! Tiết kiệm lớn với gói năm.",
+              "displayName" : "Premium 1 Năm",
+              "locale" : "vi"
+            }
+          ],
+          "productID" : "com.englishlearning.app.year1",
           "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "Family Plan",
+          "referenceName" : "1 Year Premium",
+          "subscriptionGroupID" : "21512345",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "99.99",
+          "familyShareable" : false,
+          "groupNumber" : 7,
+          "internalID" : "6736825007",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "2 years of Premium access. Maximum savings for long-term learners!",
+              "displayName" : "2 Years Premium",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "Premium trong 2 năm. Tiết kiệm tối đa cho người học lâu dài!",
+              "displayName" : "Premium 2 Năm",
+              "locale" : "vi"
+            }
+          ],
+          "productID" : "com.englishlearning.app.year2",
+          "recurringSubscriptionPeriod" : "P2Y",
+          "referenceName" : "2 Years Premium",
           "subscriptionGroupID" : "21512345",
           "type" : "RecurringSubscription"
         }

@@ -97,8 +97,8 @@ struct PaywallView: View {
                                     Image(systemName: "crown.fill")
                                     Text(selectedProduct?.subscription != nil ?
                                          (localizationManager.currentLanguage == .vietnamese ?
-                                          "Bắt đầu dùng thử 7 ngày miễn phí" :
-                                          "Start 7-Day Free Trial") :
+                                          "Đăng ký Premium" :
+                                          "Subscribe to Premium") :
                                          (localizationManager.currentLanguage == .vietnamese ?
                                           "Mua Lifetime Premium" :
                                           "Purchase Lifetime Premium"))
@@ -154,9 +154,9 @@ struct PaywallView: View {
                 }
             }
             .onAppear {
-                // Pre-select the yearly plan (most popular)
+                // Pre-select the $3 monthly plan (most popular)
                 if selectedProduct == nil {
-                    selectedProduct = iapManager.product(for: .yearly) ?? iapManager.products.first
+                    selectedProduct = iapManager.product(for: .month1) ?? iapManager.products.first
                 }
             }
         }
@@ -164,15 +164,15 @@ struct PaywallView: View {
 
     private func badgeForProduct(_ product: Product) -> String? {
         switch product.id {
-        case IAPManager.ProductID.yearly.rawValue:
+        case IAPManager.ProductID.month1.rawValue:
             return localizationManager.currentLanguage == .vietnamese ?
                    "Phổ biến nhất ⭐" : "Most Popular ⭐"
+        case IAPManager.ProductID.year1.rawValue:
+            return localizationManager.currentLanguage == .vietnamese ?
+                   "Tiết kiệm nhất 💰" : "Best Savings 💰"
         case IAPManager.ProductID.lifetime.rawValue:
             return localizationManager.currentLanguage == .vietnamese ?
                    "Giá trị tốt nhất 👑" : "Best Value 👑"
-        case IAPManager.ProductID.family.rawValue:
-            return localizationManager.currentLanguage == .vietnamese ?
-                   "Chia sẻ 6 người" : "Share with 6"
         default:
             return nil
         }
