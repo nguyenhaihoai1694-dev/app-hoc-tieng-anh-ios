@@ -238,6 +238,7 @@ struct AchievementCard: View {
         )
         .accessibilityElement(children: .combine)
         .accessibilityLabel(buildAccessibilityLabel())
+    }
 
     private func buildAccessibilityLabel() -> String {
         var label = "Thành tích: \(achievement.title). \(achievement.description). "
