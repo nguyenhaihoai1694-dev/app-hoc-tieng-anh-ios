@@ -34,10 +34,13 @@ class AuthViewModel: ObservableObject {
     private func observeAuthState() {
         firebaseAuthService.$isAuthenticated
             .sink { [weak self] isAuth in
+                print("📡 [AuthViewModel] Auth state changed: isAuthenticated = \(isAuth)")
                 self?.isAuthenticated = isAuth
                 if isAuth {
+                    print("👤 [AuthViewModel] User authenticated, loading user data...")
                     self?.loadCurrentUser()
                 } else {
+                    print("🚪 [AuthViewModel] User signed out")
                     self?.currentUser = nil
                     self?.userListener?.remove()
                 }
@@ -224,14 +227,18 @@ class AuthViewModel: ObservableObject {
 
     // MARK: - Sign in with Apple
     func signInWithApple(credential: ASAuthorizationAppleIDCredential) {
+        print("🍎 [AuthViewModel] Starting Apple Sign-in...")
         isLoading = true
         errorMessage = nil
 
         Task { @MainActor in
             do {
-                _ = try await firebaseAuthService.signInWithApple(credential: credential)
+                let user = try await firebaseAuthService.signInWithApple(credential: credential)
+                print("✅ [AuthViewModel] Apple Sign-in successful! User ID: \(user.uid)")
+                print("🔄 [AuthViewModel] isAuthenticated: \(self.isAuthenticated)")
                 isLoading = false
             } catch {
+                print("❌ [AuthViewModel] Apple Sign-in failed: \(error.localizedDescription)")
                 errorMessage = "Lỗi đăng nhập Apple: \(error.localizedDescription)"
                 isLoading = false
             }
@@ -240,14 +247,18 @@ class AuthViewModel: ObservableObject {
 
     // MARK: - Sign in with Google
     func signInWithGoogle(idToken: String, accessToken: String) {
+        print("🔍 [AuthViewModel] Starting Google Sign-in...")
         isLoading = true
         errorMessage = nil
 
         Task { @MainActor in
             do {
-                _ = try await firebaseAuthService.signInWithGoogle(idToken: idToken, accessToken: accessToken)
+                let user = try await firebaseAuthService.signInWithGoogle(idToken: idToken, accessToken: accessToken)
+                print("✅ [AuthViewModel] Google Sign-in successful! User ID: \(user.uid)")
+                print("🔄 [AuthViewModel] isAuthenticated: \(self.isAuthenticated)")
                 isLoading = false
             } catch {
+                print("❌ [AuthViewModel] Google Sign-in failed: \(error.localizedDescription)")
                 errorMessage = "Lỗi đăng nhập Google: \(error.localizedDescription)"
                 isLoading = false
             }
