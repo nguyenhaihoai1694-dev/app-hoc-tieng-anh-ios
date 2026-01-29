@@ -234,7 +234,7 @@ class LessonDataService {
                         correctAnswer: "Họ làm việc ở bệnh viện"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -272,7 +272,7 @@ class LessonDataService {
                         correctAnswer: "Tôi có hai anh trai"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -349,7 +349,7 @@ class LessonDataService {
                         correctAnswer: "Chúng tôi đang ăn tối"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -387,7 +387,7 @@ class LessonDataService {
                         correctAnswer: "Tôi muốn một ít cơm"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -425,7 +425,7 @@ class LessonDataService {
                         correctAnswer: "Rẽ phải ở đèn giao thông"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             // Level 1 - More Beginner Lessons (FREE)
@@ -807,7 +807,7 @@ class LessonDataService {
                         correctAnswer: "Cô ấy mặc váy"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -845,7 +845,7 @@ class LessonDataService {
                         correctAnswer: "Anh ấy chơi bóng rổ"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -959,7 +959,7 @@ class LessonDataService {
                         correctAnswer: "Tôi có nhiều đồ chơi"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -997,7 +997,7 @@ class LessonDataService {
                         correctAnswer: "Phòng ăn rộng"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1073,7 +1073,7 @@ class LessonDataService {
                         correctAnswer: "Tôi cảm thấy sợ hãi"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1111,7 +1111,7 @@ class LessonDataService {
                         correctAnswer: "Mẹ tôi là y tá"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1149,7 +1149,7 @@ class LessonDataService {
                         correctAnswer: "Ba giờ ba mươi"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1226,7 +1226,7 @@ class LessonDataService {
                         correctAnswer: "Chúng tôi đã thăm ông bà"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1264,7 +1264,7 @@ class LessonDataService {
                         correctAnswer: "Cô ấy trẻ hơn chị gái"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1302,7 +1302,7 @@ class LessonDataService {
                         correctAnswer: "Bạn phải làm bài tập"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1340,7 +1340,7 @@ class LessonDataService {
                         correctAnswer: "Con chó ở giữa các cây"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1378,7 +1378,7 @@ class LessonDataService {
                         correctAnswer: "Ngày mai trời sẽ mưa"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1416,7 +1416,7 @@ class LessonDataService {
                         correctAnswer: "Tại sao bạn đến muộn"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1454,7 +1454,7 @@ class LessonDataService {
                         correctAnswer: "Ngân hàng ở cạnh siêu thị"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1492,7 +1492,7 @@ class LessonDataService {
                         correctAnswer: "Tôi sẽ lấy nó"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1530,7 +1530,7 @@ class LessonDataService {
                         correctAnswer: "Sở thích của tôi là chơi guitar"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             ),
 
             Lesson(
@@ -1568,7 +1568,7 @@ class LessonDataService {
                         correctAnswer: "Tôi có một người bạn. Tên anh ấy là John"
                     )
                 ],
-                isPremium: true
+                isPremium: false
             )
         ]
     }

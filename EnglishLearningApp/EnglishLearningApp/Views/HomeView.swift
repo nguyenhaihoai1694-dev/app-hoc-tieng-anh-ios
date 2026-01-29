@@ -217,17 +217,9 @@ struct LessonCard: View {
                 }
 
                 VStack(alignment: .leading, spacing: 5) {
-                    HStack {
-                        Text(lesson.title)
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(.primary)
-
-                        if lesson.isPremium {
-                            Image(systemName: "crown.fill")
-                                .foregroundColor(.yellow)
-                                .font(.system(size: 14))
-                        }
-                    }
+                    Text(lesson.title)
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.primary)
 
                     Text(lesson.description)
                         .font(.system(size: 16))
@@ -301,8 +293,6 @@ struct LessonCard: View {
             return .gray
         } else if progressManager.isLessonCompleted(lesson.id) {
             return .green
-        } else if lesson.isPremium {
-            return .purple
         } else {
             return .blue
         }
@@ -328,10 +318,6 @@ struct LessonCard: View {
             return label
         }
 
-        if lesson.isPremium {
-            label += "Bài học Premium. "
-        }
-
         if let score = progressManager.getScore(for: lesson.id) {
             label += "Điểm cao nhất: \(score) phần trăm. "
         }
@@ -351,13 +337,8 @@ struct LessonCard: View {
             return
         }
 
-        // Check Premium first
-        if lesson.isPremium && !subscriptionManager.hasActiveSubscription() {
-            showPaywall = true
-            return
-        }
-
         // Check hearts (only for non-Premium users)
+        // This is the main Premium value proposition - unlimited hearts
         if !subscriptionManager.hasActiveSubscription() && !heartManager.hasHearts() {
             showOutOfHearts = true
             return

@@ -41,7 +41,7 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
 
     var description: String {
         switch self {
-        case .free: return "Học cơ bản miễn phí"
+        case .free: return "Tất cả bài học miễn phí"
         case .week1: return "Dùng thử Premium 1 tuần"
         case .month1: return "Premium trong 1 tháng"
         case .month2: return "Premium trong 2 tháng - Tiết kiệm 17%"
@@ -66,27 +66,30 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
         switch self {
         case .free:
             return [
-                "Bài học cơ bản",
-                "70 trái tim/ngày",
-                "Có quảng cáo"
+                "✅ Tất cả 30 bài học MIỄN PHÍ",
+                "❤️ 70 trái tim mỗi ngày",
+                "📊 Thống kê cơ bản",
+                "🔥 Theo dõi chuỗi ngày học"
             ]
         case .week1, .month1, .month2, .month3, .month6, .year1, .year2:
             return [
-                "❤️ Trái tim không giới hạn",
-                "🎓 Tất cả 40 bài học Premium",
+                "❤️ TRÁI TIM KHÔNG GIỚI HẠN",
+                "🔄 Học lại không giới hạn",
+                "⭐ +50% Bonus XP",
                 "🚫 Không quảng cáo",
-                "📊 Theo dõi tiến độ chi tiết",
+                "📊 Phân tích chi tiết",
                 "🏆 Achievements đặc biệt",
-                "🎯 Luyện phát âm với TTS"
+                "🎯 Luyện phát âm nâng cao"
             ]
         case .lifetime:
             return [
-                "♾️ Trả 1 lần, dùng mãi mãi",
-                "❤️ Trái tim không giới hạn",
-                "🎓 Tất cả bài học (hiện tại + tương lai)",
+                "♾️ Trả 1 lần - Dùng mãi mãi",
+                "❤️ TRÁI TIM KHÔNG GIỚI HẠN",
+                "⭐ +50% Bonus XP mãi mãi",
                 "🚫 Không quảng cáo",
                 "👑 Status VIP đặc biệt",
-                "🎁 Tất cả updates miễn phí"
+                "🎁 Tất cả tính năng tương lai",
+                "🔧 Ưu tiên hỗ trợ"
             ]
         }
     }
