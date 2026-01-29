@@ -63,8 +63,17 @@ struct HomeView: View {
         // Get completed lesson IDs from user progress
         let completedIds = authViewModel.currentUser?.completedLessons ?? []
 
+        print("🏠 [HomeView] loadLessons called")
+        print("🏠 [HomeView] completedIds from user: \(completedIds)")
+
         // Load lessons with lock status based on sequential progression
         lessons = LessonDataService.shared.getlessonsWithLockStatus(completedLessonIds: completedIds)
+
+        print("🏠 [HomeView] Total lessons loaded: \(lessons.count)")
+        print("🏠 [HomeView] Lesson lock status:")
+        for (index, lesson) in lessons.prefix(5).enumerated() {
+            print("  - Lesson \(index + 1): '\(lesson.title)' - isLocked: \(lesson.isLocked)")
+        }
     }
 }
 
@@ -281,7 +290,9 @@ struct LessonCard: View {
         }
         .onChange(of: showQuiz) { newValue in
             // When quiz is dismissed, refresh lessons to update lock status
+            print("🎯 [LessonCard] showQuiz changed to: \(newValue)")
             if !newValue {
+                print("🎯 [LessonCard] Quiz dismissed, refreshing lessons...")
                 onRefreshNeeded?()
             }
         }

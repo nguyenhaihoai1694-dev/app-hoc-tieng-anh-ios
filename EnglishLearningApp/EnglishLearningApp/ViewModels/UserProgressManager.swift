@@ -13,10 +13,14 @@ class UserProgressManager: ObservableObject {
 
     // MARK: - Complete Lesson with Firebase Sync
     func completeLesson(_ lessonId: UUID, score: Int, xpReward: Int, authViewModel: AuthViewModel) {
+        print("📚 [ProgressManager] completeLesson called - lessonId: \(lessonId.uuidString), score: \(score)")
+
         // Check if this is first time completing or a better score
         let isFirstCompletion = !completedLessons.contains(lessonId)
         let currentBest = lessonScores[lessonId] ?? 0
         let isBetterScore = score > currentBest
+
+        print("📚 [ProgressManager] isFirstCompletion: \(isFirstCompletion), isBetterScore: \(isBetterScore)")
 
         // Mark as completed
         completedLessons.insert(lessonId)
@@ -27,7 +31,12 @@ class UserProgressManager: ObservableObject {
         }
 
         // Update user stats
-        guard var user = authViewModel.currentUser else { return }
+        guard var user = authViewModel.currentUser else {
+            print("❌ [ProgressManager] ERROR: No current user found!")
+            return
+        }
+
+        print("📚 [ProgressManager] Current user completedLessons before: \(user.completedLessons)")
 
         // Only award XP on first completion
         if isFirstCompletion {
@@ -59,6 +68,8 @@ class UserProgressManager: ObservableObject {
         // Save to Firebase
         Task {
             do {
+                print("💾 [ProgressManager] Saving to Firebase...")
+
                 // Save lesson progress (always save for score tracking)
                 try await firestoreService.saveLessonProgress(
                     userId: user.id,
@@ -66,18 +77,24 @@ class UserProgressManager: ObservableObject {
                     score: score,
                     xpEarned: isFirstCompletion ? xpReward : 0
                 )
+                print("✅ [ProgressManager] Lesson progress saved to Firestore")
 
                 // Update user in Firestore (only if first completion)
                 if isFirstCompletion {
                     try await firestoreService.updateUser(user)
+                    print("✅ [ProgressManager] User updated in Firestore with completedLessons: \(user.completedLessons)")
+                } else {
+                    print("ℹ️ [ProgressManager] Skipping user update (retake, not first completion)")
                 }
 
                 // Update local state
                 await MainActor.run {
                     authViewModel.currentUser = user
+                    print("✅ [ProgressManager] Local authViewModel.currentUser updated")
+                    print("📚 [ProgressManager] Current user completedLessons after: \(authViewModel.currentUser?.completedLessons ?? [])")
                 }
             } catch {
-                print("Error saving progress: \(error.localizedDescription)")
+                print("❌ [ProgressManager] ERROR saving progress: \(error.localizedDescription)")
             }
         }
     }
