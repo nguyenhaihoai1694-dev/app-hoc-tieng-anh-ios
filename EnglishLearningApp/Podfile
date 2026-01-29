@@ -10,6 +10,9 @@ target 'EnglishLearningApp' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Analytics'
 
+  # Google Sign-In
+  pod 'GoogleSignIn', '~> 7.0'
+
   # Optional but recommended
   pod 'FirebaseAppCheck'
 

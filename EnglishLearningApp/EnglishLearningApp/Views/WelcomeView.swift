@@ -45,27 +45,9 @@ struct WelcomeView: View {
                             .accessibilityHint("Nhấn đúp để đăng nhập nhanh bằng Apple ID")
 
                         // Google Sign-in Button
-                        Button(action: {
-                            // TODO: Implement Google Sign-in
-                            print("Google Sign-in tapped")
-                        }) {
-                            HStack(spacing: 12) {
-                                Image(systemName: "g.circle.fill")
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                                    .foregroundColor(.white)
-
-                                Text("Đăng nhập bằng Google")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.white)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 55)
-                            .background(Color.red)
-                            .cornerRadius(15)
-                        }
-                        .accessibilityLabel("Đăng nhập bằng Google")
-                        .accessibilityHint("Nhấn đúp để đăng nhập bằng tài khoản Google")
+                        GoogleSignInButton()
+                            .accessibilityLabel("Đăng nhập bằng Google")
+                            .accessibilityHint("Nhấn đúp để đăng nhập bằng tài khoản Google")
                     }
                     .padding(.horizontal, 40)
                     .padding(.bottom, 50)
