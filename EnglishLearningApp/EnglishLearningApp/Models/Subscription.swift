@@ -2,14 +2,14 @@ import Foundation
 
 enum SubscriptionPlan: String, CaseIterable, Codable {
     case free = "free"
-    case week1 = "com.englishlearning.app.week1"       // $1
-    case month1 = "com.englishlearning.app.month1"     // $3
-    case month2 = "com.englishlearning.app.month2"     // $5
-    case month3 = "com.englishlearning.app.month3"     // $10
-    case month6 = "com.englishlearning.app.month6"     // $20
-    case year1 = "com.englishlearning.app.year1"       // $50
-    case year2 = "com.englishlearning.app.year2"       // $100
-    case lifetime = "com.englishlearning.app.lifetime" // $150
+    case week1 = "com.hoai.englishkidsapp.week1"       // $1
+    case month1 = "com.hoai.englishkidsapp.month1"     // $3
+    case month2 = "com.hoai.englishkidsapp.month2"     // $5
+    case month3 = "com.hoai.englishkidsapp.month3"     // $10
+    case month6 = "com.hoai.englishkidsapp.month6"     // $20
+    case year1 = "com.hoai.englishkidsapp.year1"       // $50
+    case year2 = "com.hoai.englishkidsapp.year2"       // $100
+    case lifetime = "com.hoai.englishkidsapp.lifetime" // $150
 
     var displayName: String {
         switch self {

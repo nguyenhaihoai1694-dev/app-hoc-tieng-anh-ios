@@ -5,10 +5,16 @@ import FirebaseAppCheck
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+      // Use debug provider only in debug builds, production provider in release
+      #if DEBUG
       let providerFactory = AppCheckDebugProviderFactory()
+      #else
+      let providerFactory = AppAttestProviderFactory()
+      #endif
+
       AppCheck.setAppCheckProviderFactory(providerFactory)
       FirebaseApp.configure()
-      
+
     return true
   }
 }
