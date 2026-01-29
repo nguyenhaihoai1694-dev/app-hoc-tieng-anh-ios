@@ -17,7 +17,7 @@
           "locale" : "vi"
         }
       ],
-      "productID" : "com.englishlearning.app.lifetime",
+      "productID" : "com.hoai.englishkidsapp.lifetime",
       "referenceName" : "Lifetime Premium",
       "type" : "NonRenewingSubscription"
     }
@@ -118,7 +118,7 @@
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.week1",
+          "productID" : "com.hoai.englishkidsapp.week1",
           "recurringSubscriptionPeriod" : "P1W",
           "referenceName" : "1 Week Premium",
           "subscriptionGroupID" : "21512345",
@@ -148,7 +148,7 @@
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.month1",
+          "productID" : "com.hoai.englishkidsapp.month1",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "1 Month Premium",
           "subscriptionGroupID" : "21512345",
@@ -178,7 +178,7 @@
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.month2",
+          "productID" : "com.hoai.englishkidsapp.month2",
           "recurringSubscriptionPeriod" : "P2M",
           "referenceName" : "2 Months Premium",
           "subscriptionGroupID" : "21512345",
@@ -208,7 +208,7 @@
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.month3",
+          "productID" : "com.hoai.englishkidsapp.month3",
           "recurringSubscriptionPeriod" : "P3M",
           "referenceName" : "3 Months Premium",
           "subscriptionGroupID" : "21512345",
@@ -238,7 +238,7 @@
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.month6",
+          "productID" : "com.hoai.englishkidsapp.month6",
           "recurringSubscriptionPeriod" : "P6M",
           "referenceName" : "6 Months Premium",
           "subscriptionGroupID" : "21512345",
@@ -268,7 +268,7 @@
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.year1",
+          "productID" : "com.hoai.englishkidsapp.year1",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "1 Year Premium",
           "subscriptionGroupID" : "21512345",
@@ -298,7 +298,7 @@
               "locale" : "vi"
             }
           ],
-          "productID" : "com.englishlearning.app.year2",
+          "productID" : "com.hoai.englishkidsapp.year2",
           "recurringSubscriptionPeriod" : "P2Y",
           "referenceName" : "2 Years Premium",
           "subscriptionGroupID" : "21512345",
