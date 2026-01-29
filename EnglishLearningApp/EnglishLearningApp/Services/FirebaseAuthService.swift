@@ -79,11 +79,15 @@ class FirebaseAuthService: ObservableObject {
                          userInfo: [NSLocalizedDescriptionKey: "Unable to fetch identity token"])
         }
 
-        // Create OAuthProvider for Apple
-        let provider = OAuthProvider(providerID: "apple.com")
+        // Generate nonce for security
+        let nonce = randomNonceString()
+        let hashedNonce = sha256(nonce)
 
-        // Create Firebase credential using the provider
-        let firebaseCredential = provider.credential(withIDToken: identityTokenString, rawNonce: nil)
+        // Create Firebase credential for Apple Sign-in
+        let firebaseCredential = OAuthProvider.credential(
+            withProviderID: "apple.com",
+            accessToken: identityTokenString
+        )
 
         // Sign in with Firebase
         let result = try await Auth.auth().signIn(with: firebaseCredential)
@@ -99,6 +103,48 @@ class FirebaseAuthService: ObservableObject {
         }
 
         return result.user
+    }
+
+    // MARK: - Nonce helpers
+    private func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        var result = ""
+        var remainingLength = length
+
+        while remainingLength > 0 {
+            let randoms: [UInt8] = (0 ..< 16).map { _ in
+                var random: UInt8 = 0
+                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+                if errorCode != errSecSuccess {
+                    fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+                }
+                return random
+            }
+
+            randoms.forEach { random in
+                if remainingLength == 0 {
+                    return
+                }
+
+                if random < charset.count {
+                    result.append(charset[Int(random)])
+                    remainingLength -= 1
+                }
+            }
+        }
+
+        return result
+    }
+
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            String(format: "%02x", $0)
+        }.joined()
+
+        return hashString
     }
 
     // MARK: - Sign in with Google
