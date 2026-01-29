@@ -83,24 +83,15 @@ class FirebaseAuthService: ObservableObject {
         let nonce = randomNonceString()
         let hashedNonce = sha256(nonce)
 
-        // Create Firebase credential for Apple Sign-in
-        let firebaseCredential = OAuthProvider.credential(
-            withProviderID: "apple.com",
-            accessToken: identityTokenString
+        // Create Firebase credential for Apple Sign-in using OAuthProvider.appleCredential
+        let firebaseCredential = OAuthProvider.appleCredential(
+            withIDToken: identityTokenString,
+            rawNonce: nonce,
+            fullName: credential.fullName
         )
 
         // Sign in with Firebase
         let result = try await Auth.auth().signIn(with: firebaseCredential)
-
-        // Update display name if available
-        if let fullName = credential.fullName,
-           let givenName = fullName.givenName,
-           let familyName = fullName.familyName {
-            let displayName = "\(givenName) \(familyName)"
-            let changeRequest = result.user.createProfileChangeRequest()
-            changeRequest.displayName = displayName
-            try? await changeRequest.commitChanges()
-        }
 
         return result.user
     }
@@ -152,47 +143,5 @@ class FirebaseAuthService: ObservableObject {
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
         let result = try await Auth.auth().signIn(with: credential)
         return result.user
-    }
-
-    // MARK: - Helpers for Apple Sign-in
-    private func randomNonceString(length: Int = 32) -> String {
-        precondition(length > 0)
-        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-        var result = ""
-        var remainingLength = length
-
-        while remainingLength > 0 {
-            let randoms: [UInt8] = (0 ..< 16).map { _ in
-                var random: UInt8 = 0
-                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-                if errorCode != errSecSuccess {
-                    fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
-                }
-                return random
-            }
-
-            randoms.forEach { random in
-                if remainingLength == 0 {
-                    return
-                }
-
-                if random < charset.count {
-                    result.append(charset[Int(random)])
-                    remainingLength -= 1
-                }
-            }
-        }
-
-        return result
-    }
-
-    private func sha256(_ input: String) -> String {
-        let inputData = Data(input.utf8)
-        let hashedData = SHA256.hash(data: inputData)
-        let hashString = hashedData.compactMap {
-            String(format: "%02x", $0)
-        }.joined()
-
-        return hashString
     }
 }
