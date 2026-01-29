@@ -1,6 +1,7 @@
 import SwiftUI
 import GoogleSignIn
 import FirebaseAuth
+import FirebaseCore
 
 struct GoogleSignInButton: View {
     @EnvironmentObject var authViewModel: AuthViewModel
