@@ -25,6 +25,29 @@ struct LoginView: View {
 
                 Spacer()
 
+                // Sign in with Apple
+                VStack(spacing: 15) {
+                    SignInWithAppleButton()
+                        .frame(height: 50)
+                        .padding(.horizontal, 40)
+                        .accessibilityLabel("Đăng nhập bằng Apple")
+                        .accessibilityHint("Nhấn đúp để đăng nhập nhanh bằng Apple ID")
+
+                    // Divider
+                    HStack {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.3))
+                            .frame(height: 1)
+                        Text("hoặc đăng nhập bằng email")
+                            .font(.system(size: 14))
+                            .foregroundColor(.white.opacity(0.7))
+                        Rectangle()
+                            .fill(Color.white.opacity(0.3))
+                            .frame(height: 1)
+                    }
+                    .padding(.horizontal, 40)
+                }
+
                 // Form
                 VStack(spacing: 20) {
                     TextField("Email", text: $email)

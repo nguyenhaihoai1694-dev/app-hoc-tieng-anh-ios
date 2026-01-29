@@ -2,6 +2,7 @@ import Foundation
 import Combine
 import FirebaseAuth
 import FirebaseFirestore
+import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
     @Published var isAuthenticated = false
@@ -13,6 +14,11 @@ class AuthViewModel: ObservableObject {
     private let firestoreService = FirestoreService.shared
     private var cancellables = Set<AnyCancellable>()
     private var userListener: ListenerRegistration?
+
+    // Apple Sign-in delegate
+    lazy var appleSignInDelegate: AppleSignInDelegate = {
+        AppleSignInDelegate(authViewModel: self)
+    }()
 
     init() {
         observeAuthState()
@@ -214,5 +220,61 @@ class AuthViewModel: ObservableObject {
             }
         }
         return "Lỗi: \(error.localizedDescription)"
+    }
+
+    // MARK: - Sign in with Apple
+    func signInWithApple(credential: ASAuthorizationAppleIDCredential) {
+        isLoading = true
+        errorMessage = nil
+
+        Task { @MainActor in
+            do {
+                _ = try await firebaseAuthService.signInWithApple(credential: credential)
+                isLoading = false
+            } catch {
+                errorMessage = "Lỗi đăng nhập Apple: \(error.localizedDescription)"
+                isLoading = false
+            }
+        }
+    }
+
+    // MARK: - Sign in with Google
+    func signInWithGoogle(idToken: String, accessToken: String) {
+        isLoading = true
+        errorMessage = nil
+
+        Task { @MainActor in
+            do {
+                _ = try await firebaseAuthService.signInWithGoogle(idToken: idToken, accessToken: accessToken)
+                isLoading = false
+            } catch {
+                errorMessage = "Lỗi đăng nhập Google: \(error.localizedDescription)"
+                isLoading = false
+            }
+        }
+    }
+}
+
+// MARK: - Apple Sign-in Delegate
+class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate {
+    weak var authViewModel: AuthViewModel?
+
+    init(authViewModel: AuthViewModel) {
+        self.authViewModel = authViewModel
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+            return
+        }
+
+        authViewModel?.signInWithApple(credential: credential)
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        DispatchQueue.main.async {
+            self.authViewModel?.errorMessage = "Lỗi đăng nhập Apple: \(error.localizedDescription)"
+            self.authViewModel?.isLoading = false
+        }
     }
 }

@@ -1,6 +1,8 @@
 import Foundation
 import FirebaseAuth
 import Combine
+import AuthenticationServices
+import CryptoKit
 
 class FirebaseAuthService: ObservableObject {
     @Published var currentUser: FirebaseAuth.User?
@@ -66,5 +68,86 @@ class FirebaseAuthService: ObservableObject {
             throw NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user logged in"])
         }
         try await user.delete()
+    }
+
+    // MARK: - Sign in with Apple
+    func signInWithApple(credential: ASAuthorizationAppleIDCredential) async throws -> FirebaseAuth.User {
+        // Get identity token
+        guard let identityToken = credential.identityToken,
+              let identityTokenString = String(data: identityToken, encoding: .utf8) else {
+            throw NSError(domain: "FirebaseAuthService", code: -1,
+                         userInfo: [NSLocalizedDescriptionKey: "Unable to fetch identity token"])
+        }
+
+        // Create Firebase credential (nonce is optional for Apple Sign-in)
+        let firebaseCredential = OAuthProvider.credential(
+            withProviderID: "apple.com",
+            idToken: identityTokenString,
+            rawNonce: nil
+        )
+
+        // Sign in with Firebase
+        let result = try await Auth.auth().signIn(with: firebaseCredential)
+
+        // Update display name if available
+        if let fullName = credential.fullName,
+           let givenName = fullName.givenName,
+           let familyName = fullName.familyName {
+            let displayName = "\(givenName) \(familyName)"
+            let changeRequest = result.user.createProfileChangeRequest()
+            changeRequest.displayName = displayName
+            try? await changeRequest.commitChanges()
+        }
+
+        return result.user
+    }
+
+    // MARK: - Sign in with Google
+    func signInWithGoogle(idToken: String, accessToken: String) async throws -> FirebaseAuth.User {
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        let result = try await Auth.auth().signIn(with: credential)
+        return result.user
+    }
+
+    // MARK: - Helpers for Apple Sign-in
+    private func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        var result = ""
+        var remainingLength = length
+
+        while remainingLength > 0 {
+            let randoms: [UInt8] = (0 ..< 16).map { _ in
+                var random: UInt8 = 0
+                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+                if errorCode != errSecSuccess {
+                    fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+                }
+                return random
+            }
+
+            randoms.forEach { random in
+                if remainingLength == 0 {
+                    return
+                }
+
+                if random < charset.count {
+                    result.append(charset[Int(random)])
+                    remainingLength -= 1
+                }
+            }
+        }
+
+        return result
+    }
+
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            String(format: "%02x", $0)
+        }.joined()
+
+        return hashString
     }
 }

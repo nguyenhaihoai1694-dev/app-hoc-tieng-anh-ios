@@ -38,6 +38,26 @@ struct WelcomeView: View {
 
                     // Buttons
                     VStack(spacing: 15) {
+                        // Sign in with Apple
+                        SignInWithAppleButton()
+                            .frame(height: 50)
+                            .accessibilityLabel("Đăng nhập bằng Apple")
+                            .accessibilityHint("Nhấn đúp để đăng nhập nhanh bằng Apple ID")
+
+                        // Divider with text
+                        HStack {
+                            Rectangle()
+                                .fill(Color.white.opacity(0.3))
+                                .frame(height: 1)
+                            Text("hoặc")
+                                .font(.system(size: 14))
+                                .foregroundColor(.white.opacity(0.7))
+                            Rectangle()
+                                .fill(Color.white.opacity(0.3))
+                                .frame(height: 1)
+                        }
+                        .padding(.vertical, 5)
+
                         NavigationLink(destination: RegisterView()) {
                             Text("Bắt đầu học")
                                 .font(.system(size: 20, weight: .semibold))
