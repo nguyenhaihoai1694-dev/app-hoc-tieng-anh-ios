@@ -65,7 +65,7 @@ struct LeaderboardView: View {
 
     // MARK: - Load User Rank
     private func loadUserRank() {
-        guard let userId = authViewModel.currentUser?.id.uuidString else { return }
+        guard let userId = authViewModel.currentUser?.id else { return }
 
         Task {
             do {

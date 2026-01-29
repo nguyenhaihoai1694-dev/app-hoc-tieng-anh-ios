@@ -52,7 +52,7 @@ class UserProgressManager: ObservableObject {
             do {
                 // Save lesson progress
                 try await firestoreService.saveLessonProgress(
-                    userId: user.id.uuidString,
+                    userId: user.id,
                     lessonId: lessonId.uuidString,
                     score: score,
                     xpEarned: xpReward
@@ -139,7 +139,7 @@ class UserProgressManager: ObservableObject {
         }
 
         // Update streak in Firebase
-        let userId = user.id.uuidString
+        let userId = user.id
         let currentStreak = user.currentStreak
         Task {
             do {

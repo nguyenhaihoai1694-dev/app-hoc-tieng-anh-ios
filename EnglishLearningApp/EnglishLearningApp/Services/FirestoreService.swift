@@ -12,7 +12,7 @@ class FirestoreService {
 
     func createUser(_ user: User) async throws {
         let userData: [String: Any] = [
-            "id": user.id.uuidString,
+            "id": user.id,
             "email": user.email,
             "name": user.name,
             "totalXP": user.totalXP,
@@ -25,7 +25,7 @@ class FirestoreService {
             "createdAt": FieldValue.serverTimestamp()
         ]
 
-        try await db.collection("users").document(user.id.uuidString).setData(userData)
+        try await db.collection("users").document(user.id).setData(userData)
     }
 
     func getUser(userId: String) async throws -> User? {
@@ -51,7 +51,7 @@ class FirestoreService {
             "updatedAt": FieldValue.serverTimestamp()
         ]
 
-        try await db.collection("users").document(user.id.uuidString).updateData(userData)
+        try await db.collection("users").document(user.id).updateData(userData)
     }
 
     func updateUserXP(userId: String, xpToAdd: Int) async throws {
@@ -188,7 +188,6 @@ class FirestoreService {
 
     private func parseUserFromFirestore(_ data: [String: Any]) -> User? {
         guard let idString = data["id"] as? String,
-              let id = UUID(uuidString: idString),
               let email = data["email"] as? String,
               let name = data["name"] as? String else {
             return nil
@@ -201,7 +200,7 @@ class FirestoreService {
         let completedLessons = data["completedLessons"] as? [String] ?? []
 
         var user = User(email: email, name: name)
-        user.id = id
+        user.id = idString
         user.totalXP = totalXP
         user.level = level
         user.currentStreak = currentStreak
