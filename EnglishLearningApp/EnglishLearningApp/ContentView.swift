@@ -7,12 +7,17 @@ struct ContentView: View {
 
     var body: some View {
         Group {
-            if hasCompletedOnboarding {
-                MainTabView()
-            } else {
+            if !hasCompletedOnboarding {
+                // First time: show onboarding
                 OnboardingView {
                     hasCompletedOnboarding = true
                 }
+            } else if !authViewModel.isAuthenticated {
+                // Onboarding completed but not logged in: show welcome/login
+                WelcomeView()
+            } else {
+                // Logged in: show main app
+                MainTabView()
             }
         }
         .onAppear {

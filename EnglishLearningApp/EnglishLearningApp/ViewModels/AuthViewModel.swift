@@ -16,7 +16,8 @@ class AuthViewModel: ObservableObject {
 
     init() {
         observeAuthState()
-        loadUserAutomatically()
+        // Disabled auto sign-in for production testing
+        // loadUserAutomatically()
     }
 
     deinit {
