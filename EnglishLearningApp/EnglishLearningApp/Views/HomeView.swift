@@ -34,7 +34,7 @@ struct HomeView: View {
                             .accessibilityAddTraits(.isHeader)
 
                         ForEach(lessons) { lesson in
-                            LessonCard(lesson: lesson)
+                            LessonCard(lesson: lesson, onRefreshNeeded: loadLessons)
                         }
                     }
                 }
@@ -194,6 +194,7 @@ struct StatItem: View {
 struct LessonCard: View {
     @EnvironmentObject var subscriptionManager: SubscriptionManager
     @EnvironmentObject var progressManager: UserProgressManager
+    @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var heartManager = HeartManager.shared
     @State private var showStudy = false
     @State private var showQuiz = false
@@ -201,6 +202,7 @@ struct LessonCard: View {
     @State private var showOutOfHearts = false
 
     let lesson: Lesson
+    var onRefreshNeeded: (() -> Void)?
 
     var body: some View {
         Button(action: onTap) {
@@ -276,6 +278,12 @@ struct LessonCard: View {
         }
         .sheet(isPresented: $showQuiz) {
             LessonView(lesson: lesson)
+        }
+        .onChange(of: showQuiz) { newValue in
+            // When quiz is dismissed, refresh lessons to update lock status
+            if !newValue {
+                onRefreshNeeded?()
+            }
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView()

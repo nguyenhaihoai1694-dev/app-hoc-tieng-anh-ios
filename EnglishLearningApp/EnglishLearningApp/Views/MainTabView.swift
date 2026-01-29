@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var progressManager: UserProgressManager
     @StateObject private var localizationManager = LocalizationManager.shared
     @State private var selectedTab = 0
 
@@ -31,6 +33,12 @@ struct MainTabView: View {
                 .tag(3)
         }
         .accentColor(.blue)
+        .onAppear {
+            // Load user progress when main tab view appears
+            if let userId = authViewModel.currentUser?.id {
+                progressManager.loadProgress(for: userId)
+            }
+        }
     }
 }
 

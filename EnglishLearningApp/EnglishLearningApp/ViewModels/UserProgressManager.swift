@@ -13,32 +13,41 @@ class UserProgressManager: ObservableObject {
 
     // MARK: - Complete Lesson with Firebase Sync
     func completeLesson(_ lessonId: UUID, score: Int, xpReward: Int, authViewModel: AuthViewModel) {
+        // Check if this is first time completing or a better score
+        let isFirstCompletion = !completedLessons.contains(lessonId)
+        let currentBest = lessonScores[lessonId] ?? 0
+        let isBetterScore = score > currentBest
+
+        // Mark as completed
         completedLessons.insert(lessonId)
 
         // Update best score locally
-        if let currentBest = lessonScores[lessonId] {
-            if score > currentBest {
-                lessonScores[lessonId] = score
-            }
-        } else {
+        if isBetterScore {
             lessonScores[lessonId] = score
         }
 
         // Update user stats
         guard var user = authViewModel.currentUser else { return }
 
-        user.totalXP += xpReward
-        user.completedLessons.append(lessonId.uuidString)
+        // Only award XP on first completion
+        if isFirstCompletion {
+            user.totalXP += xpReward
 
-        // Level up logic
-        while user.totalXP >= user.nextLevelXP {
-            user.level += 1
+            // Add to completed lessons if not already there
+            if !user.completedLessons.contains(lessonId.uuidString) {
+                user.completedLessons.append(lessonId.uuidString)
+            }
+
+            // Level up logic
+            while user.totalXP >= user.nextLevelXP {
+                user.level += 1
+            }
+
+            // Update streak (only on first completion of the day)
+            updateStreak(for: &user)
         }
 
-        // Update streak
-        updateStreak(for: &user)
-
-        // Check achievements
+        // Check achievements (always check for score improvements)
         let perfectScores = lessonScores.values.filter { $0 == 100 }.count
         AchievementManager.shared.checkAchievements(
             lessonsCompleted: user.completedLessons.count,
@@ -50,16 +59,18 @@ class UserProgressManager: ObservableObject {
         // Save to Firebase
         Task {
             do {
-                // Save lesson progress
+                // Save lesson progress (always save for score tracking)
                 try await firestoreService.saveLessonProgress(
                     userId: user.id,
                     lessonId: lessonId.uuidString,
                     score: score,
-                    xpEarned: xpReward
+                    xpEarned: isFirstCompletion ? xpReward : 0
                 )
 
-                // Update user in Firestore
-                try await firestoreService.updateUser(user)
+                // Update user in Firestore (only if first completion)
+                if isFirstCompletion {
+                    try await firestoreService.updateUser(user)
+                }
 
                 // Update local state
                 await MainActor.run {
