@@ -165,7 +165,7 @@ class IAPManager: ObservableObject {
         return Task.detached {
             for await result in Transaction.updates {
                 do {
-                    let transaction = try self.checkVerified(result)
+                    let transaction = try await self.checkVerified(result)
 
                     await self.updateCustomerProductStatus()
 

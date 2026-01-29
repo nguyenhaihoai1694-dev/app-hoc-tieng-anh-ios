@@ -525,7 +525,7 @@ struct QuizFailedView: View {
                 Spacer()
 
                 // Sad mascot
-                CompactMascotView(state: .sad, size: 80)
+                CompactMascotView(state: .encouraging, size: 80)
                     .accessibilityLabel("Linh vật buồn")
                     .accessibilityValue("Động viên bạn thử lại")
 
