@@ -79,11 +79,11 @@ class FirebaseAuthService: ObservableObject {
                          userInfo: [NSLocalizedDescriptionKey: "Unable to fetch identity token"])
         }
 
-        // Create Firebase credential (nonce is optional for Apple Sign-in)
+        // Create Firebase credential
         let firebaseCredential = OAuthProvider.credential(
             withProviderID: "apple.com",
             idToken: identityTokenString,
-            rawNonce: nil
+            rawNonce: ""
         )
 
         // Sign in with Firebase
