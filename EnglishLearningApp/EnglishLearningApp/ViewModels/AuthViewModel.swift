@@ -144,9 +144,12 @@ class AuthViewModel: ObservableObject {
                     name: name
                 )
 
-                // Create user in Firestore
-                var newUser = User(email: email, name: name)
-                newUser.id = UUID(uuidString: firebaseUser.uid) ?? newUser.id
+                // Create user in Firestore with Firebase UID
+                let newUser = User(
+                    id: firebaseUser.uid,  // Use Firebase UID directly
+                    email: email,
+                    name: name
+                )
                 try await firestoreService.createUser(newUser)
 
                 isLoading = false
