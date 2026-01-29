@@ -72,16 +72,22 @@ class FirebaseAuthService: ObservableObject {
 
     // MARK: - Sign in with Apple
     func signInWithApple(credential: ASAuthorizationAppleIDCredential) async throws -> FirebaseAuth.User {
+        print("🔐 [FirebaseAuthService] Processing Apple credential...")
+
         // Get identity token
         guard let identityToken = credential.identityToken,
               let identityTokenString = String(data: identityToken, encoding: .utf8) else {
+            print("❌ [FirebaseAuthService] Failed to get identity token")
             throw NSError(domain: "FirebaseAuthService", code: -1,
                          userInfo: [NSLocalizedDescriptionKey: "Unable to fetch identity token"])
         }
 
+        print("✓ [FirebaseAuthService] Got identity token")
+
         // Generate nonce for security
         let nonce = randomNonceString()
         let hashedNonce = sha256(nonce)
+        print("✓ [FirebaseAuthService] Generated nonce")
 
         // Create Firebase credential for Apple Sign-in using OAuthProvider.appleCredential
         let firebaseCredential = OAuthProvider.appleCredential(
@@ -89,11 +95,23 @@ class FirebaseAuthService: ObservableObject {
             rawNonce: nonce,
             fullName: credential.fullName
         )
+        print("✓ [FirebaseAuthService] Created Firebase credential")
 
         // Sign in with Firebase
-        let result = try await Auth.auth().signIn(with: firebaseCredential)
-
-        return result.user
+        do {
+            let result = try await Auth.auth().signIn(with: firebaseCredential)
+            print("✅ [FirebaseAuthService] Firebase sign-in successful!")
+            return result.user
+        } catch {
+            print("❌ [FirebaseAuthService] Firebase sign-in error: \(error)")
+            print("❌ [FirebaseAuthService] Error details: \(error.localizedDescription)")
+            if let nsError = error as NSError? {
+                print("❌ [FirebaseAuthService] Error domain: \(nsError.domain)")
+                print("❌ [FirebaseAuthService] Error code: \(nsError.code)")
+                print("❌ [FirebaseAuthService] Error userInfo: \(nsError.userInfo)")
+            }
+            throw error
+        }
     }
 
     // MARK: - Nonce helpers
@@ -140,8 +158,26 @@ class FirebaseAuthService: ObservableObject {
 
     // MARK: - Sign in with Google
     func signInWithGoogle(idToken: String, accessToken: String) async throws -> FirebaseAuth.User {
+        print("🔐 [FirebaseAuthService] Processing Google credential...")
+        print("📝 [FirebaseAuthService] idToken: \(idToken.prefix(20))...")
+        print("📝 [FirebaseAuthService] accessToken: \(accessToken.prefix(20))...")
+
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
-        let result = try await Auth.auth().signIn(with: credential)
-        return result.user
+        print("✓ [FirebaseAuthService] Created Google credential")
+
+        do {
+            let result = try await Auth.auth().signIn(with: credential)
+            print("✅ [FirebaseAuthService] Firebase sign-in successful!")
+            return result.user
+        } catch {
+            print("❌ [FirebaseAuthService] Firebase sign-in error: \(error)")
+            print("❌ [FirebaseAuthService] Error details: \(error.localizedDescription)")
+            if let nsError = error as NSError? {
+                print("❌ [FirebaseAuthService] Error domain: \(nsError.domain)")
+                print("❌ [FirebaseAuthService] Error code: \(nsError.code)")
+                print("❌ [FirebaseAuthService] Error userInfo: \(nsError.userInfo)")
+            }
+            throw error
+        }
     }
 }
