@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var showLogin = false
 
     var body: some View {
