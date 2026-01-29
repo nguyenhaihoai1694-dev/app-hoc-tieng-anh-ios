@@ -60,7 +60,11 @@ struct HomeView: View {
     }
 
     private func loadLessons() {
-        lessons = LessonDataService.shared.getLessons()
+        // Get completed lesson IDs from user progress
+        let completedIds = authViewModel.currentUser?.completedLessons ?? []
+
+        // Load lessons with lock status based on sequential progression
+        lessons = LessonDataService.shared.getlessonsWithLockStatus(completedLessonIds: completedIds)
     }
 }
 
@@ -246,7 +250,11 @@ struct LessonCard: View {
 
                 Spacer()
 
-                if progressManager.isLessonCompleted(lesson.id) {
+                if lesson.isLocked {
+                    Image(systemName: "lock.fill")
+                        .foregroundColor(.gray)
+                        .font(.title2)
+                } else if progressManager.isLessonCompleted(lesson.id) {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
                         .font(.title2)
@@ -258,9 +266,11 @@ struct LessonCard: View {
             .padding()
             .background(Color.white)
             .cornerRadius(15)
-            .shadow(radius: 2)
+            .shadow(radius: lesson.isLocked ? 0 : 2)
+            .opacity(lesson.isLocked ? 0.5 : 1.0)
         }
         .padding(.horizontal)
+        .disabled(lesson.isLocked)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(buildAccessibilityLabel())
         .accessibilityHint("Nhấn đúp để bắt đầu bài học")
@@ -287,7 +297,9 @@ struct LessonCard: View {
     }
 
     private var iconBackgroundColor: Color {
-        if progressManager.isLessonCompleted(lesson.id) {
+        if lesson.isLocked {
+            return .gray
+        } else if progressManager.isLessonCompleted(lesson.id) {
             return .green
         } else if lesson.isPremium {
             return .purple
@@ -297,7 +309,9 @@ struct LessonCard: View {
     }
 
     private var iconName: String {
-        if progressManager.isLessonCompleted(lesson.id) {
+        if lesson.isLocked {
+            return "lock.fill"
+        } else if progressManager.isLessonCompleted(lesson.id) {
             return "checkmark"
         } else {
             return "book.fill"
@@ -308,6 +322,11 @@ struct LessonCard: View {
         var label = "Bài học: \(lesson.title). "
         label += "\(lesson.description). "
         label += "Phần thưởng: \(lesson.xpReward) XP. "
+
+        if lesson.isLocked {
+            label += "Bài học bị khóa. Hoàn thành bài học trước để mở khóa."
+            return label
+        }
 
         if lesson.isPremium {
             label += "Bài học Premium. "
@@ -325,6 +344,13 @@ struct LessonCard: View {
     }
 
     private func onTap() {
+        // Check if lesson is locked (must complete previous lesson first)
+        if lesson.isLocked {
+            // Lesson is disabled, this shouldn't be called due to .disabled()
+            // But adding as safety check
+            return
+        }
+
         // Check Premium first
         if lesson.isPremium && !subscriptionManager.hasActiveSubscription() {
             showPaywall = true

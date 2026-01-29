@@ -11,6 +11,7 @@ struct Lesson: Codable, Identifiable {
     let isPremium: Bool
     var isCompleted: Bool
     var bestScore: Int?
+    var isLocked: Bool  // New property for sequential progression
 
     init(id: UUID = UUID(), title: String, description: String, level: Int, xpReward: Int, vocabularyItems: [VocabularyItem] = [], questions: [Question], isPremium: Bool = false) {
         self.id = id
@@ -23,6 +24,7 @@ struct Lesson: Codable, Identifiable {
         self.isPremium = isPremium
         self.isCompleted = false
         self.bestScore = nil
+        self.isLocked = false  // Will be calculated based on previous lessons
     }
 }
 

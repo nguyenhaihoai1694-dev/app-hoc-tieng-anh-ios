@@ -1572,4 +1572,27 @@ class LessonDataService {
             )
         ]
     }
+
+    /// Updates lesson lock status based on sequential progression
+    /// - Parameter completedLessonIds: List of completed lesson IDs
+    /// - Returns: Lessons with updated lock status
+    func getlessonsWithLockStatus(completedLessonIds: [String]) -> [Lesson] {
+        var lessons = getLessons()
+
+        // First lesson is always unlocked
+        if !lessons.isEmpty {
+            lessons[0].isLocked = false
+        }
+
+        // For each subsequent lesson, check if previous lesson is completed
+        for i in 1..<lessons.count {
+            let previousLesson = lessons[i - 1]
+            let isPreviousCompleted = completedLessonIds.contains(previousLesson.id.uuidString)
+
+            // Lesson is locked if previous lesson is not completed
+            lessons[i].isLocked = !isPreviousCompleted
+        }
+
+        return lessons
+    }
 }
