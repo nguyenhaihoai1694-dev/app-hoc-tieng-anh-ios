@@ -284,8 +284,12 @@ struct LessonView: View {
         let question = lesson.questions[currentQuestionIndex]
         let answer = question.type == .multipleChoice ? selectedAnswer : userAnswer
 
-        isCorrect = answer.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) ==
-                    question.correctAnswer.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        // Normalize both answers for Vietnamese text comparison
+        // This handles "khỏe" vs "khoẻ" and other diacritical variants
+        let normalizedAnswer = answer.normalized()
+        let normalizedCorrect = question.correctAnswer.normalized()
+
+        isCorrect = normalizedAnswer == normalizedCorrect
 
         if isCorrect {
             correctAnswers += 1
@@ -651,5 +655,21 @@ struct LessonView_Previews: PreviewProvider {
             .environmentObject(AuthViewModel())
             .environmentObject(UserProgressManager())
             .environmentObject(SubscriptionManager())
+    }
+}
+
+// MARK: - String Extension for Vietnamese Text Normalization
+extension String {
+    /// Normalizes text for comparison, handling Vietnamese diacritical variants
+    /// Examples:
+    /// - "khỏe" and "khoẻ" both normalize to the same value
+    /// - "Bạn khỏe không" and "Bạn khoẻ không" are considered equal
+    /// - Case-insensitive and whitespace-trimmed
+    func normalized() -> String {
+        return self
+            .lowercased()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+            .replacingOccurrences(of: " +", with: " ", options: .regularExpression)
     }
 }
