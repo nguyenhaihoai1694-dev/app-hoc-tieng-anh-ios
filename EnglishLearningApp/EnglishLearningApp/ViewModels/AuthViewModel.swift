@@ -71,16 +71,15 @@ class AuthViewModel: ObservableObject {
                     self.currentUser = user
                     setupRealtimeListener(userId: firebaseUser.uid)
                 } else {
-                    // Create new user in Firestore
+                    // Create new user in Firestore with Firebase UID
                     let newUser = User(
+                        id: firebaseUser.uid,  // Use Firebase UID directly
                         email: firebaseUser.email ?? "demo@example.com",
                         name: firebaseUser.displayName ?? "Học viên"
                     )
-                    var userToSave = newUser
-                    userToSave.id = UUID(uuidString: firebaseUser.uid) ?? newUser.id
 
-                    try await firestoreService.createUser(userToSave)
-                    self.currentUser = userToSave
+                    try await firestoreService.createUser(newUser)
+                    self.currentUser = newUser
                     setupRealtimeListener(userId: firebaseUser.uid)
                 }
             } catch {

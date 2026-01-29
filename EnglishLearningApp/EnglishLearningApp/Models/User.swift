@@ -1,7 +1,7 @@
 import Foundation
 
 struct User: Codable, Identifiable {
-    var id: UUID
+    var id: String  // Changed from UUID to String to match Firebase UID
     var email: String
     var name: String
     var currentStreak: Int
@@ -15,7 +15,7 @@ struct User: Codable, Identifiable {
     var isPremium: Bool
     var subscriptionExpiryDate: Date?
 
-    init(id: UUID = UUID(), email: String, name: String) {
+    init(id: String = UUID().uuidString, email: String, name: String) {
         self.id = id
         self.email = email
         self.name = name
