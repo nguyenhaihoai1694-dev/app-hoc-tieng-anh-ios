@@ -37,50 +37,35 @@ struct WelcomeView: View {
                     Spacer()
 
                     // Buttons
-                    VStack(spacing: 15) {
+                    VStack(spacing: 20) {
                         // Sign in with Apple
                         SignInWithAppleButton()
-                            .frame(height: 50)
+                            .frame(height: 55)
                             .accessibilityLabel("Đăng nhập bằng Apple")
                             .accessibilityHint("Nhấn đúp để đăng nhập nhanh bằng Apple ID")
 
-                        // Divider with text
-                        HStack {
-                            Rectangle()
-                                .fill(Color.white.opacity(0.3))
-                                .frame(height: 1)
-                            Text("hoặc")
-                                .font(.system(size: 14))
-                                .foregroundColor(.white.opacity(0.7))
-                            Rectangle()
-                                .fill(Color.white.opacity(0.3))
-                                .frame(height: 1)
-                        }
-                        .padding(.vertical, 5)
+                        // Google Sign-in Button
+                        Button(action: {
+                            // TODO: Implement Google Sign-in
+                            print("Google Sign-in tapped")
+                        }) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "g.circle.fill")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .foregroundColor(.white)
 
-                        NavigationLink(destination: RegisterView()) {
-                            Text("Bắt đầu học")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(.blue)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(15)
+                                Text("Đăng nhập bằng Google")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(.white)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 55)
+                            .background(Color.red)
+                            .cornerRadius(15)
                         }
-                        .accessibilityLabel("Bắt đầu học")
-                        .accessibilityHint("Nhấn đúp để tạo tài khoản mới và bắt đầu học")
-
-                        NavigationLink(destination: LoginView()) {
-                            Text("Đã có tài khoản")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(15)
-                        }
-                        .accessibilityLabel("Đã có tài khoản")
-                        .accessibilityHint("Nhấn đúp để đăng nhập bằng tài khoản đã có")
+                        .accessibilityLabel("Đăng nhập bằng Google")
+                        .accessibilityHint("Nhấn đúp để đăng nhập bằng tài khoản Google")
                     }
                     .padding(.horizontal, 40)
                     .padding(.bottom, 50)
