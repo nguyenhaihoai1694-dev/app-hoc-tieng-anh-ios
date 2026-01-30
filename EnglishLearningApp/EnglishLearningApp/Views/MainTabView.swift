@@ -37,6 +37,14 @@ struct MainTabView: View {
             // Load user progress when main tab view appears
             if let userId = authViewModel.currentUser?.id {
                 progressManager.loadProgress(for: userId)
+                AchievementManager.shared.loadAchievementsForUser(userId: userId)
+            }
+        }
+        .onChange(of: authViewModel.currentUser?.id) { userId in
+            // Reload achievements when user changes
+            if let userId = userId {
+                print("🔄 [MainTabView] User changed, loading achievements for: \(userId)")
+                AchievementManager.shared.loadAchievementsForUser(userId: userId)
             }
         }
     }

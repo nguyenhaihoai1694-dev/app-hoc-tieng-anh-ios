@@ -52,11 +52,39 @@ class AchievementManager: ObservableObject {
     @Published var achievements: [Achievement] = []
     @Published var newlyUnlockedAchievements: [Achievement] = []
 
+    private var currentUserId: String?
+
     private init() {
         loadAchievements()
     }
 
+    /// Load achievements for a specific user
+    func loadAchievementsForUser(userId: String) {
+        // If user changed, reset achievements
+        if currentUserId != userId {
+            currentUserId = userId
+            loadAchievements()
+            loadProgress(for: userId)
+        }
+    }
+
+    /// Reset achievements for current user
+    func resetAchievements() {
+        guard let userId = currentUserId else { return }
+
+        // Clear achievements
+        for index in achievements.indices {
+            achievements[index].isUnlocked = false
+            achievements[index].unlockedDate = nil
+            achievements[index].progress = 0
+        }
+
+        // Clear from UserDefaults
+        UserDefaults.standard.removeObject(forKey: "achievements_\(userId)")
+    }
+
     private func loadAchievements() {
+        // Reset to default achievements
         achievements = [
             // Lesson Achievements
             Achievement(
@@ -229,11 +257,12 @@ class AchievementManager: ObservableObject {
             )
         ]
 
-        // Load saved progress from UserDefaults
-        loadProgress()
+        // Progress will be loaded per user via loadAchievementsForUser()
     }
 
     func checkAchievements(lessonsCompleted: Int, currentStreak: Int, totalXP: Int, perfectScores: Int) {
+        print("🏆 [Achievements] Checking with: lessons=\(lessonsCompleted), streak=\(currentStreak), xp=\(totalXP), perfect=\(perfectScores)")
+
         var newlyUnlocked: [Achievement] = []
 
         for index in achievements.indices {
@@ -266,6 +295,7 @@ class AchievementManager: ObservableObject {
             achievements[index].progress = currentProgress
 
             if shouldUnlock {
+                print("🎉 [Achievements] UNLOCKED: \(achievements[index].title) (progress: \(currentProgress)/\(achievements[index].requirement))")
                 achievements[index].isUnlocked = true
                 achievements[index].unlockedDate = Date()
                 newlyUnlocked.append(achievements[index])
@@ -275,7 +305,9 @@ class AchievementManager: ObservableObject {
 
         if !newlyUnlocked.isEmpty {
             newlyUnlockedAchievements = newlyUnlocked
-            saveProgress()
+            if let userId = currentUserId {
+                saveProgress(for: userId)
+            }
         }
     }
 
@@ -291,7 +323,9 @@ class AchievementManager: ObservableObject {
                 achievements[index].unlockedDate = Date()
                 newlyUnlockedAchievements = [achievements[index]]
                 SoundEffectService.shared.playLevelUpSound()
-                saveProgress()
+                if let userId = currentUserId {
+                    saveProgress(for: userId)
+                }
             }
         }
     }
@@ -309,14 +343,15 @@ class AchievementManager: ObservableObject {
     }
 
     // MARK: - Persistence
-    private func saveProgress() {
+    private func saveProgress(for userId: String) {
         if let encoded = try? JSONEncoder().encode(achievements) {
-            UserDefaults.standard.set(encoded, forKey: "achievements")
+            UserDefaults.standard.set(encoded, forKey: "achievements_\(userId)")
+            print("📊 [Achievements] Saved achievements for user: \(userId)")
         }
     }
 
-    private func loadProgress() {
-        if let data = UserDefaults.standard.data(forKey: "achievements"),
+    private func loadProgress(for userId: String) {
+        if let data = UserDefaults.standard.data(forKey: "achievements_\(userId)"),
            let decoded = try? JSONDecoder().decode([Achievement].self, from: data) {
             // Merge saved progress with default achievements
             for saved in decoded {
@@ -326,6 +361,10 @@ class AchievementManager: ObservableObject {
                     achievements[index].progress = saved.progress
                 }
             }
+            print("📊 [Achievements] Loaded achievements for user: \(userId)")
+            print("📊 [Achievements] Unlocked count: \(unlockedCount)/\(totalCount)")
+        } else {
+            print("📊 [Achievements] No saved achievements found for user: \(userId)")
         }
     }
 }

@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @StateObject private var localizationManager = LocalizationManager.shared
     @Environment(\.dismiss) private var dismiss
+    @State private var showResetConfirmation = false
 
     var body: some View {
         NavigationView {
@@ -51,6 +52,30 @@ struct SettingsView: View {
                     .font(.headline)
                 }
 
+                // Advanced / Debug Tools
+                Section {
+                    Button(action: {
+                        showResetConfirmation = true
+                    }) {
+                        HStack {
+                            Image(systemName: "arrow.counterclockwise.circle")
+                                .foregroundColor(.orange)
+                            Text("Reset Achievements / Đặt lại thành tích")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                } header: {
+                    HStack {
+                        Image(systemName: "wrench.and.screwdriver")
+                        Text("Advanced / Nâng cao")
+                    }
+                    .font(.headline)
+                } footer: {
+                    Text("Reset all achievement progress. This cannot be undone. / Đặt lại tất cả tiến độ thành tích. Không thể hoàn tác.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
                 // About
                 Section {
                     VStack(alignment: .leading, spacing: 10) {
@@ -80,6 +105,14 @@ struct SettingsView: View {
                             .fontWeight(.semibold)
                     }
                 }
+            }
+            .alert("Reset Achievements?", isPresented: $showResetConfirmation) {
+                Button("Cancel / Hủy", role: .cancel) {}
+                Button("Reset / Đặt lại", role: .destructive) {
+                    AchievementManager.shared.resetAchievements()
+                }
+            } message: {
+                Text("This will reset all your achievement progress. This action cannot be undone.\n\nĐiều này sẽ đặt lại tất cả tiến độ thành tích của bạn. Hành động này không thể hoàn tác.")
             }
         }
     }
