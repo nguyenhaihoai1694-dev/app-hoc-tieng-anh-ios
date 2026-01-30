@@ -5,10 +5,46 @@ class LessonDataService {
 
     private init() {}
 
+    // MARK: - Fixed Lesson IDs
+    // CRITICAL: These UUIDs must NEVER change to ensure lesson progress persists correctly
+    private enum LessonID {
+        static let lesson01 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000001")!
+        static let lesson02 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000002")!
+        static let lesson03 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000003")!
+        static let lesson04 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000004")!
+        static let lesson05 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000005")!
+        static let lesson06 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000006")!
+        static let lesson07 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000007")!
+        static let lesson08 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000008")!
+        static let lesson09 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000009")!
+        static let lesson10 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000010")!
+        static let lesson11 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000011")!
+        static let lesson12 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000012")!
+        static let lesson13 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000013")!
+        static let lesson14 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000014")!
+        static let lesson15 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000015")!
+        static let lesson16 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000016")!
+        static let lesson17 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000017")!
+        static let lesson18 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000018")!
+        static let lesson19 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000019")!
+        static let lesson20 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000020")!
+        static let lesson21 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000021")!
+        static let lesson22 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000022")!
+        static let lesson23 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000023")!
+        static let lesson24 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000024")!
+        static let lesson25 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000025")!
+        static let lesson26 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000026")!
+        static let lesson27 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000027")!
+        static let lesson28 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000028")!
+        static let lesson29 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000029")!
+        static let lesson30 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000030")!
+    }
+
     func getLessons() -> [Lesson] {
         return [
             // Beginner Lessons (Free)
             Lesson(
+                id: LessonID.lesson01,
                 title: "Chào hỏi cơ bản",
                 description: "Học cách chào hỏi trong tiếng Anh",
                 level: 1,
@@ -74,6 +110,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson02,
                 title: "Giới thiệu bản thân",
                 description: "Học cách tự giới thiệu",
                 level: 1,
