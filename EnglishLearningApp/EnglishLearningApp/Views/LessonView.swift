@@ -198,7 +198,7 @@ struct LessonView: View {
             .sheet(isPresented: $showCompletion) {
                 CompletionView(
                     score: score,
-                    xpEarned: lesson.xpReward,
+                    xpEarned: progressManager.isLessonCompleted(lesson.id) ? 0 : lesson.xpReward,
                     lessonTitle: lesson.title
                 ) {
                     progressManager.completeLesson(
@@ -473,19 +473,35 @@ struct CompletionView: View {
                 }
                 .accessibilityLabel("Điểm số của bạn là \(score) phần trăm")
 
-            // XP Earned
-            HStack {
-                Image(systemName: "star.fill")
-                    .foregroundColor(.orange)
-                    .font(.title2)
-                Text("+\(xpEarned) XP")
-                    .font(.system(size: 24, weight: .semibold))
+            // XP Earned or Retake Message
+            if xpEarned > 0 {
+                HStack {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.orange)
+                        .font(.title2)
+                    Text("+\(xpEarned) XP")
+                        .font(.system(size: 24, weight: .semibold))
+                }
+                .padding()
+                .background(Color.orange.opacity(0.1))
+                .cornerRadius(15)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Bạn nhận được \(xpEarned) điểm kinh nghiệm")
+            } else {
+                HStack {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.blue)
+                        .font(.title2)
+                    Text("Luyện tập lại")
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundColor(.blue)
+                }
+                .padding()
+                .background(Color.blue.opacity(0.1))
+                .cornerRadius(15)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Luyện tập lại bài học - không nhận thêm XP")
             }
-            .padding()
-            .background(Color.orange.opacity(0.1))
-            .cornerRadius(15)
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel("Bạn nhận được \(xpEarned) điểm kinh nghiệm")
 
             Spacer()
 
