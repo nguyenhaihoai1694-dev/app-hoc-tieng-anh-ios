@@ -104,6 +104,45 @@ class LessonDataService {
                         prompt: "Which is a proper greeting?",
                         correctAnswer: "Good evening",
                         options: ["Good evening", "Good night sleep", "Hello bye", "Thanks morning"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'Nice to meet you' mean?",
+                        correctAnswer: "Rất vui được gặp bạn",
+                        options: ["Rất vui được gặp bạn", "Tạm biệt", "Xin chào", "Cảm ơn bạn"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Complete: 'Good ___ teacher!'",
+                        correctAnswer: "morning"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which greeting is used in the evening?",
+                        correctAnswer: "Good evening",
+                        options: ["Good evening", "Good morning", "Good afternoon", "Good night"]
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'Nice to meet you'",
+                        correctAnswer: "Rất vui được gặp bạn"
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Complete: 'How ___ you?'",
+                        correctAnswer: "are"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "When do you say 'Good morning'?",
+                        correctAnswer: "In the morning",
+                        options: ["In the morning", "In the evening", "At night", "In the afternoon"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is NOT a greeting?",
+                        correctAnswer: "Thank you",
+                        options: ["Thank you", "Hello", "Good morning", "Hi"]
                     )
                 ],
                 isPremium: false
@@ -165,6 +204,44 @@ class LessonDataService {
                         prompt: "Complete: 'What ___ your name?'",
                         correctAnswer: "is",
                         options: ["is", "are", "am", "be"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Complete: 'My ___ is Tom'",
+                        correctAnswer: "name"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'I am from Vietnam' mean?",
+                        correctAnswer: "Tôi đến từ Việt Nam",
+                        options: ["Tôi đến từ Việt Nam", "Tôi ở Việt Nam", "Tôi thích Việt Nam", "Tôi học tiếng Việt"]
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'What is your name?'",
+                        correctAnswer: "Bạn tên là gì"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which sentence is correct?",
+                        correctAnswer: "I am a student",
+                        options: ["I am a student", "I is a student", "I are a student", "I be a student"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Complete: 'I am ___ student'",
+                        correctAnswer: "a"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you ask someone's name?",
+                        correctAnswer: "What is your name?",
+                        options: ["What is your name?", "How is your name?", "Where is your name?", "Who is your name?"]
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I am a student'",
+                        correctAnswer: "Tôi là học sinh"
                     )
                 ],
                 isPremium: false
@@ -231,6 +308,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'fifteen'",
                         correctAnswer: "mười lăm"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What number is 'one'?",
+                        correctAnswer: "1",
+                        options: ["1", "11", "10", "2"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Complete: 'Five, six, seven, ___'",
+                        correctAnswer: "eight"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'Ba' in English?",
+                        correctAnswer: "Three",
+                        options: ["Three", "Two", "Four", "Five"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Complete: 'Ten, eleven, ___'",
+                        correctAnswer: "twelve"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What comes before 'ten'?",
+                        correctAnswer: "nine",
+                        options: ["nine", "eleven", "eight", "twelve"]
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'twenty'",
+                        correctAnswer: "hai mươi"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is 10 + 10?",
+                        correctAnswer: "twenty",
+                        options: ["twenty", "ten", "thirty", "fifteen"]
                     )
                 ],
                 isPremium: false
