@@ -248,9 +248,12 @@ struct LessonCard: View {
                         .lineLimit(2)
 
                     HStack {
-                        Label("\(lesson.xpReward) XP", systemImage: "star.fill")
-                            .font(.system(size: 14))
-                            .foregroundColor(.orange)
+                        // Only show XP for uncompleted lessons
+                        if !progressManager.isLessonCompleted(lesson.id) {
+                            Label("\(lesson.xpReward) XP", systemImage: "star.fill")
+                                .font(.system(size: 14))
+                                .foregroundColor(.orange)
+                        }
 
                         if let score = progressManager.getScore(for: lesson.id) {
                             Spacer()
@@ -340,7 +343,11 @@ struct LessonCard: View {
     private func buildAccessibilityLabel() -> String {
         var label = "Bài học: \(lesson.title). "
         label += "\(lesson.description). "
-        label += "Phần thưởng: \(lesson.xpReward) XP. "
+
+        // Only mention XP for uncompleted lessons
+        if !progressManager.isLessonCompleted(lesson.id) {
+            label += "Phần thưởng: \(lesson.xpReward) XP. "
+        }
 
         if lesson.isLocked {
             label += "Bài học bị khóa. Hoàn thành bài học trước để mở khóa."
