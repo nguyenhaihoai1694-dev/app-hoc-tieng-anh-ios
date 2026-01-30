@@ -6,7 +6,6 @@ struct PaywallView: View {
     @EnvironmentObject var subscriptionManager: SubscriptionManager
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var iapManager = IAPManager.shared
-    @StateObject private var localizationManager = LocalizationManager.shared
 
     @State private var selectedProduct: Product?
     @State private var showAlert = false
@@ -33,15 +32,12 @@ struct PaywallView: View {
                                 .foregroundColor(.yellow)
                                 .accessibilityLabel("Biểu tượng vương miện Premium")
 
-                            Text(localizationManager.currentLanguage == .vietnamese ?
-                                 "Nâng cấp Premium" : "Upgrade to Premium")
+                            Text("Nâng cấp Premium")
                                 .font(.system(size: 32, weight: .bold))
                                 .foregroundColor(.white)
                                 .accessibilityAddTraits(.isHeader)
 
-                            Text(localizationManager.currentLanguage == .vietnamese ?
-                                 "Học không giới hạn với tất cả tính năng cao cấp" :
-                                 "Unlimited learning with all premium features")
+                            Text("Học không giới hạn với tất cả tính năng cao cấp")
                                 .font(.system(size: 18))
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.white)
@@ -51,18 +47,12 @@ struct PaywallView: View {
 
                         // Features
                         VStack(spacing: 15) {
-                            FeatureRow(icon: "heart.fill", title: localizationManager.currentLanguage == .vietnamese ?
-                                      "❤️ Trái tim không giới hạn" : "❤️ Unlimited Hearts")
-                            FeatureRow(icon: "book.fill", title: localizationManager.currentLanguage == .vietnamese ?
-                                      "📚 Tất cả 40 bài học Premium" : "📚 All 40 Premium Lessons")
-                            FeatureRow(icon: "speaker.wave.2.fill", title: localizationManager.currentLanguage == .vietnamese ?
-                                      "🔊 Luyện phát âm với TTS" : "🔊 Pronunciation Practice")
-                            FeatureRow(icon: "chart.bar.fill", title: localizationManager.currentLanguage == .vietnamese ?
-                                      "📊 Theo dõi tiến độ chi tiết" : "📊 Detailed Progress Tracking")
-                            FeatureRow(icon: "xmark.circle.fill", title: localizationManager.currentLanguage == .vietnamese ?
-                                      "🚫 Không quảng cáo" : "🚫 No Ads")
-                            FeatureRow(icon: "trophy.fill", title: localizationManager.currentLanguage == .vietnamese ?
-                                      "🏆 Achievements đặc biệt" : "🏆 Special Achievements")
+                            FeatureRow(icon: "heart.fill", title: "❤️ Trái tim không giới hạn")
+                            FeatureRow(icon: "book.fill", title: "📚 Tất cả 40 bài học Premium")
+                            FeatureRow(icon: "speaker.wave.2.fill", title: "🔊 Luyện phát âm với TTS")
+                            FeatureRow(icon: "chart.bar.fill", title: "📊 Theo dõi tiến độ chi tiết")
+                            FeatureRow(icon: "xmark.circle.fill", title: "🚫 Không quảng cáo")
+                            FeatureRow(icon: "trophy.fill", title: "🏆 Thành tích đặc biệt")
                         }
                         .padding(.horizontal)
 
@@ -71,8 +61,7 @@ struct PaywallView: View {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 .padding()
-                                .accessibilityLabel(localizationManager.currentLanguage == .vietnamese ?
-                                     "Đang tải các gói Premium" : "Loading Premium packages")
+                                .accessibilityLabel("Đang tải các gói Premium")
                         } else {
                             VStack(spacing: 15) {
                                 ForEach(iapManager.products, id: \.id) { product in
@@ -102,12 +91,7 @@ struct PaywallView: View {
                                     Image(systemName: "crown.fill")
                                         .font(.title3)
                                     Text(selectedProduct?.subscription != nil ?
-                                         (localizationManager.currentLanguage == .vietnamese ?
-                                          "Đăng ký Premium" :
-                                          "Subscribe to Premium") :
-                                         (localizationManager.currentLanguage == .vietnamese ?
-                                          "Mua Lifetime Premium" :
-                                          "Purchase Lifetime Premium"))
+                                          "Đăng ký Premium" : "Mua Lifetime Premium")
                                         .font(.system(size: 20, weight: .semibold))
                                 }
                                 .foregroundColor(.blue)
@@ -121,33 +105,20 @@ struct PaywallView: View {
                         .disabled(subscriptionManager.isPurchasing || selectedProduct == nil)
                         .opacity(selectedProduct == nil ? 0.6 : 1.0)
                         .accessibilityLabel(selectedProduct?.subscription != nil ?
-                             (localizationManager.currentLanguage == .vietnamese ?
-                              "Đăng ký Premium" :
-                              "Subscribe to Premium") :
-                             (localizationManager.currentLanguage == .vietnamese ?
-                              "Mua Lifetime Premium" :
-                              "Purchase Lifetime Premium"))
-                        .accessibilityHint(localizationManager.currentLanguage == .vietnamese ?
-                             "Nhấn đúp để tiếp tục thanh toán" :
-                             "Double tap to continue with payment")
+                              "Đăng ký Premium" : "Mua Lifetime Premium")
+                        .accessibilityHint("Nhấn đúp để tiếp tục thanh toán")
 
                         // Restore Button
                         Button(action: restorePurchases) {
-                            Text(localizationManager.currentLanguage == .vietnamese ?
-                                 "Khôi phục gói đã mua" : "Restore Purchases")
+                            Text("Khôi phục gói đã mua")
                                 .font(.system(size: 16))
                                 .foregroundColor(.white)
                         }
-                        .accessibilityLabel(localizationManager.currentLanguage == .vietnamese ?
-                             "Khôi phục gói đã mua" : "Restore Purchases")
-                        .accessibilityHint(localizationManager.currentLanguage == .vietnamese ?
-                             "Nhấn đúp để khôi phục các gói đã mua trước đó" :
-                             "Double tap to restore previously purchased subscriptions")
+                        .accessibilityLabel("Khôi phục gói đã mua")
+                        .accessibilityHint("Nhấn đúp để khôi phục các gói đã mua trước đó")
 
                         // Terms
-                        Text(localizationManager.currentLanguage == .vietnamese ?
-                             "Tự động gia hạn. Hủy bất kỳ lúc nào." :
-                             "Auto-renewable. Cancel anytime.")
+                        Text("Tự động gia hạn. Hủy bất kỳ lúc nào.")
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.7))
                             .multilineTextAlignment(.center)
@@ -156,14 +127,12 @@ struct PaywallView: View {
                     }
                 }
             }
-            .navigationBarItems(trailing: Button(localizationManager.currentLanguage == .vietnamese ?
-                                                 "Đóng" : "Close") {
+            .navigationBarItems(trailing: Button("Đóng") {
                 presentationMode.wrappedValue.dismiss()
             })
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text(localizationManager.currentLanguage == .vietnamese ?
-                               "Thông báo" : "Notice"),
+                    title: Text("Thông báo"),
                     message: Text(alertMessage),
                     dismissButton: .default(Text("OK"))
                 )
@@ -186,14 +155,11 @@ struct PaywallView: View {
     private func badgeForProduct(_ product: Product) -> String? {
         switch product.id {
         case IAPManager.ProductID.month1.rawValue:
-            return localizationManager.currentLanguage == .vietnamese ?
-                   "Phổ biến nhất ⭐" : "Most Popular ⭐"
+            return "Phổ biến nhất ⭐"
         case IAPManager.ProductID.year1.rawValue:
-            return localizationManager.currentLanguage == .vietnamese ?
-                   "Tiết kiệm nhất 💰" : "Best Savings 💰"
+            return "Tiết kiệm nhất 💰"
         case IAPManager.ProductID.lifetime.rawValue:
-            return localizationManager.currentLanguage == .vietnamese ?
-                   "Giá trị tốt nhất 👑" : "Best Value 👑"
+            return "Giá trị tốt nhất 👑"
         default:
             return nil
         }
@@ -211,9 +177,7 @@ struct PaywallView: View {
                     user.subscriptionExpiryDate = subscriptionManager.subscriptionStatus.expiryDate
                     authViewModel.updateUser(user)
                 }
-                alertMessage = localizationManager.currentLanguage == .vietnamese ?
-                               "Đăng ký thành công! Chào mừng bạn đến với Premium!" :
-                               "Successfully subscribed! Welcome to Premium!"
+                alertMessage = "Đăng ký thành công! Chào mừng bạn đến với Premium!"
                 showAlert = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     presentationMode.wrappedValue.dismiss()
@@ -230,11 +194,9 @@ struct PaywallView: View {
             await subscriptionManager.restorePurchases()
 
             if subscriptionManager.hasActiveSubscription() {
-                alertMessage = localizationManager.currentLanguage == .vietnamese ?
-                               "Khôi phục thành công!" : "Successfully restored!"
+                alertMessage = "Khôi phục thành công!"
             } else {
-                alertMessage = localizationManager.currentLanguage == .vietnamese ?
-                               "Không tìm thấy gói đăng ký nào" : "No purchases found"
+                alertMessage = "Không tìm thấy gói đăng ký nào"
             }
             showAlert = true
         }
@@ -269,14 +231,52 @@ struct ProductCard: View {
     var badge: String? = nil
     let action: () -> Void
 
-    @StateObject private var localizationManager = LocalizationManager.shared
+    // Vietnamese product names
+    private var vietnameseProductName: String {
+        switch product.id {
+        case IAPManager.ProductID.week1.rawValue:
+            return "Gói 1 Tuần"
+        case IAPManager.ProductID.month1.rawValue:
+            return "Gói 1 Tháng"
+        case IAPManager.ProductID.month2.rawValue:
+            return "Gói 2 Tháng"
+        case IAPManager.ProductID.month3.rawValue:
+            return "Gói 3 Tháng"
+        case IAPManager.ProductID.month6.rawValue:
+            return "Gói 6 Tháng"
+        case IAPManager.ProductID.year1.rawValue:
+            return "Gói 1 Năm"
+        case IAPManager.ProductID.lifetime.rawValue:
+            return "Gói Trọn Đời"
+        default:
+            return product.displayName
+        }
+    }
+
+    private var periodText: String {
+        switch product.id {
+        case IAPManager.ProductID.week1.rawValue:
+            return "/ tuần"
+        case IAPManager.ProductID.month1.rawValue,
+             IAPManager.ProductID.month2.rawValue,
+             IAPManager.ProductID.month3.rawValue,
+             IAPManager.ProductID.month6.rawValue:
+            return "/ tháng"
+        case IAPManager.ProductID.year1.rawValue:
+            return "/ năm"
+        case IAPManager.ProductID.lifetime.rawValue:
+            return "Mua 1 lần, dùng mãi mãi"
+        default:
+            return ""
+        }
+    }
 
     var body: some View {
         Button(action: action) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 5) {
-                        Text(product.displayName)
+                        Text(vietnameseProductName)
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(isSelected ? .white : .primary)
 
@@ -284,21 +284,13 @@ struct ProductCard: View {
                             .font(.system(size: 28, weight: .bold))
                             .foregroundColor(isSelected ? .white : .primary)
 
-                        if let subscription = product.subscription {
-                            Text("/ \(subscription.subscriptionPeriod.unit == .year ? (localizationManager.currentLanguage == .vietnamese ? "năm" : "year") : subscription.subscriptionPeriod.unit == .month ? (localizationManager.currentLanguage == .vietnamese ? "tháng" : "month") : (localizationManager.currentLanguage == .vietnamese ? "tuần" : "week"))")
-                                .font(.system(size: 14))
-                                .foregroundColor(isSelected ? .white : .secondary)
-                        } else {
-                            Text(localizationManager.currentLanguage == .vietnamese ?
-                                 "Mua 1 lần" : "One-time purchase")
-                                .font(.system(size: 14))
-                                .foregroundColor(isSelected ? .white : .secondary)
-                        }
+                        Text(periodText)
+                            .font(.system(size: 14))
+                            .foregroundColor(isSelected ? .white : .secondary)
 
                         // Show savings for year1 ($50)
                         if product.id == IAPManager.ProductID.year1.rawValue {
-                            Text(localizationManager.currentLanguage == .vietnamese ?
-                                 "Tiết kiệm 58% 🔥" : "Save 58% 🔥")
+                            Text("Tiết kiệm 58% 🔥")
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(isSelected ? .yellow : .orange)
                         }
@@ -340,11 +332,10 @@ struct ProductCard: View {
     }
 
     private func buildAccessibilityLabel() -> String {
-        var label = "Gói \(product.displayName), giá \(product.displayPrice)"
+        var label = "\(vietnameseProductName), giá \(product.displayPrice)"
 
-        if let subscription = product.subscription {
-            let period = subscription.subscriptionPeriod.unit == .year ? (localizationManager.currentLanguage == .vietnamese ? "năm" : "year") : subscription.subscriptionPeriod.unit == .month ? (localizationManager.currentLanguage == .vietnamese ? "tháng" : "month") : (localizationManager.currentLanguage == .vietnamese ? "tuần" : "week")
-            label += " mỗi \(period)"
+        if product.subscription != nil {
+            label += " \(periodText)"
         } else {
             label += ", mua 1 lần"
         }
