@@ -248,8 +248,9 @@ struct LessonCard: View {
                         .lineLimit(2)
 
                     HStack {
-                        // Only show XP for uncompleted lessons
-                        if !progressManager.isLessonCompleted(lesson.id) {
+                        // Only show XP for uncompleted lessons (check Firebase user data)
+                        let isCompleted = authViewModel.currentUser?.completedLessons.contains(lesson.id.uuidString) ?? false
+                        if !isCompleted {
                             Label("\(lesson.xpReward) XP", systemImage: "star.fill")
                                 .font(.system(size: 14))
                                 .foregroundColor(.orange)
@@ -344,8 +345,9 @@ struct LessonCard: View {
         var label = "Bài học: \(lesson.title). "
         label += "\(lesson.description). "
 
-        // Only mention XP for uncompleted lessons
-        if !progressManager.isLessonCompleted(lesson.id) {
+        // Only mention XP for uncompleted lessons (check Firebase user data)
+        let isCompleted = authViewModel.currentUser?.completedLessons.contains(lesson.id.uuidString) ?? false
+        if !isCompleted {
             label += "Phần thưởng: \(lesson.xpReward) XP. "
         }
 
@@ -358,7 +360,7 @@ struct LessonCard: View {
             label += "Điểm cao nhất: \(score) phần trăm. "
         }
 
-        if progressManager.isLessonCompleted(lesson.id) {
+        if isCompleted {
             label += "Đã hoàn thành."
         }
 
