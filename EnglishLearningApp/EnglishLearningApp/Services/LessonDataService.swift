@@ -38,6 +38,15 @@ class LessonDataService {
         static let lesson28 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000028")!
         static let lesson29 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000029")!
         static let lesson30 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000030")!
+        static let lesson31 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000031")!
+        static let lesson32 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000032")!
+        static let lesson33 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000033")!
+        static let lesson34 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000034")!
+        static let lesson35 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000035")!
+        static let lesson36 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000036")!
+        static let lesson37 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000037")!
+        static let lesson38 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000038")!
+        static let lesson39 = UUID(uuidString: "A1B2C3D4-1111-1111-1111-000000000039")!
     }
 
     func getLessons() -> [Lesson] {
@@ -387,6 +396,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'They work in a hospital'",
                         correctAnswer: "Họ làm việc ở bệnh viện"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Question form: '___ you like pizza?'",
+                        correctAnswer: "Do",
+                        options: ["Do", "Does", "Are", "Is"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Complete: 'He ___ to music every day' (listen)",
+                        correctAnswer: "listens"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is the correct negative?",
+                        correctAnswer: "They don't play tennis",
+                        options: ["They don't play tennis", "They doesn't play tennis", "They aren't play tennis", "They isn't play tennis"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Complete: 'My sister ___ books' (love)",
+                        correctAnswer: "loves"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Question form: '___ she work here?'",
+                        correctAnswer: "Does",
+                        options: ["Does", "Do", "Is", "Are"]
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I don't eat meat'",
+                        correctAnswer: "Tôi không ăn thịt"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'We ___ breakfast at 7 AM'",
+                        correctAnswer: "have",
+                        options: ["have", "has", "having", "had"]
                     )
                 ],
                 isPremium: false
@@ -426,6 +474,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I have two brothers'",
                         correctAnswer: "Tôi có hai anh trai"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'mẹ' in English?",
+                        correctAnswer: "mother",
+                        options: ["mother", "father", "sister", "daughter"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "My father's father is my ___",
+                        correctAnswer: "grandfather"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'brother' mean?",
+                        correctAnswer: "anh/em trai",
+                        options: ["anh/em trai", "chị/em gái", "bố", "mẹ"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you call your mother's sister?",
+                        correctAnswer: "aunt",
+                        options: ["aunt", "uncle", "cousin", "niece"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "My aunt's children are my ___",
+                        correctAnswer: "cousins"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'My parents are kind'",
+                        correctAnswer: "Bố mẹ tôi tốt bụng"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'con gái' in English?",
+                        correctAnswer: "daughter",
+                        options: ["daughter", "son", "sister", "mother"]
                     )
                 ],
                 isPremium: false
@@ -465,6 +552,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'black and white'",
                         correctAnswer: "đen và trắng"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What color is an orange?",
+                        correctAnswer: "orange",
+                        options: ["orange", "purple", "brown", "pink"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "The sun is ___",
+                        correctAnswer: "yellow"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'màu xanh lá cây' in English?",
+                        correctAnswer: "green",
+                        options: ["green", "blue", "brown", "gray"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'purple' mean?",
+                        correctAnswer: "màu tím",
+                        options: ["màu tím", "màu hồng", "màu nâu", "màu xám"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Snow is ___",
+                        correctAnswer: "white"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I like pink'",
+                        correctAnswer: "Tôi thích màu hồng"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What color is chocolate?",
+                        correctAnswer: "brown",
+                        options: ["brown", "black", "gray", "white"]
                     )
                 ],
                 isPremium: false
@@ -505,6 +631,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'We are having dinner'",
                         correctAnswer: "Chúng tôi đang ăn tối"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'You ___ watching TV'",
+                        correctAnswer: "are",
+                        options: ["are", "is", "am", "be"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "She is ___ to music (listen)",
+                        correctAnswer: "listening"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is the correct question form?",
+                        correctAnswer: "Are you sleeping?",
+                        options: ["Are you sleeping?", "You are sleeping?", "Do you sleeping?", "Is you sleeping?"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I am ___ my homework (do)",
+                        correctAnswer: "doing"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What's the negative: 'They ___ coming'",
+                        correctAnswer: "aren't",
+                        options: ["aren't", "isn't", "don't", "doesn't"]
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'He is running'",
+                        correctAnswer: "Anh ấy đang chạy"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'The baby ___ crying'",
+                        correctAnswer: "is",
+                        options: ["is", "are", "am", "be"]
                     )
                 ],
                 isPremium: false
@@ -544,6 +709,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I want some rice'",
                         correctAnswer: "Tôi muốn một ít cơm"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'sữa' in English?",
+                        correctAnswer: "milk",
+                        options: ["milk", "water", "juice", "tea"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I eat ___ for breakfast (cereal/eggs/toast)",
+                        correctAnswer: "eggs"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'chicken' mean?",
+                        correctAnswer: "thịt gà",
+                        options: ["thịt gà", "thịt heo", "thịt bò", "cá"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is a drink?",
+                        correctAnswer: "tea",
+                        options: ["tea", "sandwich", "pizza", "salad"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I'm hungry. I want some ___",
+                        correctAnswer: "food"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'She drinks orange juice'",
+                        correctAnswer: "Cô ấy uống nước cam"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'cá' in English?",
+                        correctAnswer: "fish",
+                        options: ["fish", "meat", "chicken", "pork"]
                     )
                 ],
                 isPremium: false
@@ -583,6 +787,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'Turn right at the traffic light'",
                         correctAnswer: "Rẽ phải ở đèn giao thông"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'turn right' mean?",
+                        correctAnswer: "rẽ phải",
+                        options: ["rẽ phải", "rẽ trái", "đi thẳng", "quay lại"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Go straight ___ two blocks",
+                        correctAnswer: "for"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'đi thẳng' in English?",
+                        correctAnswer: "go straight",
+                        options: ["go straight", "turn left", "turn right", "go back"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'It's ___ the corner'",
+                        correctAnswer: "on",
+                        options: ["on", "in", "at", "to"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "The bank is ___ to the post office",
+                        correctAnswer: "next"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'Where is the library?'",
+                        correctAnswer: "Thư viện ở đâu"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'go back' mean?",
+                        correctAnswer: "quay lại",
+                        options: ["quay lại", "đi thẳng", "rẽ trái", "rẽ phải"]
                     )
                 ],
                 isPremium: false
@@ -623,6 +866,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I have a pet rabbit'",
                         correctAnswer: "Tôi có một con thỏ"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What animal says 'woof woof'?",
+                        correctAnswer: "dog",
+                        options: ["dog", "cat", "bird", "frog"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ can swim (fish/bird/cat)",
+                        correctAnswer: "fish"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'con mèo' in English?",
+                        correctAnswer: "cat",
+                        options: ["cat", "rat", "bat", "hat"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'horse' mean?",
+                        correctAnswer: "con ngựa",
+                        options: ["con ngựa", "con bò", "con heo", "con dê"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ gives us milk",
+                        correctAnswer: "cow"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'The bird is singing'",
+                        correctAnswer: "Con chim đang hót"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which animal can jump very high?",
+                        correctAnswer: "frog",
+                        options: ["frog", "fish", "snake", "turtle"]
                     )
                 ],
                 isPremium: false
@@ -662,6 +944,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'My head hurts'",
                         correctAnswer: "Đầu tôi đau"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you use to hear?",
+                        correctAnswer: "ears",
+                        options: ["ears", "eyes", "nose", "mouth"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I brush my ___ every day",
+                        correctAnswer: "teeth"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'chân' in English?",
+                        correctAnswer: "leg",
+                        options: ["leg", "arm", "foot", "hand"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'mouth' mean?",
+                        correctAnswer: "miệng",
+                        options: ["miệng", "mũi", "tai", "mắt"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "You wave with your ___",
+                        correctAnswer: "hand"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'She has long hair'",
+                        correctAnswer: "Cô ấy có mái tóc dài"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you use to smell flowers?",
+                        correctAnswer: "nose",
+                        options: ["nose", "eyes", "ears", "hands"]
                     )
                 ],
                 isPremium: false
@@ -701,6 +1022,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I go to school'",
                         correctAnswer: "Tôi đi học"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'học sinh' in English?",
+                        correctAnswer: "student",
+                        options: ["student", "teacher", "principal", "class"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I sit on a ___",
+                        correctAnswer: "chair"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'desk' mean?",
+                        correctAnswer: "bàn học",
+                        options: ["bàn học", "ghế", "bảng", "sách"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you use to draw?",
+                        correctAnswer: "pencil",
+                        options: ["pencil", "book", "desk", "eraser"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "The teacher writes on the ___",
+                        correctAnswer: "board"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I study English'",
+                        correctAnswer: "Tôi học tiếng Anh"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'bảng đen' in English?",
+                        correctAnswer: "blackboard",
+                        options: ["blackboard", "whiteboard", "notebook", "textbook"]
                     )
                 ],
                 isPremium: false
@@ -740,6 +1100,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'It's cold today'",
                         correctAnswer: "Hôm nay trời lạnh"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What's the weather when you can't see the sun?",
+                        correctAnswer: "cloudy",
+                        options: ["cloudy", "sunny", "snowy", "clear"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "It's ___ outside. Bring an umbrella! (raining/sunny)",
+                        correctAnswer: "raining"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'trời mát' in English?",
+                        correctAnswer: "cool",
+                        options: ["cool", "cold", "hot", "warm"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'windy' mean?",
+                        correctAnswer: "có gió",
+                        options: ["có gió", "mưa", "nắng", "lạnh"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "The weather is ___ today (nice/bad)",
+                        correctAnswer: "nice"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'It's very hot'",
+                        correctAnswer: "Trời rất nóng"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "When do you see rain?",
+                        correctAnswer: "rainy day",
+                        options: ["rainy day", "sunny day", "windy day", "snowy day"]
                     )
                 ],
                 isPremium: false
@@ -779,6 +1178,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I go to school on Friday'",
                         correctAnswer: "Tôi đi học vào thứ sáu"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the first day of the week?",
+                        correctAnswer: "Monday",
+                        options: ["Monday", "Sunday", "Tuesday", "Saturday"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Today is Monday. Tomorrow is ___",
+                        correctAnswer: "Tuesday"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'Chủ nhật' in English?",
+                        correctAnswer: "Sunday",
+                        options: ["Sunday", "Saturday", "Monday", "Friday"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'Thursday' mean?",
+                        correctAnswer: "Thứ năm",
+                        options: ["Thứ năm", "Thứ tư", "Thứ sáu", "Thứ ba"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Wednesday comes after ___",
+                        correctAnswer: "Tuesday"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I rest on Sunday'",
+                        correctAnswer: "Tôi nghỉ vào chủ nhật"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How many days are in a week?",
+                        correctAnswer: "7",
+                        options: ["7", "5", "6", "8"]
                     )
                 ],
                 isPremium: false
@@ -818,6 +1256,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'My birthday is in May'",
                         correctAnswer: "Sinh nhật tôi vào tháng 5"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the last month of the year?",
+                        correctAnswer: "December",
+                        options: ["December", "November", "January", "October"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "January, February, ___",
+                        correctAnswer: "March"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'Tháng 6' in English?",
+                        correctAnswer: "June",
+                        options: ["June", "July", "May", "January"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'September' mean?",
+                        correctAnswer: "Tháng 9",
+                        options: ["Tháng 9", "Tháng 7", "Tháng 8", "Tháng 10"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "School starts in ___",
+                        correctAnswer: "September"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I love February'",
+                        correctAnswer: "Tôi thích tháng 2"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How many months are in a year?",
+                        correctAnswer: "12",
+                        options: ["12", "10", "11", "13"]
                     )
                 ],
                 isPremium: false
@@ -857,6 +1334,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I drew a heart'",
                         correctAnswer: "Tôi vẽ một hình tim"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What shape has four equal sides?",
+                        correctAnswer: "square",
+                        options: ["square", "rectangle", "triangle", "circle"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ has no corners",
+                        correctAnswer: "circle"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'hình chữ nhật' in English?",
+                        correctAnswer: "rectangle",
+                        options: ["rectangle", "square", "triangle", "oval"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'oval' mean?",
+                        correctAnswer: "hình bầu dục",
+                        options: ["hình bầu dục", "hình tròn", "hình vuông", "hình tam giác"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A stop sign has ___ sides",
+                        correctAnswer: "eight"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'The pizza is round'",
+                        correctAnswer: "Chiếc pizza hình tròn"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How many sides does a triangle have?",
+                        correctAnswer: "3",
+                        options: ["3", "4", "5", "6"]
                     )
                 ],
                 isPremium: false
@@ -896,6 +1412,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "What are the first three letters?",
                         correctAnswer: "A B C"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What letter comes before G?",
+                        correctAnswer: "F",
+                        options: ["F", "H", "E", "I"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "W, X, Y, ___",
+                        correctAnswer: "Z"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the first letter of the alphabet?",
+                        correctAnswer: "A",
+                        options: ["A", "B", "C", "D"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which letters are vowels?",
+                        correctAnswer: "A E I O U",
+                        options: ["A E I O U", "B C D F G", "L M N P Q", "R S T V W"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "M, N, ___, P",
+                        correctAnswer: "O"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "How do you spell 'CAT'?",
+                        correctAnswer: "C A T"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What letter comes after S?",
+                        correctAnswer: "T",
+                        options: ["T", "U", "R", "V"]
                     )
                 ],
                 isPremium: false
@@ -936,6 +1491,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'The zebra has stripes'",
                         correctAnswer: "Con ngựa vằn có sọc"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What animal is the king of the jungle?",
+                        correctAnswer: "lion",
+                        options: ["lion", "tiger", "bear", "elephant"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ swings from trees",
+                        correctAnswer: "monkey"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'con hổ' in English?",
+                        correctAnswer: "tiger",
+                        options: ["tiger", "lion", "leopard", "cheetah"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'bear' mean?",
+                        correctAnswer: "con gấu",
+                        options: ["con gấu", "con hổ", "con khỉ", "con voi"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ eats bamboo (panda/koala/bear)",
+                        correctAnswer: "panda"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I see a big elephant'",
+                        correctAnswer: "Tôi thấy một con voi lớn"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which animal has black and white stripes?",
+                        correctAnswer: "zebra",
+                        options: ["zebra", "tiger", "giraffe", "panda"]
                     )
                 ],
                 isPremium: false
@@ -975,6 +1569,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'She wears a dress'",
                         correctAnswer: "Cô ấy mặc váy"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you wear when it's cold?",
+                        correctAnswer: "jacket",
+                        options: ["jacket", "shorts", "t-shirt", "sandals"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I wear ___ on my hands when it's cold",
+                        correctAnswer: "gloves"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'quần short' in English?",
+                        correctAnswer: "shorts",
+                        options: ["shorts", "pants", "skirt", "jeans"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'socks' mean?",
+                        correctAnswer: "tất",
+                        options: ["tất", "giày", "găng tay", "mũ"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Girls often wear a ___",
+                        correctAnswer: "skirt"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'He wears blue jeans'",
+                        correctAnswer: "Anh ấy mặc quần jean xanh"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you wear to sleep?",
+                        correctAnswer: "pajamas",
+                        options: ["pajamas", "suit", "dress", "uniform"]
                     )
                 ],
                 isPremium: false
@@ -1014,6 +1647,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'He plays basketball'",
                         correctAnswer: "Anh ấy chơi bóng rổ"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What sport is played on ice?",
+                        correctAnswer: "hockey",
+                        options: ["hockey", "baseball", "volleyball", "golf"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I play ___ with a racket (tennis/badminton)",
+                        correctAnswer: "badminton"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'bóng chuyền' in English?",
+                        correctAnswer: "volleyball",
+                        options: ["volleyball", "basketball", "football", "handball"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'running' mean?",
+                        correctAnswer: "chạy",
+                        options: ["chạy", "bơi", "nhảy", "leo"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "You need a bat to play ___",
+                        correctAnswer: "baseball"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I can swim fast'",
+                        correctAnswer: "Tôi có thể bơi nhanh"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which sport uses a shuttlecock?",
+                        correctAnswer: "badminton",
+                        options: ["badminton", "tennis", "ping pong", "volleyball"]
                     )
                 ],
                 isPremium: false
@@ -1053,6 +1725,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I like strawberries'",
                         correctAnswer: "Tôi thích dâu tây"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which fruit is purple?",
+                        correctAnswer: "grape",
+                        options: ["grape", "apple", "banana", "orange"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Monkeys love to eat ___",
+                        correctAnswer: "bananas"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'quả dâu' in English?",
+                        correctAnswer: "strawberry",
+                        options: ["strawberry", "raspberry", "blueberry", "cherry"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'pineapple' mean?",
+                        correctAnswer: "dứa",
+                        options: ["dứa", "táo", "cam", "nho"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ is red and round (apple/banana)",
+                        correctAnswer: "apple"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'She eats a pear'",
+                        correctAnswer: "Cô ấy ăn quả lê"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which fruit is green inside?",
+                        correctAnswer: "kiwi",
+                        options: ["kiwi", "strawberry", "cherry", "peach"]
                     )
                 ],
                 isPremium: false
@@ -1092,6 +1803,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I eat vegetables every day'",
                         correctAnswer: "Tôi ăn rau mỗi ngày"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What vegetable makes you cry when you cut it?",
+                        correctAnswer: "onion",
+                        options: ["onion", "carrot", "potato", "cabbage"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "French fries are made from ___",
+                        correctAnswer: "potatoes"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'bắp cải' in English?",
+                        correctAnswer: "cabbage",
+                        options: ["cabbage", "lettuce", "spinach", "kale"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'cucumber' mean?",
+                        correctAnswer: "dưa chuột",
+                        options: ["dưa chuột", "cà chua", "cà rốt", "khoai tây"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ is green and used in salad",
+                        correctAnswer: "lettuce"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'Carrots are healthy'",
+                        correctAnswer: "Cà rốt tốt cho sức khỏe"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which vegetable is red?",
+                        correctAnswer: "tomato",
+                        options: ["tomato", "broccoli", "celery", "cauliflower"]
                     )
                 ],
                 isPremium: false
@@ -1131,6 +1881,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I have many toys'",
                         correctAnswer: "Tôi có nhiều đồ chơi"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What toy has wheels and you can ride it?",
+                        correctAnswer: "bicycle",
+                        options: ["bicycle", "doll", "puzzle", "ball"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Children build towers with ___",
+                        correctAnswer: "blocks"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'xe ô tô đồ chơi' in English?",
+                        correctAnswer: "toy car",
+                        options: ["toy car", "doll car", "play car", "mini car"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'teddy bear' mean?",
+                        correctAnswer: "gấu bông",
+                        options: ["gấu bông", "búp bê", "xe đồ chơi", "bóng"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I play video ___ on my computer",
+                        correctAnswer: "games"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'She loves her doll'",
+                        correctAnswer: "Cô ấy yêu búp bê của mình"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What toy flies in the sky?",
+                        correctAnswer: "kite",
+                        options: ["kite", "ball", "car", "robot"]
                     )
                 ],
                 isPremium: false
@@ -1170,6 +1959,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'The dining room is big'",
                         correctAnswer: "Phòng ăn rộng"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Where do you eat dinner with your family?",
+                        correctAnswer: "dining room",
+                        options: ["dining room", "bedroom", "garage", "bathroom"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I watch TV in the ___ room",
+                        correctAnswer: "living"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'phòng ngủ' in English?",
+                        correctAnswer: "bedroom",
+                        options: ["bedroom", "bathroom", "living room", "kitchen"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'garage' mean?",
+                        correctAnswer: "nhà để xe",
+                        options: ["nhà để xe", "phòng ngủ", "nhà bếp", "phòng tắm"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I brush my teeth in the ___",
+                        correctAnswer: "bathroom"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'My house has five rooms'",
+                        correctAnswer: "Nhà tôi có năm phòng"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Where do you cook food?",
+                        correctAnswer: "kitchen",
+                        options: ["kitchen", "bedroom", "garden", "closet"]
                     )
                 ],
                 isPremium: false
@@ -1209,6 +2037,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I need a pencil'",
                         correctAnswer: "Tôi cần một cây bút chì"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you use to cut paper?",
+                        correctAnswer: "scissors",
+                        options: ["scissors", "glue", "tape", "stapler"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I use ___ to stick paper together",
+                        correctAnswer: "glue"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'bút màu' in English?",
+                        correctAnswer: "crayons",
+                        options: ["crayons", "markers", "pencils", "pens"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'notebook' mean?",
+                        correctAnswer: "vở ghi chép",
+                        options: ["vở ghi chép", "sách giáo khoa", "bút", "thước"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I sharpen my ___ when it's dull",
+                        correctAnswer: "pencil"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'She has a red pen'",
+                        correctAnswer: "Cô ấy có một cây bút đỏ"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you use to draw straight lines?",
+                        correctAnswer: "ruler",
+                        options: ["ruler", "eraser", "pen", "glue"]
                     )
                 ],
                 isPremium: false
@@ -1248,6 +2115,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I feel scared'",
                         correctAnswer: "Tôi cảm thấy sợ hãi"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you feel when someone hurts you?",
+                        correctAnswer: "angry",
+                        options: ["angry", "happy", "excited", "proud"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I am ___ when I lose a game",
+                        correctAnswer: "sad"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'tức giận' in English?",
+                        correctAnswer: "angry",
+                        options: ["angry", "hungry", "tired", "scared"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'nervous' mean?",
+                        correctAnswer: "lo lắng",
+                        options: ["lo lắng", "vui vẻ", "buồn", "giận dữ"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I feel ___ when I win",
+                        correctAnswer: "proud"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'He is very happy'",
+                        correctAnswer: "Anh ấy rất vui"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you feel on your birthday?",
+                        correctAnswer: "excited",
+                        options: ["excited", "bored", "angry", "scared"]
                     )
                 ],
                 isPremium: false
@@ -1287,6 +2193,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'My mom is a nurse'",
                         correctAnswer: "Mẹ tôi là y tá"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Who flies an airplane?",
+                        correctAnswer: "pilot",
+                        options: ["pilot", "driver", "sailor", "conductor"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ helps sick people",
+                        correctAnswer: "doctor"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'cảnh sát' in English?",
+                        correctAnswer: "police officer",
+                        options: ["police officer", "firefighter", "soldier", "guard"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'artist' mean?",
+                        correctAnswer: "họa sĩ",
+                        options: ["họa sĩ", "ca sĩ", "diễn viên", "vũ công"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "A ___ grows food on a farm",
+                        correctAnswer: "farmer"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I want to be a scientist'",
+                        correctAnswer: "Tôi muốn trở thành nhà khoa học"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Who fixes cars?",
+                        correctAnswer: "mechanic",
+                        options: ["mechanic", "carpenter", "plumber", "electrician"]
                     )
                 ],
                 isPremium: false
@@ -1326,6 +2271,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'It's three thirty'",
                         correctAnswer: "Ba giờ ba mươi"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What time of day do you eat lunch?",
+                        correctAnswer: "afternoon",
+                        options: ["afternoon", "morning", "evening", "night"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I go to bed at ___",
+                        correctAnswer: "night"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'buổi chiều' in English?",
+                        correctAnswer: "afternoon",
+                        options: ["afternoon", "morning", "evening", "noon"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'dawn' mean?",
+                        correctAnswer: "bình minh",
+                        options: ["bình minh", "hoàng hôn", "trưa", "đêm"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "The sun sets in the ___",
+                        correctAnswer: "evening"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'What time is it?'",
+                        correctAnswer: "Mấy giờ rồi"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "When do you see stars?",
+                        correctAnswer: "at night",
+                        options: ["at night", "in the morning", "at noon", "in the afternoon"]
                     )
                 ],
                 isPremium: false
@@ -1365,6 +2349,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I go to bed at 9 PM'",
                         correctAnswer: "Tôi đi ngủ lúc 9 giờ tối"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you do before breakfast?",
+                        correctAnswer: "wash face",
+                        options: ["wash face", "have dinner", "do homework", "watch TV"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I ___ my hair every morning",
+                        correctAnswer: "comb"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'ăn sáng' in English?",
+                        correctAnswer: "have breakfast",
+                        options: ["have breakfast", "have lunch", "have dinner", "have snack"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'get dressed' mean?",
+                        correctAnswer: "mặc quần áo",
+                        options: ["mặc quần áo", "tắm", "ngủ", "ăn"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I ___ TV after dinner",
+                        correctAnswer: "watch"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'She reads books every night'",
+                        correctAnswer: "Cô ấy đọc sách mỗi tối"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you do at school?",
+                        correctAnswer: "study",
+                        options: ["study", "sleep", "cook", "shop"]
                     )
                 ],
                 isPremium: false
@@ -1405,12 +2428,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'We visited our grandparents'",
                         correctAnswer: "Chúng tôi đã thăm ông bà"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the past tense of 'go'?",
+                        correctAnswer: "went",
+                        options: ["went", "goed", "going", "gone"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I ___ a letter yesterday (write)",
+                        correctAnswer: "wrote"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the past tense of 'see'?",
+                        correctAnswer: "saw",
+                        options: ["saw", "seed", "seen", "seeing"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is the correct negative?",
+                        correctAnswer: "She didn't come",
+                        options: ["She didn't come", "She doesn't came", "She not came", "She don't come"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "They ___ soccer last week (play)",
+                        correctAnswer: "played"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I studied English yesterday'",
+                        correctAnswer: "Tôi đã học tiếng Anh hôm qua"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the past tense of 'buy'?",
+                        correctAnswer: "bought",
+                        options: ["bought", "buyed", "buying", "buyed"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson31,
                 title: "So sánh hơn",
                 description: "Học cách so sánh",
                 level: 3,
@@ -1443,12 +2506,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'She is younger than her sister'",
                         correctAnswer: "Cô ấy trẻ hơn chị gái"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the comparative of 'bad'?",
+                        correctAnswer: "worse",
+                        options: ["worse", "badder", "more bad", "worst"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "An elephant is ___ than a mouse (big)",
+                        correctAnswer: "bigger"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'This test is ___ difficult than the last one'",
+                        correctAnswer: "more",
+                        options: ["more", "most", "much", "many"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the comparative of 'hot'?",
+                        correctAnswer: "hotter",
+                        options: ["hotter", "hoter", "more hot", "hottest"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Gold is ___ than silver (expensive)",
+                        correctAnswer: "more expensive"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'He runs faster than me'",
+                        correctAnswer: "Anh ấy chạy nhanh hơn tôi"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is correct?",
+                        correctAnswer: "She is smarter than him",
+                        options: ["She is smarter than him", "She is more smart than him", "She smarter than him", "She is smartest than him"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson32,
                 title: "Động từ khuyết thiếu",
                 description: "Can, should, must",
                 level: 3,
@@ -1481,12 +2584,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'You must do your homework'",
                         correctAnswer: "Bạn phải làm bài tập"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: '___ I use your phone?'",
+                        correctAnswer: "May",
+                        options: ["May", "Must", "Should", "Would"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "You ___ eat too much candy (should/shouldn't)",
+                        correctAnswer: "shouldn't"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'You must stop' mean?",
+                        correctAnswer: "Bạn phải dừng lại",
+                        options: ["Bạn phải dừng lại", "Bạn nên dừng lại", "Bạn có thể dừng lại", "Bạn muốn dừng lại"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'She ___ speak three languages'",
+                        correctAnswer: "can",
+                        options: ["can", "cans", "could", "may"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "We ___ arrive on time (must/can/may)",
+                        correctAnswer: "must"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'You should study hard'",
+                        correctAnswer: "Bạn nên học chăm chỉ"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is the negative of 'can'?",
+                        correctAnswer: "cannot",
+                        options: ["cannot", "can not", "must not", "should not"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson33,
                 title: "Giới từ",
                 description: "In, on, at, under, between...",
                 level: 3,
@@ -1519,12 +2662,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'The dog is between the trees'",
                         correctAnswer: "Con chó ở giữa các cây"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'The picture is ___ the wall'",
+                        correctAnswer: "on",
+                        options: ["on", "in", "at", "under"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I sit ___ my friend (next to/between)",
+                        correctAnswer: "next to"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Where is the mouse? It's ___ the chair",
+                        correctAnswer: "under",
+                        options: ["under", "on", "in", "at"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'She lives ___ London'",
+                        correctAnswer: "in",
+                        options: ["in", "on", "at", "to"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "The keys are ___ the table",
+                        correctAnswer: "on"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'The cat is behind the door'",
+                        correctAnswer: "Con mèo ở đằng sau cửa"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'I arrived ___ 5 PM'",
+                        correctAnswer: "at",
+                        options: ["at", "in", "on", "to"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson34,
                 title: "Tương lai đơn",
                 description: "Học cách nói về tương lai",
                 level: 3,
@@ -1557,12 +2740,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'It will rain tomorrow'",
                         correctAnswer: "Ngày mai trời sẽ mưa"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'He ___ be here soon'",
+                        correctAnswer: "will",
+                        options: ["will", "is", "was", "going"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I ___ call you later",
+                        correctAnswer: "will"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What is the question form?",
+                        correctAnswer: "Will you help me?",
+                        options: ["Will you help me?", "You will help me?", "Do you will help me?", "Are you will help me?"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Complete: 'They ___ not come to the party'",
+                        correctAnswer: "will",
+                        options: ["will", "are", "do", "can"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "She ___ visit us next month",
+                        correctAnswer: "will"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I will study tomorrow'",
+                        correctAnswer: "Tôi sẽ học vào ngày mai"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is correct?",
+                        correctAnswer: "We will travel next year",
+                        options: ["We will travel next year", "We will travels next year", "We will traveling next year", "We will to travel next year"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson35,
                 title: "Câu hỏi Wh-",
                 description: "Who, What, Where, When, Why, How",
                 level: 3,
@@ -1595,12 +2818,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'Why are you late?'",
                         correctAnswer: "Tại sao bạn đến muộn"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "___ is that? - It's my friend",
+                        correctAnswer: "Who",
+                        options: ["Who", "What", "Where", "When"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "___ old are you? - I'm 10 years old",
+                        correctAnswer: "How"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "___ do you go to school? - By bus",
+                        correctAnswer: "How",
+                        options: ["How", "What", "Where", "Who"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "___ color do you like? - I like blue",
+                        correctAnswer: "What",
+                        options: ["What", "Which", "How", "Why"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "___ is your teacher? - Ms. Smith",
+                        correctAnswer: "Who"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'Where is the library?'",
+                        correctAnswer: "Thư viện ở đâu"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "___ do you like pizza? - Because it's delicious",
+                        correctAnswer: "Why",
+                        options: ["Why", "What", "When", "How"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson36,
                 title: "Địa điểm trong thành phố",
                 description: "Các địa điểm công cộng",
                 level: 3,
@@ -1633,12 +2896,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'The bank is next to the supermarket'",
                         correctAnswer: "Ngân hàng ở cạnh siêu thị"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Where do you see a doctor?",
+                        correctAnswer: "hospital",
+                        options: ["hospital", "library", "park", "mall"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I buy groceries at the ___",
+                        correctAnswer: "supermarket"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'công viên' in English?",
+                        correctAnswer: "park",
+                        options: ["park", "garden", "zoo", "mall"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'police station' mean?",
+                        correctAnswer: "đồn cảnh sát",
+                        options: ["đồn cảnh sát", "bệnh viện", "trường học", "ngân hàng"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Children play at the ___",
+                        correctAnswer: "playground"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'The hotel is near the airport'",
+                        correctAnswer: "Khách sạn gần sân bay"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Where do you go to watch movies?",
+                        correctAnswer: "cinema",
+                        options: ["cinema", "museum", "library", "park"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson37,
                 title: "Đi mua sắm",
                 description: "Từ vựng về mua sắm",
                 level: 3,
@@ -1671,12 +2974,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'I'll take it'",
                         correctAnswer: "Tôi sẽ lấy nó"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you pay without cash?",
+                        correctAnswer: "credit card",
+                        options: ["credit card", "money", "coins", "bills"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "This shirt is too ___. I want a cheaper one",
+                        correctAnswer: "expensive"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'rẻ' in English?",
+                        correctAnswer: "cheap",
+                        options: ["cheap", "expensive", "free", "costly"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'receipt' mean?",
+                        correctAnswer: "hóa đơn",
+                        options: ["hóa đơn", "tiền", "giá", "giảm giá"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Do you have this in a different ___?",
+                        correctAnswer: "size"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'Can I get a refund?'",
+                        correctAnswer: "Tôi có thể được hoàn tiền không"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What do you say when you want to buy something?",
+                        correctAnswer: "I'll buy this",
+                        options: ["I'll buy this", "Give me money", "You buy this", "I no want"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson38,
                 title: "Sở thích",
                 description: "Nói về sở thích của bạn",
                 level: 3,
@@ -1709,12 +3052,52 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate: 'My hobby is playing guitar'",
                         correctAnswer: "Sở thích của tôi là chơi guitar"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What hobby involves books?",
+                        correctAnswer: "reading",
+                        options: ["reading", "swimming", "dancing", "cooking"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "I like ___ photos with my camera",
+                        correctAnswer: "taking"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "How do you say 'nấu ăn' in English?",
+                        correctAnswer: "cooking",
+                        options: ["cooking", "eating", "baking", "serving"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "What does 'gardening' mean?",
+                        correctAnswer: "làm vườn",
+                        options: ["làm vườn", "vẽ", "đọc", "chơi game"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "She enjoys ___ to music",
+                        correctAnswer: "listening"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'I love dancing'",
+                        correctAnswer: "Tôi thích nhảy"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Which is a creative hobby?",
+                        correctAnswer: "painting",
+                        options: ["painting", "sleeping", "eating", "walking"]
                     )
                 ],
                 isPremium: false
             ),
 
             Lesson(
+                id: LessonID.lesson39,
                 title: "Câu chuyện ngắn",
                 description: "Đọc hiểu câu chuyện",
                 level: 3,
@@ -1747,6 +3130,45 @@ class LessonDataService {
                         type: .translation,
                         prompt: "Translate the story: 'I have a friend. His name is John.'",
                         correctAnswer: "Tôi có một người bạn. Tên anh ấy là John"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Story: 'Anna has a red bike. She rides it to school.' What color is Anna's bike?",
+                        correctAnswer: "red",
+                        options: ["red", "blue", "green", "yellow"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Story: 'The sun is shining. Birds are ___.' What are the birds doing?",
+                        correctAnswer: "singing"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Story: 'Peter eats breakfast at 7 AM. Then he goes to school.' When does Peter eat breakfast?",
+                        correctAnswer: "7 AM",
+                        options: ["7 AM", "8 AM", "6 AM", "9 AM"]
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Story: 'My dog is black and white. He likes to play.' What does the dog like?",
+                        correctAnswer: "to play",
+                        options: ["to play", "to sleep", "to eat", "to run"]
+                    ),
+                    Question(
+                        type: .fillInBlank,
+                        prompt: "Story: 'Sarah has three ___. They are red, blue, and green.' What does Sarah have?",
+                        correctAnswer: "pens"
+                    ),
+                    Question(
+                        type: .translation,
+                        prompt: "Translate: 'The boy is happy. He has a new toy.'",
+                        correctAnswer: "Cậu bé vui vẻ. Cậu ấy có một đồ chơi mới"
+                    ),
+                    Question(
+                        type: .multipleChoice,
+                        prompt: "Story: 'It's raining today. Lisa takes her umbrella.' Why does Lisa take her umbrella?",
+                        correctAnswer: "Because it's raining",
+                        options: ["Because it's raining", "Because it's sunny", "Because it's cold", "Because it's hot"]
                     )
                 ],
                 isPremium: false
