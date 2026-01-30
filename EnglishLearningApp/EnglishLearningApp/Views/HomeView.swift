@@ -53,6 +53,16 @@ struct HomeView: View {
                 loadLessons()
                 heartManager.checkDailyRefill()
             }
+            .onChange(of: authViewModel.currentUser?.completedLessons) { _ in
+                // Reload lessons when user's completed lessons change
+                print("🔄 [HomeView] User completedLessons changed, reloading lessons...")
+                loadLessons()
+            }
+            .onChange(of: progressManager.completedLessons) { _ in
+                // Also reload when progress manager updates (for immediate UI feedback)
+                print("🔄 [HomeView] ProgressManager completedLessons changed, reloading lessons...")
+                loadLessons()
+            }
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
             }
