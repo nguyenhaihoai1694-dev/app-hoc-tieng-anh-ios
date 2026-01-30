@@ -15,21 +15,6 @@ class UserProgressManager: ObservableObject {
     func completeLesson(_ lessonId: UUID, score: Int, xpReward: Int, authViewModel: AuthViewModel) {
         print("📚 [ProgressManager] completeLesson called - lessonId: \(lessonId.uuidString), score: \(score)")
 
-        // Check if this is first time completing or a better score
-        let isFirstCompletion = !completedLessons.contains(lessonId)
-        let currentBest = lessonScores[lessonId] ?? 0
-        let isBetterScore = score > currentBest
-
-        print("📚 [ProgressManager] isFirstCompletion: \(isFirstCompletion), isBetterScore: \(isBetterScore)")
-
-        // Mark as completed
-        completedLessons.insert(lessonId)
-
-        // Update best score locally
-        if isBetterScore {
-            lessonScores[lessonId] = score
-        }
-
         // Update user stats
         guard var user = authViewModel.currentUser else {
             print("❌ [ProgressManager] ERROR: No current user found!")
@@ -37,6 +22,21 @@ class UserProgressManager: ObservableObject {
         }
 
         print("📚 [ProgressManager] Current user completedLessons before: \(user.completedLessons)")
+
+        // Check if this is first time completing (based on Firebase user data - source of truth)
+        let isFirstCompletion = !user.completedLessons.contains(lessonId.uuidString)
+        let currentBest = lessonScores[lessonId] ?? 0
+        let isBetterScore = score > currentBest
+
+        print("📚 [ProgressManager] isFirstCompletion: \(isFirstCompletion), isBetterScore: \(isBetterScore)")
+
+        // Mark as completed in local state
+        completedLessons.insert(lessonId)
+
+        // Update best score locally
+        if isBetterScore {
+            lessonScores[lessonId] = score
+        }
 
         // Only award XP on first completion
         if isFirstCompletion {

@@ -196,9 +196,10 @@ struct LessonView: View {
             )
             .confetti(isActive: $showConfetti)
             .sheet(isPresented: $showCompletion) {
+                let isAlreadyCompleted = authViewModel.currentUser?.completedLessons.contains(lesson.id.uuidString) ?? false
                 CompletionView(
                     score: score,
-                    xpEarned: progressManager.isLessonCompleted(lesson.id) ? 0 : lesson.xpReward,
+                    xpEarned: isAlreadyCompleted ? 0 : lesson.xpReward,
                     lessonTitle: lesson.title
                 ) {
                     progressManager.completeLesson(
