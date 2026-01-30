@@ -171,6 +171,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson03,
                 title: "Số đếm 1-20",
                 description: "Học đếm số từ 1 đến 20",
                 level: 1,
@@ -237,6 +238,7 @@ class LessonDataService {
 
             // Intermediate Lessons (Premium)
             Lesson(
+                id: LessonID.lesson04,
                 title: "Thì hiện tại đơn",
                 description: "Học cách sử dụng thì hiện tại đơn",
                 level: 2,
@@ -275,6 +277,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson05,
                 title: "Gia đình",
                 description: "Từ vựng về các thành viên trong gia đình",
                 level: 2,
@@ -313,6 +316,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson06,
                 title: "Màu sắc",
                 description: "Học các màu sắc cơ bản",
                 level: 1,
@@ -352,6 +356,7 @@ class LessonDataService {
 
             // Advanced Lessons (Premium)
             Lesson(
+                id: LessonID.lesson07,
                 title: "Thì hiện tại tiếp diễn",
                 description: "Học cách diễn đạt hành động đang diễn ra",
                 level: 3,
@@ -390,6 +395,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson08,
                 title: "Thức ăn và đồ uống",
                 description: "Từ vựng về đồ ăn, thức uống",
                 level: 2,
@@ -428,6 +434,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson09,
                 title: "Hỏi đường",
                 description: "Học cách hỏi và chỉ đường",
                 level: 3,
@@ -467,6 +474,7 @@ class LessonDataService {
 
             // Level 1 - More Beginner Lessons (FREE)
             Lesson(
+                id: LessonID.lesson10,
                 title: "Động vật cơ bản",
                 description: "Học tên các con vật phổ biến",
                 level: 1,
@@ -505,6 +513,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson11,
                 title: "Bộ phận cơ thể",
                 description: "Học tên các bộ phận trên cơ thể",
                 level: 1,
@@ -543,6 +552,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson12,
                 title: "Trường học",
                 description: "Từ vựng về trường học",
                 level: 1,
@@ -581,6 +591,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson13,
                 title: "Thời tiết",
                 description: "Học cách nói về thời tiết",
                 level: 1,
@@ -619,6 +630,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson14,
                 title: "Ngày trong tuần",
                 description: "Học các ngày trong tuần",
                 level: 1,
@@ -657,6 +669,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson15,
                 title: "Tháng trong năm",
                 description: "Học 12 tháng trong năm",
                 level: 1,
@@ -695,6 +708,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson16,
                 title: "Hình dạng",
                 description: "Học các hình dạng cơ bản",
                 level: 1,
@@ -733,6 +747,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson17,
                 title: "Bảng chữ cái",
                 description: "Học bảng chữ cái tiếng Anh",
                 level: 1,
@@ -772,6 +787,7 @@ class LessonDataService {
 
             // Level 2 - Intermediate Lessons (Mix FREE/PREMIUM)
             Lesson(
+                id: LessonID.lesson18,
                 title: "Động vật vườn thú",
                 description: "Học tên động vật ở sở thú",
                 level: 2,
@@ -810,6 +826,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson19,
                 title: "Quần áo",
                 description: "Từ vựng về quần áo",
                 level: 2,
@@ -848,6 +865,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson20,
                 title: "Thể thao",
                 description: "Từ vựng về các môn thể thao",
                 level: 2,
@@ -886,6 +904,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson21,
                 title: "Trái cây",
                 description: "Học tên các loại trái cây",
                 level: 2,
@@ -924,6 +943,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson22,
                 title: "Rau củ",
                 description: "Học tên các loại rau củ",
                 level: 2,
@@ -962,6 +982,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson23,
                 title: "Đồ chơi",
                 description: "Từ vựng về đồ chơi",
                 level: 2,
@@ -1000,6 +1021,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson24,
                 title: "Phòng trong nhà",
                 description: "Các phòng trong ngôi nhà",
                 level: 2,
@@ -1038,6 +1060,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson25,
                 title: "Đồ dùng học tập",
                 description: "Đồ dùng cần thiết cho học tập",
                 level: 2,
@@ -1076,6 +1099,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson26,
                 title: "Cảm xúc",
                 description: "Học cách diễn đạt cảm xúc",
                 level: 2,
@@ -1114,6 +1138,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson27,
                 title: "Nghề nghiệp",
                 description: "Các nghề nghiệp phổ biến",
                 level: 2,
@@ -1152,6 +1177,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson28,
                 title: "Giờ trong ngày",
                 description: "Học cách đọc giờ",
                 level: 2,
@@ -1190,6 +1216,7 @@ class LessonDataService {
             ),
 
             Lesson(
+                id: LessonID.lesson29,
                 title: "Hoạt động hàng ngày",
                 description: "Các hoạt động thường ngày",
                 level: 2,
@@ -1229,6 +1256,7 @@ class LessonDataService {
 
             // Level 3 - Advanced Lessons (PREMIUM)
             Lesson(
+                id: LessonID.lesson30,
                 title: "Thì quá khứ đơn",
                 description: "Học cách kể về quá khứ",
                 level: 3,
