@@ -35,6 +35,7 @@ struct HomeView: View {
 
                         ForEach(lessons) { lesson in
                             LessonCard(lesson: lesson, onRefreshNeeded: loadLessons)
+                                .id("\(lesson.id)-\(authViewModel.currentUser?.completedLessons.count ?? 0)")
                         }
                     }
                 }
