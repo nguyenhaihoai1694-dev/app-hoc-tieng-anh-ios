@@ -97,8 +97,6 @@ class SubscriptionManager: ObservableObject {
             return .month6
         case IAPManager.ProductID.year1.rawValue:
             return .year1
-        case IAPManager.ProductID.year2.rawValue:
-            return .year2
         case IAPManager.ProductID.lifetime.rawValue:
             return .lifetime
         default:

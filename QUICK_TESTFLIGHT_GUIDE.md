@@ -6,7 +6,7 @@
 
 **Vào:** https://appstoreconnect.apple.com → My Apps → Your App
 
-**Tạo 8 products với Product IDs SAU (PHẢI ĐÚNG 100%):**
+**Tạo 7 products với Product IDs SAU (PHẢI ĐÚNG 100%):**
 
 ```
 com.hoai.englishkidsapp.week1     → $0.99  (1 week)
@@ -15,12 +15,11 @@ com.hoai.englishkidsapp.month2    → $4.99  (2 months)
 com.hoai.englishkidsapp.month3    → $9.99  (3 months)
 com.hoai.englishkidsapp.month6    → $19.99 (6 months)
 com.hoai.englishkidsapp.year1     → $49.99 (1 year)
-com.hoai.englishkidsapp.year2     → $99.99 (2 years)
-com.hoai.englishkidsapp.lifetime  → $150.00 (non-renewable)
+com.hoai.englishkidsapp.lifetime  → $99.00 (non-renewable)
 ```
 
 **Lưu ý:**
-- 7 cái đầu: Auto-Renewable Subscription (trong Subscription Group)
+- 6 cái đầu: Auto-Renewable Subscription (trong Subscription Group)
 - Cái lifetime: Non-Renewable Subscription (ngoài group)
 - Nhớ **Submit for Review** mỗi product để test được
 
@@ -125,7 +124,7 @@ Build: 2
 
 ## 🎯 Test Checklist
 
-- [ ] Tạo đủ 8 IAP products trên App Store Connect
+- [ ] Tạo đủ 7 IAP products trên App Store Connect
 - [ ] Submit for Review tất cả products
 - [ ] Archive và upload build
 - [ ] Build hiển thị "Ready to Test" trong TestFlight

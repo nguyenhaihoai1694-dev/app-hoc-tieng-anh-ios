@@ -19,8 +19,7 @@ class IAPManager: ObservableObject {
         case month3 = "com.hoai.englishkidsapp.month3"     // $10
         case month6 = "com.hoai.englishkidsapp.month6"     // $20
         case year1 = "com.hoai.englishkidsapp.year1"       // $50
-        case year2 = "com.hoai.englishkidsapp.year2"       // $100
-        case lifetime = "com.hoai.englishkidsapp.lifetime" // $150
+        case lifetime = "com.hoai.englishkidsapp.lifetime" // $99
     }
 
     enum RenewalState {

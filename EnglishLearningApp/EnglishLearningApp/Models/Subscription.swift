@@ -8,8 +8,7 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
     case month3 = "com.hoai.englishkidsapp.month3"     // $10
     case month6 = "com.hoai.englishkidsapp.month6"     // $20
     case year1 = "com.hoai.englishkidsapp.year1"       // $50
-    case year2 = "com.hoai.englishkidsapp.year2"       // $100
-    case lifetime = "com.hoai.englishkidsapp.lifetime" // $150
+    case lifetime = "com.hoai.englishkidsapp.lifetime" // $99
 
     var displayName: String {
         switch self {
@@ -20,7 +19,6 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
         case .month3: return "Premium 3 Tháng"
         case .month6: return "Premium 6 Tháng"
         case .year1: return "Premium 1 Năm"
-        case .year2: return "Premium 2 Năm"
         case .lifetime: return "Premium Trọn Đời"
         }
     }
@@ -34,8 +32,7 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
         case .month3: return "$10"
         case .month6: return "$20"
         case .year1: return "$50"
-        case .year2: return "$100"
-        case .lifetime: return "$150"
+        case .lifetime: return "$99"
         }
     }
 
@@ -48,7 +45,6 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
         case .month3: return "Premium trong 3 tháng - Tiết kiệm 33%"
         case .month6: return "Premium trong 6 tháng - Tiết kiệm 44%"
         case .year1: return "Premium trong 1 năm - Tiết kiệm 58%"
-        case .year2: return "Premium trong 2 năm - Tiết kiệm 72%"
         case .lifetime: return "Trả 1 lần, dùng suốt đời - Giá trị tuyệt vời!"
         }
     }
@@ -71,7 +67,7 @@ enum SubscriptionPlan: String, CaseIterable, Codable {
                 "📊 Thống kê cơ bản",
                 "🔥 Theo dõi chuỗi ngày học"
             ]
-        case .week1, .month1, .month2, .month3, .month6, .year1, .year2:
+        case .week1, .month1, .month2, .month3, .month6, .year1:
             return [
                 "❤️ TRÁI TIM KHÔNG GIỚI HẠN",
                 "🔄 Học lại không giới hạn",

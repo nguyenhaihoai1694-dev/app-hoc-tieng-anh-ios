@@ -29,7 +29,7 @@ Hướng dẫn này giúp bạn setup và test In-App Purchase (IAP) trên TestF
 
 #### Bước 2: Tạo các Subscription Products
 
-Tạo **7 Auto-Renewable Subscriptions** với Product ID sau:
+Tạo **6 Auto-Renewable Subscriptions** với Product ID sau:
 
 | Product ID | Tên | Giá (USD) | Duration |
 |-----------|-----|-----------|----------|
@@ -39,7 +39,6 @@ Tạo **7 Auto-Renewable Subscriptions** với Product ID sau:
 | `com.hoai.englishkidsapp.month3` | 3 Months Premium | $9.99 | 3 months |
 | `com.hoai.englishkidsapp.month6` | 6 Months Premium | $19.99 | 6 months |
 | `com.hoai.englishkidsapp.year1` | 1 Year Premium | $49.99 | 1 year |
-| `com.hoai.englishkidsapp.year2` | 2 Years Premium | $99.99 | 2 years |
 
 **Chi tiết cho mỗi subscription:**
 
@@ -70,7 +69,7 @@ Tạo **7 Auto-Renewable Subscriptions** với Product ID sau:
 3. Điền:
    - **Reference Name**: Lifetime Premium
    - **Product ID**: `com.hoai.englishkidsapp.lifetime`
-   - **Price**: $150.00 (tier 150)
+   - **Price**: $99.00 (tier 99)
 
 4. Thêm Localizations:
    - **English**: "Lifetime Premium" / "Unlock all premium features forever. One-time payment, lifetime access!"
@@ -253,7 +252,7 @@ Tạo **7 Auto-Renewable Subscriptions** với Product ID sau:
 - Build: 2
 - Bundle ID: com.hoai.englishkidsapp
 
-**Product IDs trong app:**
+**Product IDs trong app (7 total):**
 ```swift
 enum ProductID: String {
     case week1 = "com.hoai.englishkidsapp.week1"
@@ -262,8 +261,7 @@ enum ProductID: String {
     case month3 = "com.hoai.englishkidsapp.month3"
     case month6 = "com.hoai.englishkidsapp.month6"
     case year1 = "com.hoai.englishkidsapp.year1"
-    case year2 = "com.hoai.englishkidsapp.year2"
-    case lifetime = "com.hoai.englishkidsapp.lifetime"
+    case lifetime = "com.hoai.englishkidsapp.lifetime"  // $99
 }
 ```
 
