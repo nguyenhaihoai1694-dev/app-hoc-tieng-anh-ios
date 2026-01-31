@@ -175,8 +175,8 @@ struct TermsOfServiceView: View {
                         content: """
                         Nếu có câu hỏi về điều khoản dịch vụ:
 
-                        Email: support@englishlearningapp.com
-                        Website: www.englishlearningapp.com
+                        Email: nguyenhaihoai1694@gmail.com
+                        Website: https://nguyenhaihoai1694-dev.github.io/app-hoc-tieng-anh-ios/
 
                         Thời gian phản hồi: Trong vòng 48 giờ
                         """

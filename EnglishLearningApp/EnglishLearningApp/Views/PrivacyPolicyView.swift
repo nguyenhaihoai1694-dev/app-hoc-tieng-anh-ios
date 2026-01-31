@@ -121,8 +121,8 @@ struct PrivacyPolicyView: View {
                         content: """
                         Nếu có thắc mắc về chính sách bảo mật:
 
-                        Email: support@englishlearningapp.com
-                        Website: www.englishlearningapp.com/privacy
+                        Email: nguyenhaihoai1694@gmail.com
+                        Website: https://nguyenhaihoai1694-dev.github.io/app-hoc-tieng-anh-ios/
 
                         Chúng tôi sẽ phản hồi trong vòng 48 giờ.
                         """

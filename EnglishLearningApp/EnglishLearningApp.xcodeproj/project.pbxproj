@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0631991FF177882C625A7FF3 /* Pods_EnglishLearningApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 775B5D85A8A27F1AEFEF11F9 /* Pods_EnglishLearningApp.framework */; };
 		842AE1D82F2B372A00A915D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 842AE1D72F2B372A00A915D5 /* GoogleService-Info.plist */; };
+		84A7A1D92F2CEBD3003E4AEE /* Asset.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A7A1D82F2CEBD3003E4AEE /* Asset.xcassets */; };
 		A1B2C3D4E5F6789012345678 /* EnglishLearningAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678A1 /* EnglishLearningAppApp.swift */; };
 		A1B2C3D4E5F6789012345679 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678A2 /* ContentView.swift */; };
 		A1B2C3D4E5F678901234567A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6789012345678A3 /* User.swift */; };
@@ -57,6 +58,7 @@
 		775B5D85A8A27F1AEFEF11F9 /* Pods_EnglishLearningApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EnglishLearningApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		842AE1D72F2B372A00A915D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		842AE1D92F2B3CBF00A915D5 /* EnglishLearningApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EnglishLearningApp.entitlements; sourceTree = "<group>"; };
+		84A7A1D82F2CEBD3003E4AEE /* Asset.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Asset.xcassets; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678A1 /* EnglishLearningAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnglishLearningAppApp.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678A2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6789012345678A3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				E5F6A7B8C9012345678DE /* ViewModels */,
 				F6A7B8C9D012345678EF /* Services */,
 				D1E2F3A4B5C6789012345678 /* Info.plist */,
+				84A7A1D82F2CEBD3003E4AEE /* Asset.xcassets */,
 			);
 			path = EnglishLearningApp;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84A7A1D92F2CEBD3003E4AEE /* Asset.xcassets in Resources */,
 				842AE1D82F2B372A00A915D5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
