@@ -23,6 +23,7 @@ struct LessonView: View {
     @State private var showOutOfHearts = false
     @State private var quizLives = 3  // 3 lives per quiz attempt
     @State private var showQuizFailed = false
+    @State private var shuffledOptions: [String] = []  // Shuffled options for current question
 
     var body: some View {
         NavigationView {
@@ -100,7 +101,7 @@ struct LessonView: View {
 
                             // Answer Options
                             if question.type == .multipleChoice {
-                                ForEach(question.options ?? [], id: \.self) { option in
+                                ForEach(shuffledOptions, id: \.self) { option in
                                     OptionButton(
                                         text: option,
                                         isSelected: selectedAnswer == option,
@@ -110,6 +111,12 @@ struct LessonView: View {
                                         if !showResult {
                                             selectedAnswer = option
                                         }
+                                    }
+                                }
+                                .onAppear {
+                                    // Shuffle options only once when question appears
+                                    if shuffledOptions.isEmpty {
+                                        shuffledOptions = (question.options ?? []).shuffled()
                                     }
                                 }
                             } else {
@@ -233,6 +240,13 @@ struct LessonView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+            .onAppear {
+                // Shuffle options for the first question
+                if shuffledOptions.isEmpty && !lesson.questions.isEmpty {
+                    let firstQuestion = lesson.questions[0]
+                    shuffledOptions = (firstQuestion.options ?? []).shuffled()
+                }
+            }
         }
     }
 
@@ -339,6 +353,11 @@ struct LessonView: View {
         showResult = false
         isCorrect = false
         mascotState = .thinking
+        // Shuffle options for the new question
+        if currentQuestionIndex < lesson.questions.count {
+            let question = lesson.questions[currentQuestionIndex]
+            shuffledOptions = (question.options ?? []).shuffled()
+        }
     }
 }
 
