@@ -10,18 +10,32 @@ struct ParentGateView: View {
     @State private var showError = false
     @State private var attempts = 0
 
-    // Generate a math problem for parents (harder to prevent kids from solving)
-    private let number1 = Int.random(in: 15...50)
-    private let number2 = Int.random(in: 15...50)
-    private let useMultiplication = Bool.random()
+    // Use @State to keep random numbers stable during re-renders
+    @State private var number1: Int
+    @State private var number2: Int
+    @State private var multiplier: Int
+    @State private var useMultiplication: Bool
+
+    init(onSuccess: @escaping () -> Void) {
+        self.onSuccess = onSuccess
+        // Initialize random values once
+        let n1 = Int.random(in: 15...50)
+        let n2 = Int.random(in: 15...50)
+        let mult = Int.random(in: 2...5)
+        let useMult = Bool.random()
+
+        _number1 = State(initialValue: n1)
+        _number2 = State(initialValue: n2)
+        _multiplier = State(initialValue: mult)
+        _useMultiplication = State(initialValue: useMult)
+    }
 
     private var correctAnswer: Int {
-        useMultiplication ? number1 * Int.random(in: 2...5) : number1 + number2
+        useMultiplication ? number1 * multiplier : number1 + number2
     }
 
     private var mathProblem: String {
         if useMultiplication {
-            let multiplier = correctAnswer / number1
             return "\(number1) × \(multiplier) = ?"
         } else {
             return "\(number1) + \(number2) = ?"
