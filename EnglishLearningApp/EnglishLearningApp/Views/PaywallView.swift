@@ -12,6 +12,13 @@ struct PaywallView: View {
     @State private var alertMessage = ""
     @State private var showParentGate = false
 
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.locale = Locale(identifier: "vi_VN")
+        return formatter
+    }
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -24,26 +31,77 @@ struct PaywallView: View {
 
                 ScrollView {
                     VStack(spacing: 25) {
-                        // Header
-                        VStack(spacing: 15) {
-                            Image(systemName: "crown.fill")
-                                .resizable()
-                                .frame(width: 80, height: 60)
-                                .foregroundColor(.yellow)
-                                .accessibilityLabel("Biểu tượng vương miện Premium")
+                        // Header - different for subscribed vs non-subscribed users
+                        if subscriptionManager.hasActiveSubscription() {
+                            // Subscribed User Header
+                            VStack(spacing: 15) {
+                                Image(systemName: "checkmark.seal.fill")
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(.green)
+                                    .accessibilityLabel("Đã đăng ký Premium")
 
-                            Text("Nâng cấp Premium")
-                                .font(.system(size: 32, weight: .bold))
-                                .foregroundColor(.white)
-                                .accessibilityAddTraits(.isHeader)
+                                Text("Bạn đang là Premium!")
+                                    .font(.system(size: 28, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .accessibilityAddTraits(.isHeader)
 
-                            Text("Học không giới hạn với tất cả tính năng cao cấp")
-                                .font(.system(size: 18))
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.white)
-                                .padding(.horizontal)
+                                // Current Plan Info
+                                VStack(spacing: 10) {
+                                    HStack {
+                                        Image(systemName: "crown.fill")
+                                            .foregroundColor(.yellow)
+                                        Text(subscriptionManager.subscriptionStatus.currentPlan.displayName)
+                                            .font(.system(size: 20, weight: .semibold))
+                                            .foregroundColor(.white)
+                                    }
+
+                                    if let expiryDate = subscriptionManager.subscriptionStatus.expiryDate {
+                                        Text("Hết hạn: \(expiryDate, formatter: dateFormatter)")
+                                            .font(.system(size: 16))
+                                            .foregroundColor(.white.opacity(0.9))
+                                    } else if subscriptionManager.subscriptionStatus.currentPlan == .lifetime {
+                                        Text("Gói trọn đời - Không hết hạn")
+                                            .font(.system(size: 16))
+                                            .foregroundColor(.green)
+                                    }
+
+                                    if subscriptionManager.subscriptionStatus.autoRenew {
+                                        HStack {
+                                            Image(systemName: "arrow.triangle.2.circlepath")
+                                            Text("Tự động gia hạn")
+                                        }
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.white.opacity(0.8))
+                                    }
+                                }
+                                .padding()
+                                .background(Color.white.opacity(0.2))
+                                .cornerRadius(15)
+                            }
+                            .padding(.top, 40)
+                        } else {
+                            // Non-subscribed User Header
+                            VStack(spacing: 15) {
+                                Image(systemName: "crown.fill")
+                                    .resizable()
+                                    .frame(width: 80, height: 60)
+                                    .foregroundColor(.yellow)
+                                    .accessibilityLabel("Biểu tượng vương miện Premium")
+
+                                Text("Nâng cấp Premium")
+                                    .font(.system(size: 32, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .accessibilityAddTraits(.isHeader)
+
+                                Text("Học không giới hạn với tất cả tính năng cao cấp")
+                                    .font(.system(size: 18))
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal)
+                            }
+                            .padding(.top, 40)
                         }
-                        .padding(.top, 40)
 
                         // Features
                         VStack(spacing: 15) {
@@ -56,74 +114,125 @@ struct PaywallView: View {
                         }
                         .padding(.horizontal)
 
-                        // Pricing Cards
-                        if iapManager.products.isEmpty {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        // Show different content for subscribed vs non-subscribed users
+                        if subscriptionManager.hasActiveSubscription() {
+                            // Subscribed User - Show Management Options
+                            VStack(spacing: 20) {
+                                // Manage Subscription Button
+                                Button(action: openSubscriptionManagement) {
+                                    HStack {
+                                        Image(systemName: "gear")
+                                            .font(.title3)
+                                        Text("Quản lý gói trên App Store")
+                                            .font(.system(size: 18, weight: .semibold))
+                                    }
+                                    .foregroundColor(.blue)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.white)
+                                    .cornerRadius(15)
+                                }
+                                .padding(.horizontal)
+                                .accessibilityLabel("Quản lý gói đăng ký trên App Store")
+                                .accessibilityHint("Nhấn để mở cài đặt đăng ký trên App Store")
+
+                                // Restore Button
+                                Button(action: restorePurchases) {
+                                    HStack {
+                                        Image(systemName: "arrow.clockwise")
+                                        Text("Khôi phục gói đã mua")
+                                    }
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
+                                }
+                                .accessibilityLabel("Khôi phục gói đã mua")
+
+                                // Info Text
+                                VStack(spacing: 10) {
+                                    Text("Để hủy hoặc thay đổi gói đăng ký:")
+                                        .font(.subheadline)
+                                        .foregroundColor(.white)
+
+                                    Text("Vào Cài đặt > Apple ID > Đăng ký")
+                                        .font(.caption)
+                                        .foregroundColor(.white.opacity(0.8))
+                                }
                                 .padding()
-                                .accessibilityLabel("Đang tải các gói Premium")
+                                .background(Color.white.opacity(0.15))
+                                .cornerRadius(10)
+                                .padding(.horizontal)
+                            }
+                            .padding(.bottom, 30)
                         } else {
-                            VStack(spacing: 15) {
-                                ForEach(iapManager.products, id: \.id) { product in
-                                    ProductCard(
-                                        product: product,
-                                        isSelected: selectedProduct?.id == product.id,
-                                        badge: badgeForProduct(product)
-                                    ) {
-                                        selectedProduct = product
+                            // Non-subscribed User - Show Pricing Cards
+                            if iapManager.products.isEmpty {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .padding()
+                                    .accessibilityLabel("Đang tải các gói Premium")
+                            } else {
+                                VStack(spacing: 15) {
+                                    ForEach(iapManager.products, id: \.id) { product in
+                                        ProductCard(
+                                            product: product,
+                                            isSelected: selectedProduct?.id == product.id,
+                                            badge: badgeForProduct(product)
+                                        ) {
+                                            selectedProduct = product
+                                        }
                                     }
                                 }
+                                .padding(.horizontal)
                             }
-                            .padding(.horizontal)
-                        }
 
-                        // Subscribe Button
-                        Button(action: {
-                            if selectedProduct != nil {
-                                showParentGate = true
-                            }
-                        }) {
-                            if subscriptionManager.isPurchasing {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                            } else {
-                                HStack {
-                                    Image(systemName: "crown.fill")
-                                        .font(.title3)
-                                    Text(selectedProduct?.subscription != nil ?
-                                          "Đăng ký Premium" : "Mua Lifetime Premium")
-                                        .font(.system(size: 20, weight: .semibold))
+                            // Subscribe Button
+                            Button(action: {
+                                if selectedProduct != nil {
+                                    showParentGate = true
                                 }
-                                .foregroundColor(.blue)
+                            }) {
+                                if subscriptionManager.isPurchasing {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                } else {
+                                    HStack {
+                                        Image(systemName: "crown.fill")
+                                            .font(.title3)
+                                        Text(selectedProduct?.subscription != nil ?
+                                              "Đăng ký Premium" : "Mua Lifetime Premium")
+                                            .font(.system(size: 20, weight: .semibold))
+                                    }
+                                    .foregroundColor(.blue)
+                                }
                             }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                        .disabled(subscriptionManager.isPurchasing || selectedProduct == nil)
-                        .opacity(selectedProduct == nil ? 0.6 : 1.0)
-                        .accessibilityLabel(selectedProduct?.subscription != nil ?
-                              "Đăng ký Premium" : "Mua Lifetime Premium")
-                        .accessibilityHint("Nhấn đúp để tiếp tục thanh toán")
-
-                        // Restore Button
-                        Button(action: restorePurchases) {
-                            Text("Khôi phục gói đã mua")
-                                .font(.system(size: 16))
-                                .foregroundColor(.white)
-                        }
-                        .accessibilityLabel("Khôi phục gói đã mua")
-                        .accessibilityHint("Nhấn đúp để khôi phục các gói đã mua trước đó")
-
-                        // Terms
-                        Text("Tự động gia hạn. Hủy bất kỳ lúc nào.")
-                            .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
-                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(15)
                             .padding(.horizontal)
-                            .padding(.bottom, 30)
+                            .disabled(subscriptionManager.isPurchasing || selectedProduct == nil)
+                            .opacity(selectedProduct == nil ? 0.6 : 1.0)
+                            .accessibilityLabel(selectedProduct?.subscription != nil ?
+                                  "Đăng ký Premium" : "Mua Lifetime Premium")
+                            .accessibilityHint("Nhấn đúp để tiếp tục thanh toán")
+
+                            // Restore Button
+                            Button(action: restorePurchases) {
+                                Text("Khôi phục gói đã mua")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
+                            }
+                            .accessibilityLabel("Khôi phục gói đã mua")
+                            .accessibilityHint("Nhấn đúp để khôi phục các gói đã mua trước đó")
+
+                            // Terms
+                            Text("Tự động gia hạn. Hủy bất kỳ lúc nào.")
+                                .font(.caption)
+                                .foregroundColor(.white.opacity(0.7))
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                                .padding(.bottom, 30)
+                        }
                     }
                 }
             }
@@ -199,6 +308,12 @@ struct PaywallView: View {
                 alertMessage = "Không tìm thấy gói đăng ký nào"
             }
             showAlert = true
+        }
+    }
+
+    private func openSubscriptionManagement() {
+        if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
+            UIApplication.shared.open(url)
         }
     }
 }

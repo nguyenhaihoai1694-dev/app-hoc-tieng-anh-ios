@@ -93,14 +93,22 @@ struct ProfileView: View {
                     }
                     .padding(.horizontal)
 
-                    // Premium Section
-                    if !subscriptionManager.hasActiveSubscription() {
-                        Button(action: { showPaywall = true }) {
-                            HStack {
-                                Image(systemName: "crown.fill")
-                                    .foregroundColor(.yellow)
+                    // Premium/Subscription Section
+                    Button(action: { showPaywall = true }) {
+                        HStack {
+                            Image(systemName: "crown.fill")
+                                .foregroundColor(.yellow)
 
-                                VStack(alignment: .leading) {
+                            VStack(alignment: .leading) {
+                                if subscriptionManager.hasActiveSubscription() {
+                                    Text("Quản lý gói đăng ký")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+
+                                    Text("Xem thông tin gói Premium của bạn")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                } else {
                                     Text("Nâng cấp Premium")
                                         .font(.headline)
                                         .foregroundColor(.primary)
@@ -109,19 +117,19 @@ struct ProfileView: View {
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
-
-                                Spacer()
-
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.gray)
                             }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(15)
-                            .shadow(radius: 2)
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
                         }
-                        .padding(.horizontal)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(15)
+                        .shadow(radius: 2)
                     }
+                    .padding(.horizontal)
 
                     // Settings
                     VStack(spacing: 0) {
