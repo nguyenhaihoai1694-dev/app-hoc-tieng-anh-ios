@@ -6,7 +6,7 @@ import DeviceCheck
 // MARK: - App Check Configuration
 // Set this to false to disable App Check for TestFlight testing
 // Set to true when ready for production with App Check enforced on Firebase Console
-let ENABLE_APP_CHECK = false
+let ENABLE_APP_CHECK = true
 
 // Custom App Check provider factory that falls back gracefully
 class CustomAppCheckProviderFactory: NSObject, AppCheckProviderFactory {

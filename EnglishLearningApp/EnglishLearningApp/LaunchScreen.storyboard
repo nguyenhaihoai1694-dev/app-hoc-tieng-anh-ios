@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,34 +17,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppIcon" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Hzw">
-                                <rect key="frame" x="126.66666666666666" y="346" width="140" height="140"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="140" id="4Gt-Fz-Xxk"/>
-                                    <constraint firstAttribute="height" constant="140" id="eyb-Kl-hPi"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo1024x" highlightedImage="logo1024x" highlighted="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Hzw">
+                                <rect key="frame" x="126.66666666666669" y="346" width="140" height="140"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" image="YES"/>
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="4Gt-Fz-Xxk"/>
+                                    <constraint firstAttribute="height" constant="140" id="eyb-Kl-hPi"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="English Learning" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Ic-pzw">
-                                <rect key="frame" x="73.666666666666671" y="506" width="246" height="36"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" staticText="YES" header="YES"/>
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="LaunchScreenBackground"/>
                         <constraints>
-                            <constraint firstItem="GJd-Ic-pzw" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1eT-8x-xGV"/>
                             <constraint firstItem="YRO-k0-Hzw" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5cU-ER-VRo"/>
-                            <constraint firstItem="GJd-Ic-pzw" firstAttribute="top" secondItem="YRO-k0-Hzw" secondAttribute="bottom" constant="20" id="AFu-Kx-F1j"/>
                             <constraint firstItem="YRO-k0-Hzw" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-10" id="xLp-Hs-2ai"/>
                         </constraints>
                     </view>
@@ -55,9 +43,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AppIcon" width="140" height="140"/>
+        <image name="logo1024x" width="1440" height="1440"/>
         <namedColor name="LaunchScreenBackground">
-            <color red="0.20000000298023224" green="0.45899999141693115" blue="0.98399999737739563" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20000000298023224" green="0.45899999141693115" blue="0.98400002717971802" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
